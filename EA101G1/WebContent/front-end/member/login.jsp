@@ -137,7 +137,7 @@
 	 <div class="row"> 
 	   <div class="col-md-6">
 	   filefile
-	   sjfsnsdjknfjk
+	   sjfsnsdjknfjkdfdsfdfsdjfsd
 	   </div>
 	   	<div class="col-md-6">
 		<form class="justify-content-around" action="member.do" method="post" id="login">
