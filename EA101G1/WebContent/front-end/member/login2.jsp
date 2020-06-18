@@ -20,6 +20,7 @@
 	}
 	#password > div {
 		display: inline;
+		/*width: 100px;*/
 	}
 	#title > div {
 		font-size: 8px;
