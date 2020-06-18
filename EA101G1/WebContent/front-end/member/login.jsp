@@ -134,7 +134,13 @@
 			</div>
 		</form>
 	 --%>
-		<form action="member.do" method="post" id="login">
+	 <div class="row"> 
+	   <div class="col-md-6">
+	   filefile
+	   sjfsnsdjknfjk
+	   </div>
+	   	<div class="col-md-6">
+		<form class="justify-content-around" action="member.do" method="post" id="login">
 			<div class="form-group col-md-3 col-sm-6">
 	    		<label for="formGroupExampleInput">E-mail</label>
 	    		<input type="text" class="form-control" id="formGroupExampleInput" placeholder="E-mail" name="mem_email">
@@ -147,7 +153,8 @@
 	  			<button type="submit" class="btn btn-success btn-lg" form="login" name="action" value="login">Login</button>
 	  		</div>
 		</form>
-
+		</div>
+	</div>
     </section>
     <!-- 內容 ---end  -->
 
