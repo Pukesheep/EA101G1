@@ -83,7 +83,6 @@
 	</servlet-mapping>
 	
 	
-	
 	<filter>
 		<filter-name>LoginFilter</filter-name>
 		<filter-class>com.member.login.filter.LoginFilter</filter-class>

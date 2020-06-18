@@ -135,7 +135,7 @@
 								${favpostVO.post_id}
 							</td>
 							<td>
-								${post_mem_id}
+								${postVO.mem_id}
 							</td>
 							<td>
 								${memberVOpost.mem_name}

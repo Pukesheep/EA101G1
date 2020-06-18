@@ -4,10 +4,9 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.sql.*;
-import com.post.model.*;
 
 //@WebServlet("/ShowPostPic")
-public class ShowPostPic extends HttpServlet {
+public class ShowPostPic2 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	java.sql.Connection con;
@@ -18,11 +17,28 @@ public class ShowPostPic extends HttpServlet {
 		javax.servlet.ServletOutputStream out = res.getOutputStream();
 		
 		try {
+			String sql = "SELECT image FROM post WHERE post_id = ?";
+			java.sql.PreparedStatement pstmt = con.prepareStatement(sql);
 			String post_id = req.getParameter("post_id");
-			PostService postSvc = new PostService();
-			PostVO postVO = postSvc.getOnePost(post_id);
-			byte[] image = postVO.getImage();
-			out.write(image);
+			pstmt.setString(1, post_id);
+			
+			java.sql.ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				java.io.BufferedInputStream in = new java.io.BufferedInputStream(rs.getBinaryStream("image"));
+				byte[] buf = new byte[4 * 1024]; // 4K buffer
+				int len;
+				while ((len = in.read(buf)) != -1) {
+					out.write(buf, 0, len);
+				}
+				in.close();
+			} else {
+				java.io.InputStream in = getServletContext().getResourceAsStream("/NoData/none.jpg");
+				byte[] b = new byte[in.available()];
+				in.read(b);
+				out.write(b);
+				in.close();
+			}
 			
 		} catch (Exception e) {
 			java.io.InputStream in = getServletContext().getResourceAsStream("/NoData/none.jpg");

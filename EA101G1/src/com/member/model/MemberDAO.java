@@ -2,11 +2,8 @@ package com.member.model;
 
 import java.sql.SQLException;
 import java.util.List;
-
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-
-import com.mysql.jdbc.PreparedStatement;
 
 public class MemberDAO implements MemberDAO_interface {
 	

@@ -258,6 +258,7 @@ public class PostServlet extends HttpServlet {
 			// Store this set in the request scope, in case we need
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
+			PostVO postVO = null;
 			
 			try {
 				/***************************1.接收請求參數****************************************/
@@ -347,7 +348,7 @@ public class PostServlet extends HttpServlet {
 					errorMsgs.add("發文時間： 請輸入發文時間");
 				}
 				
-				PostVO postVO = new PostVO();
+				postVO = new PostVO();
 				postVO.setMem_id(mem_id);
 				postVO.setPtype_id(ptype_id);
 				postVO.setP_status(p_status);
@@ -360,7 +361,7 @@ public class PostServlet extends HttpServlet {
 				// Send the user back to the from, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("postVO", postVO);
-					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/post/update_post_input.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/post/addPost.jsp");
 					failureView.forward(req, res);
 					return; // 程式中斷
 				}
@@ -380,6 +381,7 @@ public class PostServlet extends HttpServlet {
 				/***************************其他可能的錯誤處理**********************************/
 				
 			} catch (Exception e) {
+				req.setAttribute("postVO", postVO);
 				errorMsgs.add("新增資料失敗： " + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/post/addPost.jsp");
 				failureView.forward(req, res);
@@ -414,7 +416,6 @@ public class PostServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
-		
 		
 	}
 	

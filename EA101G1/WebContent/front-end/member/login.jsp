@@ -42,6 +42,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+        
+    <!-- SweetAlert2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 </head>
 
@@ -113,7 +116,17 @@
 			<font>請修正以下錯誤：</font>
 			<ul>
 				<c:forEach var="message" items="${errorMsgs}">
+						<%--
+							java.util.List<String> errorMsgs = (java.util.List<String>) request.getAttribute("errorMsgs");
+							String aaa = "";
+							for (String msg : errorMsgs) {
+								aaa += msg;
+								aaa += "\r\n";
+							}
+						--%>
+						
 					<li id="errormsg">${message}</li>
+					
 				</c:forEach>
 			</ul>
 		</c:if>
@@ -134,27 +147,25 @@
 			</div>
 		</form>
 	 --%>
-	 <div class="row"> 
-	   <div class="col-md-6">
+	   <div class="col-md-2">
 	   filefile
 	   sjfsnsdjknfjkdfdsfdfsdjfsd
 	   </div>
-	   	<div class="col-md-6">
-		<form class="justify-content-around" action="member.do" method="post" id="login">
+	   	<div class="col-md-5 offset-md-5 justify-content-around">
+		<form action="member.do" method="post" id="login">
 			<div class="form-group col-md-3 col-sm-6">
-	    		<label for="formGroupExampleInput">E-mail</label>
-	    		<input type="text" class="form-control" id="formGroupExampleInput" placeholder="E-mail" name="mem_email">
+	    		<label for="formGroupExampleInput1">E-mail</label>
+	    		<input type="text" class="form-control" id="formGroupExampleInput1" placeholder="E-mail" name="mem_email">
 	    	</div>
 	    	<div class="form-group col-md-3 col-sm-6">
-	  			<label for="formGroupExampleInput">Password</label>
-	    		<input type="password" class="form-control" id="formGroupExampleInput" placeholder="Password" name="mem_pass">
+	  			<label for="formGroupExampleInput2">Password</label>
+	    		<input type="password" class="form-control" id="formGroupExampleInput2" placeholder="Password" name="mem_pass">
 	  		</div>
 	  		<div class="form-row col-md-3 col-sm-6 justify-content-around">
 	  			<button type="submit" class="btn btn-success btn-lg" form="login" name="action" value="login">Login</button>
 	  		</div>
 		</form>
 		</div>
-	</div>
     </section>
     <!-- 內容 ---end  -->
 
@@ -238,5 +249,16 @@
         </button>
 
 </body>
+
+<script>
+
+Swal.fire({
+	  icon: 'error',
+	  title: 'Oops...',
+	  text: 'Something went wrong!',
+	  footer: '<a href>Why do I have this issue?</a>'
+	})
+
+</script>
 
 </html>
