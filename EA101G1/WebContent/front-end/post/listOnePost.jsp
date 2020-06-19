@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="BIG5"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="com.post.model.*" %>
 <%-- 此頁暫練習採用 Script 的寫法取值 --%>
 
@@ -100,8 +101,13 @@
 		<td><%=postVO.getP_title()%></td>	
 		<td><%=postVO.getText()%></td>
 		<td><img alt="" src="<%=request.getContextPath()%>/post/ShowPostPic.do?post_id=<%=postVO.getPost_id()%>" id="display"></td>
-		<td><%=postVO.getLast_edit()%></td>
-		<td><%=postVO.getPost_time()%></td>
+		<td>
+			<fmt:formatDate value="<%=postVO.getLast_edit()%>" pattern="yyyy-MM-dd HH:mm:ss" />
+			
+		</td>
+		<td>
+			<fmt:formatDate value="<%=postVO.getPost_time()%>" pattern="yyyy-MM-dd HH:mm:ss" />
+		</td>
 		<td>
 			<form action="<%=request.getContextPath()%>/post/post.do" method="post">
 				<input type="submit" value="修改">

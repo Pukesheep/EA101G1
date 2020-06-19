@@ -12,8 +12,10 @@ public class PostJDBCDAO implements PostDAO_interface {
 	String passwd = "123456";
 	
 	private static final String INSERT_STMT = "INSERT INTO post (post_id, mem_id, ptype_id, p_status, p_title, text, image, last_edit) VALUES ('POST'||LPAD(to_char(post_seq.NEXTVAL), 6, '0'), ?, ?, ?, ?, ?, ?, SYSDATE)";
-	private static final String GET_ALL_STMT = "SELECT post_id, mem_id, ptype_id, p_status, p_title, text, image, to_char(last_edit, 'yyyy-mm-dd') last_edit, to_char(post_time, 'yyyy-mm-dd') post_time FROM post ORDER BY post_id";
-	private static final String GET_ONE_STMT = "SELECT post_id, mem_id, ptype_id, p_status, p_title, text, image, to_char(last_edit, 'yyyy-mm-dd') last_edit, to_char(post_time, 'yyyy-mm-dd') post_time FROM post WHERE post_id = ?";
+	private static final String GET_ALL_STMT = "SELECT post_id, mem_id, ptype_id, p_status, p_title, text, image, last_edit, post_time FROM post ORDER BY post_id";
+//	private static final String GET_ALL_STMT = "SELECT post_id, mem_id, ptype_id, p_status, p_title, text, image, to_char(last_edit, 'yyyy-MM-dd HH:mm:ss') last_edit, to_char(post_time, 'yyyy-MM-dd HH:mm:ss') post_time FROM post ORDER BY post_id";
+//	private static final String GET_ONE_STMT = "SELECT post_id, mem_id, ptype_id, p_status, p_title, text, image, to_char(last_edit, 'yyyy-MM-dd HH:mm:ss') last_edit, to_char(post_time, 'yyyy-MM-dd HH:mm:ss') post_time FROM post WHERE post_id = ?";
+	private static final String GET_ONE_STMT = "SELECT post_id, mem_id, ptype_id, p_status, p_title, text, image, last_edit, post_time FROM post WHERE post_id = ?";
 	private static final String DELETE = "DELETE FROM post WHERE post_id = ?";
 	private static final String UPDATE = "UPDATE post SET ptype_id = ?, p_status = ?, p_title = ?, text = ?, image = ?, last_edit = SYSDATE WHERE post_id = ?";
 	
@@ -37,6 +39,7 @@ public class PostJDBCDAO implements PostDAO_interface {
 			pstmt.setString(4, postVO.getP_title());
 			pstmt.setString(5, postVO.getText());
 			pstmt.setBytes(6, postVO.getImage());
+//			pstmt.setTimestamp(7, postVO.getLast_edit());
 			
 			pstmt.executeUpdate();
 			
@@ -179,8 +182,9 @@ public class PostJDBCDAO implements PostDAO_interface {
 				postVO.setP_title(rs.getString("p_title"));
 				postVO.setText(rs.getString("text"));
 				postVO.setImage(rs.getBytes("image"));
-				postVO.setLast_edit(rs.getDate("last_edit"));
-				postVO.setPost_time(rs.getDate("post_time"));
+				postVO.setLast_edit(rs.getTimestamp("last_edit"));
+				postVO.setPost_time(rs.getTimestamp("post_time"));
+				
 				
 			}
 			
@@ -235,8 +239,8 @@ public class PostJDBCDAO implements PostDAO_interface {
 				postVO.setP_title(rs.getString("p_title"));
 				postVO.setText(rs.getString("text"));
 				postVO.setImage(rs.getBytes("image"));
-				postVO.setLast_edit(rs.getDate("last_edit"));
-				postVO.setPost_time(rs.getDate("post_time"));
+				postVO.setLast_edit(rs.getTimestamp("last_edit"));
+				postVO.setPost_time(rs.getTimestamp("post_time"));
 				list.add(postVO);
 			}
 			
@@ -270,44 +274,54 @@ public class PostJDBCDAO implements PostDAO_interface {
 		String post1, post2, post3, post4;
 		byte[] image1, image2, image3, image4;
 		try {
-			post1 = getLongString("WebContent/Forum/text/[問卦] 欸，白開水不是白色的啊？.txt");
-			post2 = getLongString("WebContent/Forum/text/[問卦] 8+9屁孩語錄有哪些？.txt");
-			post3 = getLongString("WebContent/Forum/text/[問卦] 只有台灣的牛排有麵嗎？.txt");
-			post4 = getLongString("WebContent/Forum/text/[問卦] 為什麼才剛上班就有人在刷牙？.txt");
-			
-			image1 = getPictureByteArray("WebContent/Forum/image/1.jpg");
-			image2 = getPictureByteArray("WebContent/Forum/image/2.png");
-			image3 = getPictureByteArray("WebContent/Forum/image/3.png");
-			image4 = getPictureByteArray("WebContent/Forum/image/1.gif");
+//			post1 = getLongString("WebContent/Forum/text/[問卦] 欸，白開水不是白色的啊？.txt");
+//			post2 = getLongString("WebContent/Forum/text/[問卦] 8+9屁孩語錄有哪些？.txt");
+//			post3 = getLongString("WebContent/Forum/text/[問卦] 只有台灣的牛排有麵嗎？.txt");
+//			post4 = getLongString("WebContent/Forum/text/[問卦] 為什麼才剛上班就有人在刷牙？.txt");
+////			
+//			image1 = getPictureByteArray("WebContent/Forum/image/1.jpg");
+//			image2 = getPictureByteArray("WebContent/Forum/image/2.png");
+//			image3 = getPictureByteArray("WebContent/Forum/image/3.png");
+			image4 = getPictureByteArray("WebContent/images/back1.gif");
 			
 			
 			PostJDBCDAO dao = new PostJDBCDAO();
 			
 			// 新增文章
 			PostVO postVO1 = new PostVO();
-			postVO1.setMem_id("M000001");
-			postVO1.setPtype_id(3);
-			postVO1.setP_status(1);
-			postVO1.setP_title("欸，白開水不是白色的啊？");
-			postVO1.setText(post1);
-			postVO1.setImage(image1);
-			dao.insert(postVO1);
+//			postVO1.setMem_id("M000001");
+//			postVO1.setPtype_id(3);
+//			postVO1.setP_status(1);
+//			postVO1.setP_title("欸，白開水不是白色的啊？");
+//			postVO1.setText(post1);
+//			postVO1.setImage(image1);
+//			dao.insert(postVO1);
+//			
+//			postVO1.setMem_id("M000002");
+//			postVO1.setPtype_id(3);
+//			postVO1.setP_status(1);
+//			postVO1.setP_title("8+9屁孩語錄有哪些？");
+//			postVO1.setText(post2);
+//			postVO1.setImage(image2);
+//			dao.insert(postVO1);
+//			
+//			postVO1.setMem_id("M000001");
+//			postVO1.setPtype_id(3);
+//			postVO1.setP_status(1);
+//			postVO1.setP_title("只有台灣的牛排有麵嗎？");
+//			postVO1.setText(post3);
+//			postVO1.setImage(image3);
+//			dao.insert(postVO1);
 			
-			postVO1.setMem_id("M000002");
-			postVO1.setPtype_id(3);
-			postVO1.setP_status(1);
-			postVO1.setP_title("8+9屁孩語錄有哪些？");
-			postVO1.setText(post2);
-			postVO1.setImage(image2);
-			dao.insert(postVO1);
-			
-			postVO1.setMem_id("M000001");
-			postVO1.setPtype_id(3);
-			postVO1.setP_status(1);
-			postVO1.setP_title("只有台灣的牛排有麵嗎？");
-			postVO1.setText(post3);
-			postVO1.setImage(image3);
-			dao.insert(postVO1);
+//			postVO1.setMem_id("M000001");
+//			postVO1.setPtype_id(3);
+//			postVO1.setP_status(1);
+//			postVO1.setP_title("只有台灣的牛排有麵嗎？");
+//			postVO1.setText("只有台灣的牛排有麵嗎？");
+//			postVO1.setImage(image4);
+//			java.sql.Timestamp ts = new java.sql.Timestamp(System.currentTimeMillis());
+//			postVO1.setLast_edit(ts);
+//			dao.insert(postVO1);
 //			
 //			// 修改文章
 //			PostVO postVO2 = new PostVO();
@@ -323,19 +337,19 @@ public class PostJDBCDAO implements PostDAO_interface {
 //			dao.delete("POST000002");
 			
 			// 查詢單筆
-//			PostVO postVO3 = dao.findByPrimaryKey("POST000010");
-//			System.out.println("POST_ID = " + postVO3.getPost_id() + ",");
-//			System.out.println("MEM_ID = " + postVO3.getMem_id() + ",");
-//			System.out.println("PTYPE_ID = " + postVO3.getPtype_id() + ",");
-//			System.out.println("P_STATUS = " + postVO3.getP_status() + ",");
-//			System.out.println("P_TITLE = " + postVO3.getP_title() + ",");
-//			System.out.println("TEXT = ");
-//			System.out.println(postVO3.getText() + ",");
+			PostVO postVO3 = dao.findByPrimaryKey("POST000003");
+			System.out.println("POST_ID = " + postVO3.getPost_id() + ",");
+			System.out.println("MEM_ID = " + postVO3.getMem_id() + ",");
+			System.out.println("PTYPE_ID = " + postVO3.getPtype_id() + ",");
+			System.out.println("P_STATUS = " + postVO3.getP_status() + ",");
+			System.out.println("P_TITLE = " + postVO3.getP_title() + ",");
+			System.out.println("TEXT = ");
+			System.out.println(postVO3.getText() + ",");
 //			readPicture(postVO3.getImage());
 //			System.out.println("IMAGE writed to Output dictionary,");
-//			System.out.println("LAST_EDIT = " + postVO3.getLast_edit() + ",");
-//			System.out.println("POST_TIME = " + postVO3.getPost_time());
-//			System.out.println("========================");
+			System.out.println("LAST_EDIT = " + postVO3.getLast_edit() + ",");
+			System.out.println("POST_TIME = " + postVO3.getPost_time());
+			System.out.println("========================");
 
 			// 查詢全部
 //			List<PostVO> list = dao.getAll();

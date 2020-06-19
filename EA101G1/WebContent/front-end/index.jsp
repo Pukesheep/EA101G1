@@ -85,7 +85,7 @@
             </c:if>
             <c:if test="${memberVO ne null}">
                 <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/front-end/protected/listOneMember.jsp">會員中心</a>
+                    <a class="nav-link" href="<%=request.getContextPath()%>/front-end/protected/listOneMember2.jsp">會員中心</a>
                 </li>
                 <li class="nav-item">
                 	<a class="nav-link" href="<%=request.getContextPath()%>/front-end/member/member.do?action=logout">登出</a>

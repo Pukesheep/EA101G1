@@ -19,8 +19,8 @@ public class PostJNDIDAO implements PostDAO_interface {
 	}
 	
 	private static final String INSERT_STMT = "INSERT INTO post (post_id, mem_id, ptype_id, p_status, p_title, text, image, last_edit) VALUES ('POST'||LPAD(to_char(post_seq.NEXTVAL), 6, '0'), ?, ?, ?, ?, ?, ?, SYSDATE)";
-	private static final String GET_ALL_STMT = "SELECT post_id, mem_id, ptype_id, p_status, p_title, text, image, to_char(last_edit, 'yyyy-mm-dd') last_edit, to_char(post_time, 'yyyy-mm-dd') post_time FROM post ORDER BY post_id";
-	private static final String GET_ONE_STMT = "SELECT post_id, mem_id, ptype_id, p_status, p_title, text, image, to_char(last_edit, 'yyyy-mm-dd') last_edit, to_char(post_time, 'yyyy-mm-dd') post_time FROM post WHERE post_id = ?";
+	private static final String GET_ALL_STMT = "SELECT post_id, mem_id, ptype_id, p_status, p_title, text, image, last_edit, post_time FROM post ORDER BY post_id";
+	private static final String GET_ONE_STMT = "SELECT post_id, mem_id, ptype_id, p_status, p_title, text, image, last_edit, post_time FROM post WHERE post_id = ?";
 	private static final String DELETE = "DELETE FROM post WHERE post_id = ?";
 	private static final String UPDATE = "UPDATE post SET ptype_id = ?, p_status = ?, p_title = ?, text = ?, image = ?, last_edit = SYSDATE WHERE post_id = ?";
 	
@@ -175,8 +175,8 @@ public class PostJNDIDAO implements PostDAO_interface {
 				postVO.setP_title(rs.getString("p_title"));
 				postVO.setText(rs.getString("text"));
 				postVO.setImage(rs.getBytes("image"));
-				postVO.setLast_edit(rs.getDate("last_edit"));
-				postVO.setPost_time(rs.getDate("post_time"));
+				postVO.setLast_edit(rs.getTimestamp("last_edit"));
+				postVO.setPost_time(rs.getTimestamp("post_time"));
 			}
 			
 		} catch (SQLException se) {
@@ -226,8 +226,8 @@ public class PostJNDIDAO implements PostDAO_interface {
 				postVO.setP_title(rs.getString("p_title"));
 				postVO.setText(rs.getString("text"));
 				postVO.setImage(rs.getBytes("image"));
-				postVO.setLast_edit(rs.getDate("last_edit"));
-				postVO.setPost_time(rs.getDate("post_time"));
+				postVO.setLast_edit(rs.getTimestamp("last_edit"));
+				postVO.setPost_time(rs.getTimestamp("post_time"));
 				
 				list.add(postVO);
 			}

@@ -1,6 +1,6 @@
 package com.post.model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class PostVO implements java.io.Serializable {
 	
@@ -13,8 +13,8 @@ public class PostVO implements java.io.Serializable {
 	private String p_title;
 	private String text;
 	private byte[] image;
-	private java.sql.Date last_edit;
-	private java.sql.Date post_time;
+	private java.sql.Timestamp last_edit;
+	private java.sql.Timestamp post_time;
 	
 	public void setPost_id(String post_id) {
 		this.post_id = post_id;
@@ -72,19 +72,19 @@ public class PostVO implements java.io.Serializable {
 		return image;
 	}
 	
-	public void setLast_edit(Date last_edit) {
+	public void setLast_edit(Timestamp last_edit) {
 		this.last_edit = last_edit;
 	}
 	
-	public Date getLast_edit() {
+	public Timestamp getLast_edit() {
 		return last_edit;
 	}
 	
-	public void setPost_time(Date post_time) {
+	public void setPost_time(Timestamp post_time) {
 		this.post_time = post_time;
 	}
 	
-	public Date getPost_time() {
+	public Timestamp getPost_time() {
 		return post_time;
 	}
 }

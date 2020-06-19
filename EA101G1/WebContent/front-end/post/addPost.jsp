@@ -12,6 +12,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
 <title>文章資料新增 - addPost.jsp</title>
 
+<script src="https://cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script>
+
 <style>
 	table#table-1 {
 		width: 100%;
@@ -129,9 +131,17 @@
 			</td>
 		</tr>
 		<tr>
-			<td>文章內容：</td>
 			<td>
-				<textarea name="text" rows="5" cols="500"><%= (postVO == null) ? "請輸入文章內容" : postVO.getText()%></textarea>
+				CKEditor 4：
+			</td>
+			<td>
+				<textarea name="text" id="editor1"></textarea>
+				<script>
+                        CKEDITOR.replace('editor1', {
+                        		width:'50%',
+                        		language:'zh'
+                        	});
+                </script>
 			</td>
 		</tr>
 		<tr>
@@ -160,15 +170,15 @@
 <!-- =========================================以下為 datetimepicker 之相關設定========================================== -->
 
 <%
-	java.sql.Date last_edit = null;
-	java.sql.Date post_time = null;
+	java.sql.Timestamp last_edit = null;
+	java.sql.Timestamp post_time = null;
 	
 	try {
 		last_edit = postVO.getLast_edit();
 		post_time = postVO.getPost_time();
 	} catch (Exception e) {
-		last_edit = new java.sql.Date(System.currentTimeMillis());
-		post_time = new java.sql.Date(System.currentTimeMillis());
+		last_edit = new java.sql.Timestamp(System.currentTimeMillis());
+		post_time = new java.sql.Timestamp(System.currentTimeMillis());
 	}
 %>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/files/datetimepicker/jquery.datetimepicker.css" />

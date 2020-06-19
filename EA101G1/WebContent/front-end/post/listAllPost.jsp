@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="BIG5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*" %>
 <%@ page import="com.post.model.*" %>
 
@@ -125,8 +126,12 @@
 			<td>${postVO.p_title}</td>
 			<td id="text">${postVO.text}</td>
 			<td><img alt="" src="<%=request.getContextPath()%>/post/ShowPostPic.do?post_id=${postVO.post_id}" id="display"></td>
-			<td>${postVO.last_edit}</td>
-			<td>${postVO.post_time}</td>
+			<td>
+				<fmt:formatDate value="${postVO.last_edit}" pattern="yyyy-MM-dd HH:mm:ss" />
+			</td>
+			<td>
+				<fmt:formatDate value="${postVO.post_time}" pattern="yyyy-MM-dd HH:mm:ss"/> 
+			</td>
 			<td>
 				<form action="<%=request.getContextPath()%>/post/post.do" method="post">
 					<input type="submit" value="н╫зя">
