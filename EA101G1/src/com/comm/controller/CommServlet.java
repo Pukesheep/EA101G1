@@ -165,11 +165,11 @@ public class CommServlet extends HttpServlet {
 					return; // 程式中斷
 				}
 				
-				/***************************2.開始修改資料***************************************/
+				/***************************2.開始新增資料***************************************/
 				CommService commSvc = new CommService();
 				commVO = commSvc.updateComm(comm_id, post_id, mem_id, c_status, c_text, last_edit, post_time);
 				
-				/***************************3.修改完成,準備轉交(Send the Success view)*************/
+				/***************************3.新增完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("commVO", commVO);
 				RequestDispatcher successView = req.getRequestDispatcher(listOneComm);
 				successView.forward(req, res);

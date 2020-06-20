@@ -12,7 +12,7 @@ public class PostService {
 	
 	public PostVO addPost(String mem_id,
 			Integer ptype_id, Integer p_status, String p_title, 
-			String text, byte[] image) {
+			String text, byte[] image, Timestamp last_edit, Timestamp post_time) {
 		
 		PostVO postVO = new PostVO();
 		
@@ -22,8 +22,8 @@ public class PostService {
 		postVO.setP_title(p_title);
 		postVO.setText(text);
 		postVO.setImage(image);
-//		postVO.setLast_edit(last_edit);
-//		postVO.setPost_time(post_time);
+		postVO.setLast_edit(last_edit);
+		postVO.setPost_time(post_time);
 		String generatedKey = dao.insert(postVO);
 		postVO.setPost_id(generatedKey);
 		
@@ -32,7 +32,7 @@ public class PostService {
 	
 	public PostVO updatePost(String post_id, String mem_id, 
 			Integer ptype_id, Integer p_status, String p_title, 
-			String text, byte[] image) {
+			String text, byte[] image, Timestamp last_edit, Timestamp post_time) {
 		
 		PostVO postVO = new PostVO();
 		
@@ -43,8 +43,8 @@ public class PostService {
 		postVO.setP_title(p_title);
 		postVO.setText(text);
 		postVO.setImage(image);
-//		postVO.setLast_edit(last_edit);
-//		postVO.setPost_time(post_time);
+		postVO.setLast_edit(last_edit);
+		postVO.setPost_time(post_time);
 		dao.update(postVO);
 		
 		return postVO;

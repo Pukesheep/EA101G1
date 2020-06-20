@@ -132,13 +132,23 @@
 			<td>
 				<fmt:formatDate value="${postVO.post_time}" pattern="yyyy-MM-dd HH:mm:ss"/> 
 			</td>
-			<td>
-				<form action="<%=request.getContextPath()%>/post/post.do" method="post">
-					<input type="submit" value="­×§ï">
-					<input type="hidden" name="post_id" value="${postVO.post_id}">
-					<input type="hidden" name="action" value="getOne_For_Update">
-				</form>
-			</td>
+			<c:if test="${sessionScope.memberVO ne null}">
+				<td>
+					<form action="">
+						
+					</form>
+				</td>
+			</c:if>
+			
+			<c:if test="${memberVO.mem_id == postVO.mem_id}">
+				<td>
+					<form action="<%=request.getContextPath()%>/post/post.do" method="post">
+						<input type="submit" value="­×§ï">
+						<input type="hidden" name="post_id" value="${postVO.post_id}">
+						<input type="hidden" name="action" value="getOne_For_Update">
+					</form>
+				</td>
+			</c:if>
 			<td>
 				<form action="<%=request.getContextPath()%>/post/post.do" method="post">
 					<input type="submit" value="§R°£">

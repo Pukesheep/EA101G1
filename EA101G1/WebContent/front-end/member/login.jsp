@@ -86,8 +86,8 @@
                     <a class="nav-link" href="<%=request.getContextPath()%>/front-end/member/addMember.jsp">註冊</a>
                 </li>
             </c:if>
-            <c:if test="${memberVO ne null}">
-            	${memberVO.mem_name} 您好
+            <c:if test="${sessionScope.memberVO ne null}">
+            	
                 <li class="nav-item">
                     <a class="nav-link" href="<%=request.getContextPath()%>/front-end/protected/listOneMember2.jsp">會員中心</a>
                 </li>

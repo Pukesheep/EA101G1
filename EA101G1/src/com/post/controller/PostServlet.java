@@ -199,7 +199,7 @@ public class PostServlet extends HttpServlet {
 				/***************************2.開始修改資料***************************************/
 				PostService postSvc = new PostService();
 				postVO = postSvc.updatePost(post_id, mem_id, 
-						ptype_id, p_status, p_title, text, image);
+						ptype_id, p_status, p_title, text, image, last_edit, post_time);
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				postVO = postSvc.getOnePost(post_id);
