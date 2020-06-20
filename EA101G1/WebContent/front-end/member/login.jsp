@@ -249,7 +249,7 @@
         </button>
 
 </body>
-
+<%-- 
 <script>
 
 Swal.fire({
@@ -260,5 +260,6 @@ Swal.fire({
 	})
 
 </script>
+--%>
 
 </html>

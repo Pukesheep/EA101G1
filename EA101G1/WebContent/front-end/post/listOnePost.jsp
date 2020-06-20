@@ -1,15 +1,20 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="BIG5"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="com.post.model.*" %>
-<%-- ¦¹­¶¼È½m²ß±Ä¥Î Script ªº¼gªk¨ú­È --%>
+<%@ page import="com.member.model.*" %>
+<%@ page import="com.favpost.model.*" %>
+<%-- æ­¤é æš«ç·´ç¿’æ¡ç”¨ Script çš„å¯«æ³•å–å€¼ --%>
 
 <%
+	MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 	PostVO postVO = (PostVO) request.getAttribute("postVO");
+	FavpostVO favpostVO = (FavpostVO) request.getAttribute("favpostVO");
 %>
-
+<jsp:useBean id="favpostSvc" class="com.favpost.model.FavpostService" />
 <html>
 <head>
-<title>¤å³¹¸ê®Æ - listOnePost.jsp</title>
+<title>æ–‡ç« è³‡æ–™ - listOnePost.jsp</title>
 
 <style>
 	table#table-1 {
@@ -70,28 +75,45 @@
 
 </head>
 <body>
+${postVO == null }
+${favpostVO == null}
+favpost.post_id = 
+${favpost.post_id}
+ | postVO.post_id = 
+${postVO.post_id}
+ | favpost.mem_id = 
+${favpost.mem_id}
+ | memberVO.mem_id = 
+${memberVO.mem_id}
+${favpost.post_id == postVO.post_id}
+${favpost.mem_id == memberVO.mem_id}
+123
+${favpostSvc.getOneFavpost(memberVO.mem_id, postVO.post_id).post_id}
+456
+${favpostSvc.getOneFavpost(memberVO.mem_id, postVO.post_id).mem_id}
 
-<h4>¦¹­¶¼È½m²ß±Ä¥Î Script ªº¼gªk¨ú­È¡G</h4>
+
+<h4>æ­¤é æš«ç·´ç¿’æ¡ç”¨ Script çš„å¯«æ³•å–å€¼ï¼š</h4>
 <table id="table-1">
 	<tr>
 		<td>
-			<h3>¤å³¹¸ê®Æ - listOnePost.jsp</h3>
-			<h4><a href="<%=request.getContextPath()%>/front-end/post/select_page.jsp"><img alt="" src="<%=request.getContextPath()%>/images/back1.gif">¦^­º­¶</a></h4>
+			<h3>æ–‡ç« è³‡æ–™ - listOnePost.jsp</h3>
+			<h4><a href="<%=request.getContextPath()%>/front-end/post/select_page.jsp"><img alt="" src="<%=request.getContextPath()%>/images/back1.gif">å›é¦–é </a></h4>
 		</td>
 	</tr>
 </table>
 
 <table>
 	<tr>
-		<th>¤å³¹½s¸¹</th>
-		<th>·|­û½s¸¹</th>
-		<th>¤å³¹Ãş«¬½s¸¹</th>
-		<th>¤å³¹ª¬ºA</th>
-		<th>¤å³¹¼ĞÃD</th>
-		<th>¤å³¹¤º®e</th>
-		<th>ªş¥[¹Ï¤ù</th>
-		<th>³Ì«á­×§ï®É¶¡</th>
-		<th>µo¤å®É¶¡</th>
+		<th>æ–‡ç« ç·¨è™Ÿ</th>
+		<th>æœƒå“¡ç·¨è™Ÿ</th>
+		<th>æ–‡ç« é¡å‹ç·¨è™Ÿ</th>
+		<th>æ–‡ç« ç‹€æ…‹</th>
+		<th>æ–‡ç« æ¨™é¡Œ</th>
+		<th>æ–‡ç« å…§å®¹</th>
+		<th>é™„åŠ åœ–ç‰‡</th>
+		<th>æœ€å¾Œä¿®æ”¹æ™‚é–“</th>
+		<th>ç™¼æ–‡æ™‚é–“</th>
 	</tr>
 	<tr>
 		<td><%=postVO.getPost_id()%></td>
@@ -108,13 +130,58 @@
 		<td>
 			<fmt:formatDate value="<%=postVO.getPost_time()%>" pattern="yyyy-MM-dd HH:mm:ss" />
 		</td>
-		<td>
-			<form action="<%=request.getContextPath()%>/post/post.do" method="post">
-				<input type="submit" value="­×§ï">
-				<input type="hidden" name="post_id" value="<%=postVO.getPost_id()%>">
-				<input type="hidden" name="action" value="getOne_For_Update">
-			</form>
-		</td>
+		<c:if test="${sessionScope.memberVO ne null}">
+			<td>
+				<c:if test="<%= postVO.getMem_id() != memberVO.getMem_id() %>">
+					<form action="<%=request.getContextPath()%>/favpost/favpost.do" method="post">
+						<input type="hidden" name="mem_id" value="<%=memberVO.getMem_id()%>">
+						<input type="hidden" name="post_id" value="<%=postVO.getPost_id()%>">
+						<input type="hidden" name="action" value="insert">
+						<input type="submit" value="æ”¶è—">
+					</form>
+				</c:if>
+			</td>
+			
+			<td>
+			
+				<c:if test="${requestScope.favpostVO ne null}">
+					 
+					<c:if test="<%=favpostVO.getPost_id() == postVO.getPost_id()%>">
+						
+						<c:if test="<%=favpostVO.getMem_id() == memberVO.getMem_id()%>">
+						
+							<form action="<%=request.getContextPath()%>/favpost/favpost.do" method="post">
+								<input type="hidden" name="mem_id" value="<%=memberVO.getMem_id()%>">
+								<input type="hidden" name="post_id" value="<%=postVO.getPost_id()%>">
+								<input type="hidden" name="action" value="delete">
+								<input type="submit" value="å–æ¶ˆæ”¶è—">
+							</form>
+						  	 
+						</c:if>
+						 
+					</c:if>
+					
+				</c:if>
+				
+			</td>
+			
+				<c:if test="${postVO.mem_id == memberVO.mem_id}">
+					<td>
+						<form action="<%=request.getContextPath()%>/post/post.do" method="post">
+							<input type="submit" value="ä¿®æ”¹">
+							<input type="hidden" name="post_id" value="<%=postVO.getPost_id()%>">
+							<input type="hidden" name="action" value="getOne_For_Update">
+						</form>
+					</td>
+					<td>
+						<form action="<%=request.getContextPath()%>/post/post.do" method="post">
+							<input type="hidden" name="post_id" value="<%=postVO.getPost_id()%>">
+							<input type="hidden" name="action" value="delete">
+							<input type="submit" value="åˆªé™¤">
+						</form>
+					</td>
+				</c:if>
+		</c:if>
 	</tr>
 </table>
 

@@ -56,6 +56,15 @@
 	</servlet-mapping>
 	
 	<servlet>
+		<servlet-name>FavpostServlet</servlet-name>
+		<servlet-class>com.favpost.controller.FavpostServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FavpostServlet</servlet-name>
+		<url-pattern>/favpost/favpost.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<servlet-name>LoginHandler</servlet-name>
 		<servlet-class>com.member.login.LoginHandler</servlet-class>
 	</servlet>

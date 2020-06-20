@@ -56,6 +56,9 @@
 	</ul>
 </c:if>
 
+${requestScope.postVO == null}
+${requestScope.favpostVO == null}
+
 <ul>
 	<li>
 		<a href="<%=request.getContextPath()%>/front-end/post/listAllPost.jsp">List</a> all Posts. <br><br>
@@ -79,7 +82,7 @@
 <jsp:useBean id="postSvc" scope="page" class="com.post.model.PostService"/>
 	
 	<li>
-		<form action="post.do" method="post">
+		<form action="<%=request.getContextPath()%>/post/post.do" method="post">
 			<b>選擇文章編號</b>
 			<select size="1" name="post_id">
 				<c:forEach var="postVO" items="${postSvc.all}">
@@ -92,7 +95,7 @@
 	</li>
 	
 	<li>
-		<form action="post.do" method="post">
+		<form action="<%=request.getContextPath()%>/post/post.do" method="post">
 			<b>請選擇文章標題</b>
 			<select size="1" name="post_id">
 				<c:forEach var="postVO" items="${postSvc.all}">
