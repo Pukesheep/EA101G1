@@ -13,6 +13,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
 <title>文章資料修改 - update_post_input.jsp</title>
 
+<script src="https://cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script>
+
 <style>
 	table#table-1 {
 		width: 100%;
@@ -134,8 +136,14 @@
 		<tr>
 			<td>文章內容：</td>
 			<td>
-				<textarea name="text" rows="5" cols="500"><%= (postVO == null) ? "請輸入文章內容" : postVO.getText()%></textarea>
+				<textarea name="text" id="editor1"><%= (postVO == null) ? "請輸入文章內容" : postVO.getText()%></textarea>
 			</td>
+			<script>
+				CKEDITOR.replace('editor1', {
+					width: '50%',
+					language: 'zh'
+				})
+			</script>
 		</tr>
 		<tr>
 			<td>附加圖片：</td>
@@ -188,9 +196,9 @@
         $.datetimepicker.setLocale('zh');
         $('#f_date1').datetimepicker({
            theme: '',              //theme: 'dark',
- 	       timepicker:false,       //timepicker:true,
+ 	       timepicker:true,       //timepicker:true,
  	       step: 1,                //step: 60 (這是timepicker的預設間隔60分鐘)
- 	       format:'Y-m-d',         //format:'Y-m-d H:i:s',
+ 	       format:'Y-m-d H:i:s',         //format:'Y-m-d H:i:s',
  		   value: '<%=postVO.getLast_edit()%>', // value:   new Date(),
            //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
            //startDate:	            '2017/07/10',  // 起始日
@@ -200,9 +208,9 @@
         
         $('#f_date2').datetimepicker({
             theme: '',              //theme: 'dark',
-  	       timepicker:false,       //timepicker:true,
+  	       timepicker:true,       //timepicker:true,
   	       step: 1,                //step: 60 (這是timepicker的預設間隔60分鐘)
-  	       format:'Y-m-d',         //format:'Y-m-d H:i:s',
+  	       format:'Y-m-d H:i:s',         //format:'Y-m-d H:i:s',
   		   value: '<%=postVO.getPost_time()%>', // value:   new Date(),
             //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
             //startDate:	            '2017/07/10',  // 起始日

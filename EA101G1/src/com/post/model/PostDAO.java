@@ -170,8 +170,6 @@ public class PostDAO implements PostDAO_interface {
 				postVO.setP_title(rs.getString("p_title"));
 				postVO.setText(rs.getString("text"));
 				postVO.setImage(rs.getBytes("image"));
-//				java.text.SimpleDateFormat sf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//				java.sql.Timestamp ts = new java.sql.Timestamp(sf.format(rs.getTimestamp("last_edit"));
 				postVO.setLast_edit(rs.getTimestamp("last_edit"));
 				postVO.setPost_time(rs.getTimestamp("post_time"));
 			}

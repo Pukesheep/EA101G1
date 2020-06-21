@@ -21,7 +21,7 @@ public class FavpostService {
 	}
 	
 	public void deleteFavpost(String mem_id, String post_id) {
-		dao.delete(mem_id, mem_id);
+		dao.delete(mem_id, post_id);
 	}
 	
 	public FavpostVO getOneFavpost(String mem_id, String post_id) {

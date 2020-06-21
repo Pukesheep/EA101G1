@@ -94,7 +94,7 @@ public class FavpostServlet extends HttpServlet {
 				
 				/***************************3.刪除完成,準備轉交(Send the Success view)***********/
 				req.setAttribute("postVO", postVO);
-				req.setAttribute("favpostVO", favpostVO);
+//				req.setAttribute("favpostVO", favpostVO);
 				RequestDispatcher successView = req.getRequestDispatcher(listOnePost);
 //				RequestDispatcher successView = req.getRequestDispatcher(select_pageP);
 				successView.forward(req, res);
