@@ -3,7 +3,7 @@
 <%@ page import="com.member.model.*" %>
 
 <%
-	MemberVO memberVO = (MemberVO) request.getAttribute("memberVO"); 
+	MemberVO memberVO = (MemberVO) session.getAttribute("memberVO"); 
 	// MemberServlet.java (Controller) 存入 req 的 memberVO 物件(包括幫忙取出的 memberVO, 也包括輸入資料錯誤時的 memberVO 物件)
 %>
 
@@ -82,7 +82,7 @@
 	</ul>
 </c:if>
 
-<form action="member.do" method="post" enctype="multipart/form-data">
+<form action="<%=request.getContextPath()%>/member/member.do" method="post" enctype="multipart/form-data">
 	<table>
 		<tr>
 			<td>會員編號：<font><b>*</b></font></td>

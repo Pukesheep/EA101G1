@@ -3,7 +3,7 @@
 <%-- 此頁暫練習採用 Scrpit 的寫法取值 --%>
 
 <%
-	MemberVO memberVO = (MemberVO) request.getAttribute("memberVO");
+	MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 	// MemberService.java (Controller), 存入 req 的 memberVO 物件
 %>
 

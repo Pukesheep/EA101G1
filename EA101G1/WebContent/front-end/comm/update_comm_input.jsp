@@ -96,7 +96,7 @@
 	</ul>
 </c:if>
 
-<form action="comm.do" method="post">
+<form action="<%=request.getContextPath()%>/comm/comm.do" method="post">
 <%= commVO == null %>
 	<table>
 		<tr>

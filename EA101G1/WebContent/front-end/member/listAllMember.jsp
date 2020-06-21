@@ -9,7 +9,9 @@
 	java.util.List<MemberVO> list = memberSvc.getAll();
 	pageContext.setAttribute("list", list);
 %>
-
+<%--
+	前台會員不提供listAllMember
+ --%>
 
 <html>
 <head>

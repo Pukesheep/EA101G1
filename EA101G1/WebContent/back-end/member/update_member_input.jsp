@@ -82,7 +82,7 @@
 	</ul>
 </c:if>
 
-<form action="member.do" method="post" enctype="multipart/form-data">
+<form action="<%=request.getContextPath()%>/member/member.do" method="post" enctype="multipart/form-data">
 	<table>
 		<tr>
 			<td>·|­û½s¸¹¡G<font><b>*</b></font></td>

@@ -97,7 +97,7 @@
 	</ul>
 </c:if>
 
-<form action="post.do" method="post" enctype="multipart/form-data">
+<form action="<%=request.getContextPath()%>/post/post.do" method="post" enctype="multipart/form-data">
 
 	<table>
 		<tr>

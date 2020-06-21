@@ -29,17 +29,19 @@ public class FavpostServlet extends HttpServlet {
 			
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
+			FavpostVO favpostVO = null;
+			PostVO postVO = null;
 			
 			try {
 				/***************************1.接收請求參數****************************************/
 				String mem_id = req.getParameter("mem_id").trim();
 				String post_id = req.getParameter("post_id").trim();
 				
-				FavpostVO favpostVO = new FavpostVO();
+				favpostVO = new FavpostVO();
 				favpostVO.setMem_id(mem_id);
 				favpostVO.setPost_id(post_id);
 				PostService postSvc = new PostService();
-				PostVO postVO = postSvc.getOnePost(post_id);
+				postVO = postSvc.getOnePost(post_id);
 				
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("favpostVO", favpostVO);
@@ -55,15 +57,15 @@ public class FavpostServlet extends HttpServlet {
 				req.setAttribute("postVO", postVO);
 				req.setAttribute("favpostVO", favpostVO);
 				RequestDispatcher successView = req.getRequestDispatcher(listOnePost);
-//				RequestDispatcher successView = req.getRequestDispatcher(select_pageP);
 				successView.forward(req, res);
 				
 				/***************************其他可能的錯誤處理**********************************/
 
 			} catch (Exception e) {
+				req.setAttribute("postVO", postVO);
+				req.setAttribute("favpostVO", favpostVO);
 				errorMsgs.add("新增資料失敗： " + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher(listOnePost);
-//				RequestDispatcher failureView = req.getRequestDispatcher(select_pageP);
 				failureView.forward(req, res);
 			}
 			
@@ -76,16 +78,18 @@ public class FavpostServlet extends HttpServlet {
 			
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
+			PostVO postVO = null;
+			FavpostVO favpostVO = null;
 			
 			try {
 				/***************************1.接收請求參數***************************************/
 				String mem_id = req.getParameter("mem_id");
 				String post_id = req.getParameter("post_id");
-				FavpostVO favpostVO = new FavpostVO();
+				favpostVO = new FavpostVO();
 				favpostVO.setMem_id(mem_id);
 				favpostVO.setPost_id(post_id);
 				PostService postSvc = new PostService();
-				PostVO postVO = postSvc.getOnePost(post_id);
+				postVO = postSvc.getOnePost(post_id);
 				
 				/***************************2.開始刪除資料***************************************/
 				// 取消收藏文章
@@ -94,19 +98,17 @@ public class FavpostServlet extends HttpServlet {
 				
 				/***************************3.刪除完成,準備轉交(Send the Success view)***********/
 				req.setAttribute("postVO", postVO);
-//				req.setAttribute("favpostVO", favpostVO);
 				RequestDispatcher successView = req.getRequestDispatcher(listOnePost);
-//				RequestDispatcher successView = req.getRequestDispatcher(select_pageP);
 				successView.forward(req, res);
 				
 				/***************************其他可能的錯誤處理**********************************/
 
 			
 			} catch (Exception e) {
-				
+				req.setAttribute("postVO", postVO);
+				req.setAttribute("favpostVO", favpostVO);
 				errorMsgs.add("刪除資料失敗： " + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher(listOnePost);
-//				RequestDispatcher failureView = req.getRequestDispatcher(select_pageP);
 				failureView.forward(req, res);
 			}
 		}

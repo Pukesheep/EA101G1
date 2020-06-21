@@ -100,7 +100,7 @@
 	</ul>
 </c:if>
 
-<form action="post.do" method="post" name="form1" enctype="multipart/form-data">
+<form action="<%=request.getContextPath()%>/post/post.do" method="post" name="form1" enctype="multipart/form-data">
 	<c:if test="${sessionScope.memberVO ne null}">
 		<table>
 			<tr>

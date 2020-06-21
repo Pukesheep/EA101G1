@@ -56,7 +56,7 @@
 	</ul>
 </c:if>
 
-	<form action="member.do" method="post">
+	<form action="<%=request.getContextPath()%>/member/member.do" method="post">
 		<c:if test="${not empty memberVO }">
 			<div id="logout">
 				<input type="hidden" name="action" value="logout">

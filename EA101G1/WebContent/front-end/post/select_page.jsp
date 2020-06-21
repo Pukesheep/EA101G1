@@ -71,7 +71,7 @@ ${requestScope.favpostVO == null}
 	</li>
 	
 	<li>
-		<form action="post.do" method="post">
+		<form action="<%=request.getContextPath()%>/post/post.do" method="post">
 			<b>請輸入文章編號(如POST000005)</b>
 			<input type="text" name="post_id">
 			<input type="hidden" name="action" value="getOne_For_Display">

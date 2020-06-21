@@ -70,7 +70,7 @@
 <jsp:useBean id="commSvc" scope="page" class="com.comm.model.CommService" />
 
 	<li>
-		<form action="comm.do" method="post">
+		<form action="<%=request.getContextPath()%>/comm/comm.do" method="post">
 			<b>¿ï¾Ü¯d¨¥½s¸¹</b>
 			<select size="1" name="comm_id">
 				<c:forEach var="commVO" items="${commSvc.all}">

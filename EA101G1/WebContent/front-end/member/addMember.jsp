@@ -91,7 +91,7 @@
 	</ul>
 </c:if>
 
-<form action="member.do" method="post" name="form1" enctype="multipart/form-data">
+<form action="<%=request.getContextPath()%>/member/member.do" method="post" name="form1" enctype="multipart/form-data">
 	<table>
 		<tr>
 			<td>會員信箱：</td>

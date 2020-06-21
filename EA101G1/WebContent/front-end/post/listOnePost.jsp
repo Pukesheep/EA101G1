@@ -9,7 +9,6 @@
 <%
 	MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 	PostVO postVO = (PostVO) request.getAttribute("postVO");
-	FavpostVO favpostVO = (FavpostVO) request.getAttribute("favpostVO");
 %>
 <jsp:useBean id="favpostSvc" class="com.favpost.model.FavpostService" />
 <html>
@@ -75,23 +74,6 @@
 
 </head>
 <body>
-${postVO == null }
-${favpostVO == null}
-favpost.post_id = 
-${favpostVO.post_id}
- | postVO.post_id = 
-${postVO.post_id}
- | favpost.mem_id = 
-${favpostVO.mem_id}
- | memberVO.mem_id = 
-${memberVO.mem_id}
-${favpostVO.post_id == postVO.post_id}
-${favpostVO.mem_id == memberVO.mem_id}
-123
-${favpostSvc.getOneFavpost(memberVO.mem_id, postVO.post_id).post_id}
-456
-${favpostSvc.getOneFavpost(memberVO.mem_id, postVO.post_id).mem_id}
-
 
 <h4>此頁暫練習採用 Script 的寫法取值：</h4>
 <table id="table-1">
@@ -132,37 +114,33 @@ ${favpostSvc.getOneFavpost(memberVO.mem_id, postVO.post_id).mem_id}
 		</td>
 		<c:if test="${sessionScope.memberVO ne null}">
 			<td>
-				<c:if test="<%= postVO.getMem_id() != memberVO.getMem_id() %>">
+				<c:if test="${favpostSvc.getOneFavpost(memberVO.mem_id, postVO.post_id).mem_id eq null}">
+				
 					<form action="<%=request.getContextPath()%>/favpost/favpost.do" method="post">
 						<input type="hidden" name="mem_id" value="<%=memberVO.getMem_id()%>">
 						<input type="hidden" name="post_id" value="<%=postVO.getPost_id()%>">
 						<input type="hidden" name="action" value="insert">
 						<input type="submit" value="收藏">
 					</form>
-				</c:if>
+					
+				</c:if>	
 			</td>
 			
 			<td>
-				<%-- 
-				<c:if test="${sessionScope.memberVO ne null}">
-				--%>	 
-					<c:if test="${favpostSvc.getOneFavpost(postVO.post_id, memberVO.mem_id) != null}">
-						<%-- 
-						<c:if test="${favpostVO.mem_id == memberVO.mem_id}">
-						--%>
-							<form action="<%=request.getContextPath()%>/favpost/favpost.do" method="post">
-								<input type="hidden" name="mem_id" value="<%=memberVO.getMem_id()%>">
-								<input type="hidden" name="post_id" value="<%=postVO.getPost_id()%>">
-								<input type="hidden" name="action" value="delete">
-								<input type="submit" value="取消收藏">
-							</form>
-						<%--   	 
-						</c:if>
-						--%> 
+			
+				<c:forEach var="favpostVOdelete" items="${favpostSvc.all}">
+			
+					<c:if test="${favpostVOdelete.mem_id == memberVO.mem_id and favpostVOdelete.post_id == postVO.post_id}">
+						<form action="<%=request.getContextPath()%>/favpost/favpost.do" method="post">
+							<input type="hidden" name="mem_id" value="<%=memberVO.getMem_id()%>">
+							<input type="hidden" name="post_id" value="<%=postVO.getPost_id()%>">
+							<input type="hidden" name="action" value="delete">
+							<input type="submit" value="取消收藏">
+						</form>
 					</c:if>
-				<%-- 
-				</c:if>
-				--%>
+				
+				</c:forEach>
+				
 			</td>
 			
 				<c:if test="${postVO.mem_id == memberVO.mem_id}">

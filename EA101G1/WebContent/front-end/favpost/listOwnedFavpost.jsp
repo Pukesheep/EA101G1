@@ -8,13 +8,11 @@
 	列出單一會員所收藏的所有文章
  --%>
  <%
+ 	MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+	//本頁面屬於登入後的操作
  	FavpostService favpostSvc = new FavpostService();
  	java.util.List<FavpostVO> list = favpostSvc.getAll();
  	pageContext.setAttribute("list", list);
- %>
- <%
- 	MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
- 	// 本頁面屬於登入後的操作
  %>
 <jsp:useBean id="memberSvc" scope="page" class="com.member.model.MemberService" />
 <jsp:useBean id="postSvc" scope="page" class="com.post.model.PostService" />
@@ -106,6 +104,7 @@
 
 <table>
 	<tr>
+		<th>文章連結</th>
 		<th>文章編號</th>
 		<th>發文會員編號</th>
 		<th>發文會員名稱</th>
@@ -135,6 +134,9 @@
 						<c:if test="${postVO.mem_id == memberVOpost.mem_id}">
 							
 							<tr>
+								<td>
+									<a href="<%=request.getContextPath()%>/front-end/post/post.do?action=getOne_For_Display&post_id=${postVO.post_id}">[${ptypeSvc.getOnePtype(postVO.ptype_id).type}] ${postVO.p_title}</a>
+								</td>
 								<td>
 									${favpostVO.post_id}
 								</td>

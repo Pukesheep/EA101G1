@@ -127,7 +127,7 @@
 	</c:forEach>
 </table>
 
-<form action="ptype.do" method>
+<form action="<%=request.getContextPath()%>/ptype/ptype.do" method="post">
 
 	<table id="table-3">
 		<tr>
