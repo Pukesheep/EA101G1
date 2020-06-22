@@ -297,7 +297,7 @@ public class MemberDAO implements MemberDAO_interface {
 		java.sql.Connection con = null;
 		java.sql.PreparedStatement pstmt = null;
 		java.sql.ResultSet rs = null;
-		String mem_id= null;
+		String mem_id = null;
 		
 		try {
 			con = ds.getConnection();

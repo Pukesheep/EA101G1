@@ -7,7 +7,7 @@ public class CommJDBCDAO implements CommDAO_interface {
 	
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "EA101";
+	String userid = "EA101G1";
 	String passwd = "123456";
 	
 	private static final String INSERT_STMT = "INSERT INTO comm (comm_id, post_id, mem_id, c_status, c_text, last_edit) VALUES ('COMM'||LPAD(to_char(comm_seq.NEXTVAL), 6, '0'), ?, ?, ?, ?, SYSDATE)";
@@ -26,8 +26,9 @@ public class CommJDBCDAO implements CommDAO_interface {
 		
 		try {
 			Class.forName(driver);
+			String[] cols = {"comm_id"};
 			con = DriverManager.getConnection(url, userid, passwd);
-			pstmt = con.prepareStatement(INSERT_STMT);
+			pstmt = con.prepareStatement(INSERT_STMT, cols);
 			
 			pstmt.setString(1, commVO.getPost_id());
 			pstmt.setString(2, commVO.getMem_id());
@@ -261,11 +262,11 @@ public class CommJDBCDAO implements CommDAO_interface {
 		
 		// 新增
 		CommVO commVO1 = new CommVO();
-		commVO1.setPost_id("POST000001");
-		commVO1.setMem_id("M000002");
-		commVO1.setC_status(1);
-		commVO1.setC_text("對阿, 我也是這麼覺der");
-		dao.insert(commVO1);
+//		commVO1.setPost_id("POST000001");
+//		commVO1.setMem_id("M000002");
+//		commVO1.setC_status(1);
+//		commVO1.setC_text("對阿, 我也是這麼覺der");
+//		dao.insert(commVO1);
 		
 		commVO1.setPost_id("POST000002");
 		commVO1.setMem_id("M000001");
@@ -273,21 +274,21 @@ public class CommJDBCDAO implements CommDAO_interface {
 		commVO1.setC_text("吃葡萄不吐葡萄皮");
 		dao.insert(commVO1);
 		
-		commVO1.setPost_id("POST000003");
-		commVO1.setMem_id("M000002");
-		commVO1.setC_status(1);
-		commVO1.setC_text("5566不能亡");
-		dao.insert(commVO1);
+//		commVO1.setPost_id("POST000003");
+//		commVO1.setMem_id("M000002");
+//		commVO1.setC_status(1);
+//		commVO1.setC_text("5566不能亡");
+//		dao.insert(commVO1);
 		
 		// 修改
-		CommVO commVO2 = new CommVO();
-		commVO2.setC_status(0);
-		commVO2.setC_text("喔天啊, 出門忘記帶鑰匙惹");
-		commVO2.setComm_id("COMM000002");
-		dao.update(commVO2);
+//		CommVO commVO2 = new CommVO();
+//		commVO2.setC_status(0);
+//		commVO2.setC_text("喔天啊, 出門忘記帶鑰匙惹");
+//		commVO2.setComm_id("COMM000002");
+//		dao.update(commVO2);
 		
 		// 刪除
-		dao.delete("COMM000003");
+//		dao.delete("COMM000003");
 		
 		// 查詢單筆
 		CommVO commVO3 = dao.findByPrimaryKey("COMM000005");

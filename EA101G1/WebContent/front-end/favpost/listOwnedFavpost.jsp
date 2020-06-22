@@ -135,7 +135,7 @@
 							
 							<tr>
 								<td>
-									<a href="<%=request.getContextPath()%>/front-end/post/post.do?action=getOne_For_Display&post_id=${postVO.post_id}">[${ptypeSvc.getOnePtype(postVO.ptype_id).type}] ${postVO.p_title}</a>
+									<a href="<%=request.getContextPath()%>/post/post.do?action=getOne_For_Display&post_id=${postVO.post_id}">[${ptypeSvc.getOnePtype(postVO.ptype_id).type}] ${postVO.p_title}</a>
 								</td>
 								<td>
 									${favpostVO.post_id}

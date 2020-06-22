@@ -7,7 +7,7 @@ public class FavpostJDBCDAO implements FavpostDAO_interface {
 
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "EA101";
+	String userid = "EA101G1";
 	String passwd = "123456";
 	
 	private static final String INSERT_STMT = "INSERT INTO favorite_post (mem_id, post_id) values (?, ?)";

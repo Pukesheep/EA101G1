@@ -85,19 +85,31 @@
 	</servlet-mapping>
 	
 	
+	
+	<servlet>
+		<servlet-name>LoginHandler</servlet-name>
+		<servlet-class>com.login.controller.LoginHandler</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoginHandler</servlet-name>
+		<url-pattern>/login/login.do</url-pattern>
+	</servlet-mapping>
+	
 	<filter>
 		<filter-name>LoginFilter</filter-name>
-		<filter-class>com.member.login.filter.LoginFilter</filter-class>
+		<filter-class>com.login.filter.LoginFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>LoginFilter</filter-name>
 		<url-pattern>/front-end/protected/*</url-pattern>
+		<url-pattern>/back-end/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
 		<dispatcher>ERROR</dispatcher>
 		<dispatcher>ASYNC</dispatcher>
 	</filter-mapping>
+	
 	
 	
 </web-app>

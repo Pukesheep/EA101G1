@@ -132,6 +132,7 @@
 			<td>
 				<fmt:formatDate value="${postVO.post_time}" pattern="yyyy-MM-dd HH:mm:ss"/> 
 			</td>
+			<%-- 
 			<c:if test="${sessionScope.memberVO ne null}">
 				<td>
 					<form action="">
@@ -156,6 +157,59 @@
 					<input type="hidden" name="action" value="delete">
 				</form>
 			</td>
+			--%>
+					<c:if test="${sessionScope.memberVO ne null}">
+			<td>
+				<c:if test="${favpostSvc.getOneFavpost(memberVO.mem_id, postVO.post_id).mem_id eq null}">
+				
+					<form action="<%=request.getContextPath()%>/favpost/favpost.do" method="post">
+						<input type="hidden" name="mem_id" value="${memberVO.mem_id}">
+						<input type="hidden" name="post_id" value="${postVO.post_id}">
+						<input type="hidden" name="action" value="insert">
+						<input type="submit" value="收藏">
+					</form>
+					
+				</c:if>	
+			</td>
+			
+			<td>
+			
+				<c:forEach var="favpostVOdelete" items="${favpostSvc.all}">
+			
+					<c:if test="${favpostVOdelete.mem_id == memberVO.mem_id and favpostVOdelete.post_id == postVO.post_id}">
+						<form action="<%=request.getContextPath()%>/favpost/favpost.do" method="post">
+							<input type="hidden" name="mem_id" value="${memberVO.mem_id}">
+							<input type="hidden" name="post_id" value="${postVO.post_id}">
+							<input type="hidden" name="action" value="delete">
+							<input type="submit" value="取消收藏">
+						</form>
+					</c:if>
+				
+				</c:forEach>
+				
+			</td>
+			
+				<c:if test="${postVO.mem_id == memberVO.mem_id}">
+					<td>
+						<form action="<%=request.getContextPath()%>/post/post.do" method="post">
+							<input type="submit" value="修改">
+							<input type="hidden" name="post_id" value="${postVO.post_id}">
+							<input type="hidden" name="action" value="getOne_For_Update">
+						</form>
+					</td>
+					<td>
+						<form action="<%=request.getContextPath()%>/post/post.do" method="post">
+							<input type="hidden" name="post_id" value="${postVO.post_id}">
+							<input type="hidden" name="action" value="delete">
+							<input type="submit" value="刪除">
+						</form>
+					</td>
+				</c:if>
+		</c:if>
+			
+			
+			
+			
 		</tr>
 	</c:forEach>
 </table>

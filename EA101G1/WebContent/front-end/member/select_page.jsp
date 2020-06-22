@@ -74,7 +74,7 @@
 --%>	
 	<c:if test="${not empty sessionScope.memberVO}">
 		<li>
-			<a href="<%=request.getContextPath()%>/front-end/member/member.do?action=getOne_For_Display-front&mem_id=${sessionScope.memberVO.mem_id}">查詢自己</a>
+			<a href="<%=request.getContextPath()%>/member/member.do?action=getOne_For_Display-front&mem_id=${sessionScope.memberVO.mem_id}">查詢自己</a>
 		</li>
 	</c:if>
 	

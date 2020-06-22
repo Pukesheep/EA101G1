@@ -9,7 +9,7 @@ public class MemberJDBCDAO implements MemberDAO_interface {
 
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "EA101";
+	String userid = "EA101G1";
 	String passwd = "123456";
 	
 	private static final String INSERT_STMT = "INSERT INTO member (mem_id, mem_email, mem_pass, mem_name, mem_icon, mem_phone, mem_addr, bank_acc, card_no, card_yy, card_mm, card_sec, mem_autho, mem_bonus, mem_joindat, mem_birth, mem_warn) VALUES ('M'||LPAD(to_char(member_seq.NEXTVAL), 6, '0'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -326,9 +326,9 @@ public class MemberJDBCDAO implements MemberDAO_interface {
 	public static void main(String[] args) {
 		
 		byte[] image1, image2;
-		try {
-			image1 = getPictureByteArray("WebContent/Forum/image/1.jpg");
-			image2 = getPictureByteArray("WebContent/Forum/image/2.gif");
+//		try {
+//			image1 = getPictureByteArray("WebContent/Forum/image/1.jpg");
+//			image2 = getPictureByteArray("WebContent/Forum/image/2.gif");
 			
 			MemberJDBCDAO dao = new MemberJDBCDAO();
 			
@@ -398,30 +398,30 @@ public class MemberJDBCDAO implements MemberDAO_interface {
 //			System.out.println("MEM_WARN = " + memberVO3.getMem_warn());
 			
 			// 查詢全部
-//			java.util.List<MemberVO> list = dao.getAll();
-//			for (MemberVO aMember : list) {
-//				System.out.println("MEM_ID = " + aMember.getMem_id());
-//				System.out.println("MEM_EMAIL = " + aMember.getMem_email());
-//				System.out.println("MEM_PASS = " + aMember.getMem_pass());
-////				System.out.println(aMember.getMem_icon());
-//				System.out.println("MEM_PHONE = " + aMember.getMem_phone());
-//				System.out.println("MEM_ADDR = " + aMember.getMem_addr());
-//				System.out.println("BANK_ACC = " + aMember.getBank_acc());
-//				System.out.println("CARD_NO = " + aMember.getCard_no());
-//				System.out.println("CARD_YY = " + aMember.getCard_yy());
-//				System.out.println("CARD_MM = " + aMember.getCard_mm());
-//				System.out.println("CARD_SEC = " + aMember.getCard_sec());
-//				System.out.println("MEM_AUTHO = " + aMember.getMem_autho());
-//				System.out.println("MEM_BONUS = " + aMember.getMem_bonus());
-//				System.out.println("MEM_JOINDAT = " + aMember.getMem_joindat());
-//				System.out.println("MEM_BIRTH = " + aMember.getMem_birth());
-//				System.out.println("MEM_WARN = " + aMember.getMem_warn());
-//				System.out.println("=====================================");
-//			}
+			java.util.List<MemberVO> list = dao.getAll();
+			for (MemberVO aMember : list) {
+				System.out.println("MEM_ID = " + aMember.getMem_id());
+				System.out.println("MEM_EMAIL = " + aMember.getMem_email());
+				System.out.println("MEM_PASS = " + aMember.getMem_pass());
+//				System.out.println(aMember.getMem_icon());
+				System.out.println("MEM_PHONE = " + aMember.getMem_phone());
+				System.out.println("MEM_ADDR = " + aMember.getMem_addr());
+				System.out.println("BANK_ACC = " + aMember.getBank_acc());
+				System.out.println("CARD_NO = " + aMember.getCard_no());
+				System.out.println("CARD_YY = " + aMember.getCard_yy());
+				System.out.println("CARD_MM = " + aMember.getCard_mm());
+				System.out.println("CARD_SEC = " + aMember.getCard_sec());
+				System.out.println("MEM_AUTHO = " + aMember.getMem_autho());
+				System.out.println("MEM_BONUS = " + aMember.getMem_bonus());
+				System.out.println("MEM_JOINDAT = " + aMember.getMem_joindat());
+				System.out.println("MEM_BIRTH = " + aMember.getMem_birth());
+				System.out.println("MEM_WARN = " + aMember.getMem_warn());
+				System.out.println("=====================================");
+			}
 			
-		} catch (IOException ioe) {
-			ioe.printStackTrace(System.err);
-		}
+//		} catch (IOException ioe) {
+//			ioe.printStackTrace(System.err);
+//		}
 		
 	}
 	

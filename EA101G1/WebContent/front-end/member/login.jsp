@@ -92,7 +92,7 @@
                     <a class="nav-link" href="<%=request.getContextPath()%>/front-end/protected/listOneMember.jsp">會員中心</a>
                 </li>
                 <li class="nav-item">
-                	<a class="nav-link" href="<%=request.getContextPath()%>/member/member.do?action=logout">登出</a>
+                	<a class="nav-link" href="<%=request.getContextPath()%>/login/login.do?action=logout">登出</a>
                 </li>
           	</c:if>
                 <li class="nav-item">
@@ -152,14 +152,14 @@
 	   sjfsnsdjknfjkdfdsfdfsdjfsd
 	   </div>
 	   	<div class="col-md-5 offset-md-5 justify-content-around">
-		<form action="<%=request.getContextPath()%>/member/member.do" method="post" id="login">
+		<form action="<%=request.getContextPath()%>/login/login.do" method="post" id="login">
 			<div class="form-group col-md-3 col-sm-6">
 	    		<label for="formGroupExampleInput1">E-mail</label>
-	    		<input type="text" class="form-control" id="formGroupExampleInput1" placeholder="E-mail" name="mem_email">
+	    		<input type="text" class="form-control" id="formGroupExampleInput1" placeholder="E-mail" name="email">
 	    	</div>
 	    	<div class="form-group col-md-3 col-sm-6">
 	  			<label for="formGroupExampleInput2">Password</label>
-	    		<input type="password" class="form-control" id="formGroupExampleInput2" placeholder="Password" name="mem_pass">
+	    		<input type="password" class="form-control" id="formGroupExampleInput2" placeholder="Password" name="password">
 	  		</div>
 	  		<div class="form-row col-md-3 col-sm-6 justify-content-around">
 	  			<button type="submit" class="btn btn-success btn-lg" form="login" name="action" value="login">Login</button>

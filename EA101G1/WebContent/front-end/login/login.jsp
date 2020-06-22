@@ -46,7 +46,7 @@
 		</c:forEach>
 	</ul>
 </c:if>
-	<form action="login.do" method="post">
+	<form action="<%=request.getContextPath()%>/login/login.do" method="post">
 		<div id="container">
 			<div id="title">
 				<h2>µn¤J</h2>

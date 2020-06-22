@@ -14,7 +14,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
 <title>文章資料新增 - addPost.jsp</title>
 
-<script src="https://cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script>
+<script src="<%=request.getContextPath()%>/files/ckeditor/ckeditor.js"></script>
 
 <style>
 	table#table-1 {
@@ -144,8 +144,8 @@
 					<textarea name="text" id="editor1"></textarea>
 					<script>
 	                        CKEDITOR.replace('editor1', {
-	                        		width:'50%',
-	                        		language:'zh'
+	                        		width:'85%',
+	                        		language: 'zh'
 	                        	});
 	                </script>
 				</td>
