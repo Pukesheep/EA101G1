@@ -121,24 +121,24 @@ public class LoginHandler extends HttpServlet {
 				} else {
 					// 帳號或密碼有效時進入的區塊
 					
-//					try {
-//						// 嘗試尋找來源網頁
-//						String location = (String) session.getAttribute("location");
-//						if (location != null) {
-//							// 當有來源網頁時, 因為已經取得來源網頁的位置作為區域變數
-//							// 所以先把sessionScope 裡面的來源網頁 (location) 移除, 
-//							// 再重導到來源網頁
-//							session.removeAttribute("location");
-//							res.sendRedirect(location);
-//							return;
-//						}
-//						
-//					} catch (Exception ignored) {
-//						System.out.println(ignored.getMessage());
-//					}
-//					
-//					RequestDispatcher successView = req.getRequestDispatcher(index);
-//					successView.forward(req, res);
+					try {
+						// 嘗試尋找來源網頁
+						String location = (String) session.getAttribute("location");
+						if (location != null) {
+							// 當有來源網頁時, 因為已經取得來源網頁的位置作為區域變數
+							// 所以先把sessionScope 裡面的來源網頁 (location) 移除, 
+							// 再重導到來源網頁
+							session.removeAttribute("location");
+							res.sendRedirect(location);
+							return;
+						}
+						
+					} catch (Exception ignored) {
+						System.out.println(ignored.getMessage());
+					}
+					
+					RequestDispatcher successView = req.getRequestDispatcher(index);
+					successView.forward(req, res);
 					
 					
 				}
@@ -158,7 +158,7 @@ public class LoginHandler extends HttpServlet {
 			
 			try {
 				session.removeAttribute("memberVO");
-				session.removeAttribute("admVO");
+//				session.removeAttribute("admVO");
 				
 			} catch (Exception ignored) {
 				System.out.println(ignored.getMessage());

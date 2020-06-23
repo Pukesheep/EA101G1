@@ -88,7 +88,7 @@
                     <a class="nav-link" href="<%=request.getContextPath()%>/front-end/protected/listOneMember.jsp">會員中心</a>
                 </li>
                 <li class="nav-item">
-                	<a class="nav-link" href="<%=request.getContextPath()%>/member/member.do?action=logout">登出</a>
+                	<a class="nav-link" href="<%=request.getContextPath()%>/login/login.do?action=logout">登出</a>
                 </li>
           	</c:if>
                 <li class="nav-item">

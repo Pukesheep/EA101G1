@@ -40,21 +40,21 @@ public class LoginFilter implements Filter {
 		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 		AdmVO admVO = (AdmVO) session.getAttribute("admVO");
 		
-		if (memberVO == null && admVO == null) {
+//		if (memberVO == null && admVO == null) {
+//			session.setAttribute("location", req.getRequestURI());
+//			res.sendRedirect(req.getContextPath() + "/front-end/member/login.jsp");
+//			return;
+//		} else if (memberVO != null || admVO != null) {
+//			chain.doFilter(request, response);
+//		}
+		
+		if (memberVO == null) {
 			session.setAttribute("location", req.getRequestURI());
 			res.sendRedirect(req.getContextPath() + "/front-end/member/login.jsp");
 			return;
 		} else {
 			chain.doFilter(request, response);
 		}
-		
-//		if (memberVO == null) {
-//			session.setAttribute("location", req.getRequestURI());
-//			res.sendRedirect(req.getContextPath() + "/front-end/member/login.jsp");
-//			return;
-//		} else {
-//			chain.doFilter(request, response);
-//		}
 		
 	}
 }

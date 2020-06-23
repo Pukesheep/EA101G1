@@ -75,11 +75,17 @@
 	<c:if test="${not empty sessionScope.memberVO}">
 		<li>
 			<a href="<%=request.getContextPath()%>/member/member.do?action=getOne_For_Display-front&mem_id=${sessionScope.memberVO.mem_id}">查詢自己</a>
+			<form action="<%=request.getContextPath()%>/member/member.do" method="post" name="form1">
+				<input type="hidden" name="mem_id" value="${sessionScope.memberVO.mem_id}">
+				<input type="hidden" name="action" value="getOne_For_Display-front">
+				<input type="submit" value="查詢自己">
+				<button type="submit"><img alt="" src="<%=request.getContextPath()%>/images/back1.gif"></button>
+			</form>
 		</li>
 	</c:if>
 	
 	<li>
-		<form action="member.do" method="post">
+		<form action="<%=request.getContextPath()%>/member/member.do" method="post">
 			<b>請輸入會員編號 (如M000005)</b>
 			<input type="text" name="mem_id">
 			<input type="hidden" name="action" value="getOne_For_Display-front">
@@ -90,7 +96,7 @@
 <jsp:useBean id="memberSvc" scope="page" class="com.member.model.MemberService" />
 
 	<li>
-		<form action="member.do" method="post">
+		<form action="<%=request.getContextPath()%>/member/member.do" method="post">
 			<b>選擇會員編號</b>
 			<select size="1" name="mem_id">
 				<c:forEach var="memberVO" items="${memberSvc.all}">
@@ -103,7 +109,7 @@
 	</li>
 	
 	<li>
-		<form action="member.do" method="post">
+		<form action="<%=request.getContextPath()%>/member/member.do" method="post">
 			<b>請選擇會員名稱</b>
 			<select size="1" name="mem_id">
 				<c:forEach var="memberVO" items="${memberSvc.all}" >

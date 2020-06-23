@@ -74,8 +74,9 @@ public class BranchFilter implements Filter {
 				System.out.println(ignored.getMessage());
 			}
 			
-			RequestDispatcher successView = req.getRequestDispatcher(indexBack);
-			successView.forward(req, res);
+			res.sendRedirect(req.getContextPath() + indexBack);
+//			RequestDispatcher successView = req.getRequestDispatcher(indexBack);
+//			successView.forward(req, res);
 			return;
 			
 		} else if (admVO == null && memberVO != null) {
@@ -96,11 +97,13 @@ public class BranchFilter implements Filter {
 				System.out.println(ignored.getMessage());
 			}
 			
-			RequestDispatcher successView = req.getRequestDispatcher(indexFront);
-			successView.forward(req, res);
+			res.sendRedirect(req.getContextPath() + indexFront);
+//			RequestDispatcher successView = req.getRequestDispatcher(indexFront);
+//			successView.forward(req, res);
 			return;
+		} else {
+			chain.doFilter(request, response);
 		}
 		
-		chain.doFilter(request, response);
 	}
 }

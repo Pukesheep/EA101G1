@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.*;
 import com.member.model.*;
 import com.adm.model.*;
+import com.member.model.*;
 
 //@WebFilter("/FrontFilter")
 public class FrontFilter implements Filter {
@@ -30,23 +31,47 @@ public class FrontFilter implements Filter {
 		javax.servlet.http.HttpServletRequest req = (HttpServletRequest) request;
 		javax.servlet.http.HttpServletResponse res = (HttpServletResponse) response;
 		
-		// 取得 session
 		javax.servlet.http.HttpSession session = req.getSession();
 		
-		// 從 session 判斷會員是否登入過
 		AdmVO admVO = (AdmVO) session.getAttribute("admVO");
-		System.out.println(admVO == null);
-		System.out.println("front");
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 		
-		if (admVO == null) {
-//			session.setAttribute("location", req.getRequestURI());
-//			res.sendRedirect(req.getContextPath() + "/front-end/member/login.jsp");
-//			return;
+		if (memberVO != null && admVO == null) {
+			try {
+				String location = (String) session.getAttribute("location");
+				if (location != null) {
+					session.removeAttribute("location");
+					res.sendRedirect(location);
+					return;
+				}
+				
+			} catch (Exception ignored) {
+				System.out.println(ignored.getMessage());
+			}
+			
 			chain.doFilter(request, response);
 		} 
 //		else {
-//			chain.doFilter(request, response);
+//			
+//
 //		}
+//		
+//		chain.doFilter(request, response);
+		
+//	<filter>
+//		<filter-name>FrontFilter</filter-name>
+//		<filter-class>com.login.filter.FrontFilter</filter-class>
+//	</filter>
+//	<filter-mapping>
+//		<filter-name>FrontFilter</filter-name>
+//		<url-pattern>/front-end/*</url-pattern>
+//		<dispatcher>REQUEST</dispatcher>
+//		<dispatcher>FORWARD</dispatcher>
+//		<dispatcher>INCLUDE</dispatcher>
+//		<dispatcher>ERROR</dispatcher>
+//		<dispatcher>ASYNC</dispatcher>		
+//	</filter-mapping>
+		
 	}
 
 }

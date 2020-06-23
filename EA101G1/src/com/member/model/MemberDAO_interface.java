@@ -11,4 +11,5 @@ public interface MemberDAO_interface {
 	public java.util.List<MemberVO> getAll();
 //	public java.util.List<MemberVO> getAll(Map<String, String[]> map);
 	public String loginByEmail(String mem_email);
+	public String signUp(MemberVO memberVO);
 }

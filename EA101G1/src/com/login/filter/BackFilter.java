@@ -31,22 +31,42 @@ public class BackFilter implements Filter {
 		javax.servlet.http.HttpServletRequest req = (HttpServletRequest) request;
 		javax.servlet.http.HttpServletResponse res = (HttpServletResponse) response;
 		
-		// 取得 session
 		javax.servlet.http.HttpSession session = req.getSession();
 		
-		// 從 session 判斷此 user 是否登入過
 		AdmVO admVO = (AdmVO) session.getAttribute("admVO");
 		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
-		System.out.println(admVO == null);
-		System.out.println("back");
 		
-		if (admVO != null) {
-//			session.setAttribute("location", req.getRequestURI());
-//			res.sendRedirect(req.getContextPath() + "/front-end/member/login.jsp");
-//			return;
-			chain.doFilter(request, response);
-		} else if (memberVO != null){
+		if (admVO != null && memberVO == null) {
+			try {
+				String location = (String) session.getAttribute("location");
+				if (location != null) {
+					session.removeAttribute("location");
+					res.sendRedirect(location);
+					return;
+				}
+				
+			} catch (Exception ignored) {
+				System.out.println(ignored.getMessage());
+			}
 			
-		}
+			chain.doFilter(request, response);
+		} 
+//		else {
+//			res.sendRedirect(req.getContextPath() + "/front-end/member/login.jsp");
+//		}
+		
+//	<filter>
+//		<filter-name>BackFilter</filter-name>
+//		<filter-class>com.login.filter.BackFilter</filter-class>
+//	</filter>
+//	<filter-mapping>
+//		<filter-name>BackFilter</filter-name>
+//		<url-pattern>/back-end/*</url-pattern>
+//		<dispatcher>REQUEST</dispatcher>
+//		<dispatcher>FORWARD</dispatcher>
+//		<dispatcher>INCLUDE</dispatcher>
+//		<dispatcher>ERROR</dispatcher>
+//		<dispatcher>ASYNC</dispatcher>		
+//	</filter-mapping>
 	}
 }

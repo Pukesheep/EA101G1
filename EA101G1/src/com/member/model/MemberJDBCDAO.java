@@ -18,6 +18,7 @@ public class MemberJDBCDAO implements MemberDAO_interface {
 	private static final String DELETE = "DELETE FROM member WHERE mem_id = ?";
 	private static final String UPDATE = "UPDATE member SET mem_email = ?, mem_pass = ?, mem_name = ?, mem_icon = ?, mem_phone = ?, mem_addr = ?, bank_acc = ?, card_no = ?, card_yy = ?, card_mm = ?, card_sec = ?, mem_autho = ?, mem_bonus = ?, mem_birth = ?, mem_warn = ? WHERE mem_id = ?";
 	private static final String LOGIN = "SELECT mem_id FROM member WHERE mem_email = ?";
+	private static final String SIGN_UP = "INSERT INTO member (mem_id, mem_email, mem_pass, mem_autho, mem_joindat) VALUES ('M'||LPAD(to_char(member_seq.NEXTVAL), 6, '0'), ?, ?, ?, SYSDATE)";
 	
 	@Override
 	public String insert(MemberVO memberVO) {
@@ -307,7 +308,9 @@ public class MemberJDBCDAO implements MemberDAO_interface {
 		java.sql.PreparedStatement pstmt = null;
 		java.sql.ResultSet rs = null;
 		String mem_id = null;
+		
 		try {
+			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(LOGIN);
 			pstmt.setString(1, mem_email);
@@ -315,13 +318,78 @@ public class MemberJDBCDAO implements MemberDAO_interface {
 			rs.next();
 			mem_id = rs.getString("mem_id");
 			
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} 
+			throw new RuntimeException("A database error occurred. " + se.getMessage());
+		} finally {
+			
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
 		return mem_id;
 	}
 	
-	
+
+	@Override
+	public String signUp(MemberVO memberVO) {
+		java.sql.Connection con = null;
+		java.sql.PreparedStatement pstmt = null;
+		java.sql.ResultSet rs = null;
+		String generatedKey = null;
+		
+		try {
+			Class.forName(driver);
+			String[] cols = {"mem_id"};
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(SIGN_UP, cols);
+			pstmt.setString(1, memberVO.getMem_email());
+			pstmt.setString(2, memberVO.getMem_pass());
+			pstmt.setInt(3, memberVO.getMem_autho());
+			pstmt.executeUpdate();
+			rs = pstmt.getGeneratedKeys();
+			rs.next();
+			generatedKey = rs.getString(1);
+			
+			
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occurred. " + se.getMessage());
+		} finally {
+			
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
+		return generatedKey;
+	}
 
 	public static void main(String[] args) {
 		
@@ -398,26 +466,33 @@ public class MemberJDBCDAO implements MemberDAO_interface {
 //			System.out.println("MEM_WARN = " + memberVO3.getMem_warn());
 			
 			// 查詢全部
-			java.util.List<MemberVO> list = dao.getAll();
-			for (MemberVO aMember : list) {
-				System.out.println("MEM_ID = " + aMember.getMem_id());
-				System.out.println("MEM_EMAIL = " + aMember.getMem_email());
-				System.out.println("MEM_PASS = " + aMember.getMem_pass());
-//				System.out.println(aMember.getMem_icon());
-				System.out.println("MEM_PHONE = " + aMember.getMem_phone());
-				System.out.println("MEM_ADDR = " + aMember.getMem_addr());
-				System.out.println("BANK_ACC = " + aMember.getBank_acc());
-				System.out.println("CARD_NO = " + aMember.getCard_no());
-				System.out.println("CARD_YY = " + aMember.getCard_yy());
-				System.out.println("CARD_MM = " + aMember.getCard_mm());
-				System.out.println("CARD_SEC = " + aMember.getCard_sec());
-				System.out.println("MEM_AUTHO = " + aMember.getMem_autho());
-				System.out.println("MEM_BONUS = " + aMember.getMem_bonus());
-				System.out.println("MEM_JOINDAT = " + aMember.getMem_joindat());
-				System.out.println("MEM_BIRTH = " + aMember.getMem_birth());
-				System.out.println("MEM_WARN = " + aMember.getMem_warn());
-				System.out.println("=====================================");
-			}
+//			java.util.List<MemberVO> list = dao.getAll();
+//			for (MemberVO aMember : list) {
+//				System.out.println("MEM_ID = " + aMember.getMem_id());
+//				System.out.println("MEM_EMAIL = " + aMember.getMem_email());
+//				System.out.println("MEM_PASS = " + aMember.getMem_pass());
+////				System.out.println(aMember.getMem_icon());
+//				System.out.println("MEM_PHONE = " + aMember.getMem_phone());
+//				System.out.println("MEM_ADDR = " + aMember.getMem_addr());
+//				System.out.println("BANK_ACC = " + aMember.getBank_acc());
+//				System.out.println("CARD_NO = " + aMember.getCard_no());
+//				System.out.println("CARD_YY = " + aMember.getCard_yy());
+//				System.out.println("CARD_MM = " + aMember.getCard_mm());
+//				System.out.println("CARD_SEC = " + aMember.getCard_sec());
+//				System.out.println("MEM_AUTHO = " + aMember.getMem_autho());
+//				System.out.println("MEM_BONUS = " + aMember.getMem_bonus());
+//				System.out.println("MEM_JOINDAT = " + aMember.getMem_joindat());
+//				System.out.println("MEM_BIRTH = " + aMember.getMem_birth());
+//				System.out.println("MEM_WARN = " + aMember.getMem_warn());
+//				System.out.println("=====================================");
+//			}
+			
+			// 註冊
+			MemberVO memberVO4 = new MemberVO();
+			memberVO4.setMem_email("123ggg@gmail.com");
+			memberVO4.setMem_pass("123456");
+			memberVO4.setMem_autho(1);
+			dao.signUp(memberVO4);
 			
 //		} catch (IOException ioe) {
 //			ioe.printStackTrace(System.err);
@@ -440,5 +515,6 @@ public class MemberJDBCDAO implements MemberDAO_interface {
 		
 		return baos.toByteArray();
 	}
+
 	
 }

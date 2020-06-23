@@ -89,4 +89,16 @@ public class MemberService {
 		return dao.findByPrimaryKey(mem_id);
 	}
 	
+	public MemberVO signUp(String mem_email, String mem_pass, Integer mem_autho) {
+		
+		MemberVO memberVO = new MemberVO();
+		memberVO.setMem_email(mem_email);
+		memberVO.setMem_pass(mem_pass);
+		memberVO.setMem_autho(mem_autho);
+		String generatedKey = dao.signUp(memberVO);
+		memberVO.setMem_id(generatedKey);
+		
+		return memberVO;
+	}
+	
 }
