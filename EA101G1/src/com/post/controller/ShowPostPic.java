@@ -25,7 +25,7 @@ public class ShowPostPic extends HttpServlet {
 			out.write(image);
 			
 		} catch (Exception e) {
-			java.io.InputStream in = getServletContext().getResourceAsStream("/NoData/none.jpg");
+			java.io.InputStream in = getServletContext().getResourceAsStream("/NoData/null2.jpg");
 			byte[] b = new byte[in.available()];
 			in.read(b);
 			out.write(b);

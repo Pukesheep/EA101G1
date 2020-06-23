@@ -3,10 +3,14 @@ package com.member.controller;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
+import javax.mail.*;
+import javax.mail.internet.*;
 import javax.servlet.*;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.*;
+import javax.servlet.http.Part;
 import com.member.model.*;
+import com.member.controller.*;
 
 //@WebServlet("/MemberServlet")
 @MultipartConfig
@@ -1032,7 +1036,15 @@ public class MemberServlet extends HttpServlet {
 				memberVO = memberSvc.signUp(mem_email, mem_pass, mem_autho);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-				req.setAttribute("memberVO", memberVO);
+				String url = "";
+				String to = "aa00245@gmail.com";
+				String subject = "密碼通知";
+				String messageText = "Hello 新會員您好, 請使用這組密碼登入本網站： " + mem_pass + " 共8碼";
+				
+				MailService mailSvc = new MailService();
+//				mailSvc.sendMail(to, subject, messageText);
+				sendMail(to, subject, messageText);
+				
 				RequestDispatcher successView = req.getRequestDispatcher("/front-end/member/addMember.jsp");
 				successView.forward(req, res);
 				
@@ -1086,6 +1098,46 @@ public class MemberServlet extends HttpServlet {
 			authCode += co;
 		}
 		return authCode;
+	}
+	
+	// 設定傳送郵件： 至收信人的Email信箱, Email主旨, Email內容
+	public void sendMail(String to, String subject, String messageText) {
+		
+		try {
+			// 設定使用SSL連線至 Gmail smtp Server
+			Properties props = new Properties();
+			props.put("mail.smtp.host", "smtp.gmail.com");
+			props.put("mail.smtp.socketFactory.port", "465");
+			props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.port", "465");
+			
+			// 設定 gmail 的帳號 & 密碼
+			// 須將myGmail的【安全性較低的應用程式存取權】打開
+			final String myGmail = "ixlogic.wu@gmail.com";
+			final String myGmail_password = "BBB45678BBB";
+			Session session = Session.getInstance(props, new Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(myGmail, myGmail_password);
+				}
+			});
+			
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(myGmail));
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+			
+			// 設定信中的主旨
+			message.setSubject(subject);
+			// 設定信中的內容
+			message.setText(messageText);
+			
+			Transport.send(message);
+			
+		} catch (MessagingException e) {
+			System.out.println("傳送失敗！");
+			e.printStackTrace();
+		}
+		
 	}
 		
 		
