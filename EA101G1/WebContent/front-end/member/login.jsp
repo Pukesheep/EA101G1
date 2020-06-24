@@ -45,6 +45,11 @@
         
     <!-- SweetAlert2 -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+	<style>
+		div.full {
+			background-image: url('<%=request.getContextPath()%>/images/full1.jpg');
+		}
+	</style>
 
 </head>
 
@@ -113,58 +118,52 @@
     <section class="blank1">
 		<%-- 錯誤表列 --%>
 		<c:if test="${not empty errorMsgs }">
-			<font>請修正以下錯誤：</font>
-			<ul>
-				<c:forEach var="message" items="${errorMsgs}">
-						<%--
-							java.util.List<String> errorMsgs = (java.util.List<String>) request.getAttribute("errorMsgs");
-							String aaa = "";
-							for (String msg : errorMsgs) {
-								aaa += msg;
-								aaa += "\r\n";
-							}
-						--%>
-						
-					<li id="errormsg">${message}</li>
-					
-				</c:forEach>
-			</ul>
+			<%
+				java.util.List<String> errorMsgs = (java.util.List<String>) request.getAttribute("errorMsgs");
+				String message = "";
+				for (String msg : errorMsgs) {
+					message += msg;
+					message += "\\n";
+				}
+			%>
+			<script>
+				Swal.fire({
+					  icon: 'error',
+					  title: '<%=message%>',
+					})
+
+			</script>
 		</c:if>
-	<%--
-		<form action="member.do" method="post" id="login">
-			<div class="col-md-3 col-sm-6">
-				<div class="input-group mb-3">
-  					<div class="input-group-prepend">
-						<span class="input-group-text" id="basic-addon1">E-mail</span>
-  					</div>
-  					<input type="text" class="form-control" placeholder="Username" name="mem_email" aria-label="Username" aria-describedby="basic-addon1">
-  					<div class="input-group-prepend">
-						<span class="input-group-text" id="basic-addon1">Password</span>
-  					</div>
-  					<input type="password" class="form-control" placeholder="Password" name="mem_pass" aria-label="Username" aria-describedby="basic-addon1">
+	
+	   <div class="row">
+	   		<div class="col-md-12">
+	   			<div class="row  align-items-center">
+	   			
+	   				<div class="col-md-5 full">
+	   					
+	   				</div>
+	   			
+	   			
+				   <div class="col-md-5 align-self-center">
+						<form action="<%=request.getContextPath()%>/login/login.do" method="post" id="login">
+							<div class="form-group col-md-4 align-self-center">
+					    		<label for="formGroupExampleInput1">E-mail</label>
+					    		<input type="text" class="form-control" id="formGroupExampleInput1" placeholder="E-mail" name="email">
+					  			<label for="formGroupExampleInput2">Password</label>
+					    		<input type="password" class="form-control" id="formGroupExampleInput2" placeholder="Password" name="password">
+					  		</div>
+					  		<div class="form-row col-md-4 justify-content-around">
+					  			<button type="submit" class="btn btn-success btn-lg" form="login" name="action" value="login">Login</button>
+					  		</div>
+						</form>
+					</div>
+			
+			
+			
+			
 				</div>
-				<button type="submit" class="btn btn-success btn-lg" form="login" name="action" value="login">登入</button>
+				
 			</div>
-		</form>
-	 --%>
-	   <div class="col-md-2">
-	   filefile
-	   sjfsnsdjknfjkdfdsfdfsdjfsd
-	   </div>
-	   	<div class="col-md-5 offset-md-5 justify-content-around">
-		<form action="<%=request.getContextPath()%>/login/login.do" method="post" id="login">
-			<div class="form-group col-md-3 col-sm-6">
-	    		<label for="formGroupExampleInput1">E-mail</label>
-	    		<input type="text" class="form-control" id="formGroupExampleInput1" placeholder="E-mail" name="email">
-	    	</div>
-	    	<div class="form-group col-md-3 col-sm-6">
-	  			<label for="formGroupExampleInput2">Password</label>
-	    		<input type="password" class="form-control" id="formGroupExampleInput2" placeholder="Password" name="password">
-	  		</div>
-	  		<div class="form-row col-md-3 col-sm-6 justify-content-around">
-	  			<button type="submit" class="btn btn-success btn-lg" form="login" name="action" value="login">Login</button>
-	  		</div>
-		</form>
 		</div>
     </section>
     <!-- 內容 ---end  -->

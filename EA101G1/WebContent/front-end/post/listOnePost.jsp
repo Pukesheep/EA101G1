@@ -10,7 +10,7 @@
 	MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 	PostVO postVO = (PostVO) request.getAttribute("postVO");
 %>
-<jsp:useBean id="favpostSvc" class="com.favpost.model.FavpostService" />
+<jsp:useBean id="favpostSvc" scope="page" class="com.favpost.model.FavpostService" />
 <html>
 <head>
 <title>文章資料 - listOnePost.jsp</title>
@@ -162,6 +162,8 @@
 		</c:if>
 	</tr>
 </table>
+
+
 
 </body>
 </html>

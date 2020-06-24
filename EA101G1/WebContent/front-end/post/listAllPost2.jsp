@@ -109,8 +109,9 @@
 		<th>發文時間</th>
 	</tr>
 	
+	
 <%@ include file="../../files/page1.file" %>
-	<c:forEach var="postVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+	<c:forEach var="postVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" varStatus="s">
 		<tr>
 			<td>${postVO.post_id}</td>
 			<td>${postVO.mem_id}</td>
@@ -209,7 +210,7 @@
 			
 			
 			
-			
+		
 		</tr>
 	</c:forEach>
 </table>

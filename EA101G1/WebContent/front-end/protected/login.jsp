@@ -115,20 +115,35 @@
 		<c:if test="${not empty errorMsgs }">
 			<font>請修正以下錯誤：</font>
 			<ul>
+			<%-- 
 				<c:forEach var="message" items="${errorMsgs}">
-						<%--
-							java.util.List<String> errorMsgs = (java.util.List<String>) request.getAttribute("errorMsgs");
-							String aaa = "";
-							for (String msg : errorMsgs) {
-								aaa += msg;
-								aaa += "\r\n";
-							}
-						--%>
+						
+
 						
 					<li id="errormsg">${message}</li>
 					
 				</c:forEach>
+				--%>
 			</ul>
+			<%
+				java.util.List<String> errorMsgs = (java.util.List<String>) request.getAttribute("errorMsgs");
+				String aaa = "";
+				for (String msg : errorMsgs) {
+					aaa += msg;
+					aaa += "\r\n";
+			%>
+			<%= msg %>
+			<%= aaa %>
+			<script>
+				Swal.fire({
+				  icon: 'error',
+				  title: <%=aaa%>,
+				  text: 'Something went wrong!',
+				  footer: '<a href>Why do I have this issue?</a>'
+				})
+				console.log(<%=aaa%>);
+			</script>
+			<%}%>
 		</c:if>
 	<%--
 		<form action="member.do" method="post" id="login">

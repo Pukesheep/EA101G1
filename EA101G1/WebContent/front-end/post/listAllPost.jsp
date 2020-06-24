@@ -3,14 +3,17 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*" %>
 <%@ page import="com.post.model.*" %>
+<%@ page import="com.member.model.*" %>
 
 <%
 	PostService postSvc = new PostService();
 	java.util.List<PostVO> list = postSvc.getAll();
 	pageContext.setAttribute("list", list);
+	MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+	
 %>
-<jsp:useBean id="memberSvc" scope="page" class="com.member.model.MemberService" />
 <jsp:useBean id="ptypeSvc" scope="page" class="com.ptype.model.PtypeService" />
+<jsp:useBean id="favpostSvc" scope="page" class="com.favpost.model.FavpostService" />
 
 <html lang="en">
 <head>
@@ -64,7 +67,15 @@
 	div.hdd {
 		margin: 2px;
 	}
-
+	img#heart-icon, img#empty-icon {
+		width: 30px;
+		height: 30px;
+	}
+	img.img-delete, img.img-insert {
+		width: 30px;
+		height: 30px;
+		float: right;
+	}
 </style>
 </head>
 <body>
@@ -171,7 +182,30 @@
 			      </p>
 			    </div>
 			    <div class="card-footer bg-transparent border-success">
-			      <small class="text-muted">Last updated 3 mins ago</small>
+			      <small class="text-muted">
+			      	<fmt:formatDate value="${postVO.post_time}" pattern="yyyy-MM-dd HH:mm:ss" />
+			      </small>
+			      <div></div>
+			      	<c:if test="${sessionScope.memberVO ne null}">
+			      		<c:if test="${favpostSvc.getOneFavpost(memberVO.mem_id, postVO.post_id).mem_id eq null}">
+			    			 
+			    			<button class="float-right btn-insert" id="${postVO.post_id}${memberVO.mem_id}insert"><img alt="" src="<%=request.getContextPath()%>/images/full.jpg" id="heart-icon"></button>
+			    			
+			    			<%-- 
+			    			<img class="float-right img-insert" alt="" src="<%=request.getContextPath()%>/images/full.jpg" id="${postVO.post_id}${memberVO.mem_id}insert" name="${postVO.post_id}${memberVO.mem_id}">
+			    			--%>
+			    		</c:if>
+			    	</c:if>
+			    	<c:forEach var="favpostVO" items="${favpostSvc.all}">
+				    	<c:if test="${favpostVO.mem_id == memberVO.mem_id and favpostVO.post_id == postVO.post_id}">
+				    		 
+				    		<button class="float-right btn-delete" id="${postVO.post_id}${memberVO.mem_id}delete"><img alt="" src="<%=request.getContextPath()%>/images/empty.jpg" id="empty-icon"></button>
+				    		
+				    		<%--
+				    		<img class="float-right img-delete" alt="" src="<%=request.getContextPath()%>/images/empty.jpg" id="${postVO.post_id}${memberVO.mem_id}delete" name="${postVO.post_id}${memberVO.mem_id}">
+				    		--%>
+				    	</c:if>
+				    </c:forEach>
 			    </div>
 			  </div>
 		  	</div>
@@ -201,9 +235,8 @@
       <small class="text-muted">Last updated 3 mins ago</small>
     </div>
   </div>
-  --%>
 </div>
-
+--%>
 		
 		
 		
@@ -216,7 +249,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-3 col-sm-6 footer-list">
-                        <h5>快速連結</h4>
+                        <h5 class="text-uppercase">快速連結</h5>
                         <ul>
                             <li>
                                 <a class="footer-link" href="<%=request.getContextPath()%>/front-end/index.jsp">S.F.G首頁</a>
@@ -291,17 +324,69 @@
 
 </body>
 
-<%-- 
 <script>
-
-Swal.fire({
-	  icon: 'error',
-	  title: 'Oops...',
-	  text: 'Something went wrong!',
-	  footer: '<a href>Why do I have this issue?</a>'
+	
+	$('button').click(function() {
+		var button_id = this.id;
+		var post_id = button_id.substring(0, 10);
+		var mem_id = button_id.substring(10, 17);
+		var action = button_id.substring(17);
+		$.ajax({
+			url: '<%=request.getContextPath()%>/favpost/favpost.do',
+			type: 'POST',
+			data: {
+				post_id: post_id,
+				mem_id : mem_id,
+				action: action
+			},
+			success: function(){
+				Swal.fire({
+				  icon: 'info',
+				  title: (action === "insert") ? "收藏文章成功" : "取消收藏成功"
+				})
+			}
+		});
+	});
+	
+	<%--
+	$('img').click(function() {
+		var name = this.name;
+		var classs = this.className;
+		var post_id = name.substring(0, 10);
+		var mem_id = name.substring(10, 17);
+		var action = classs.substring(-6);
+		$.ajax({
+			url: '<%=request.getContextPath()%>/favpost/favpost.do',
+			type: 'POST',
+			data: {
+				post_id: post_id,
+				mem_id: mem_id,
+				action: action
+			},
+			success: function(){
+				Swal.fire({
+					icon: 'info',
+					title: (action === "insert") ? "收藏文章成功" : "取消收藏成功"
+				})
+			}
+		});
+	});
+	--%>
+	
+	
+	
+	$('.img-insert').click(function() {
+		this.src = '<%=request.getContextPath()%>/images/empty.jpg';
+		this.classList.remove('img-insert');
+		this.classList.add('img-delete');
 	})
-
+	
+	$('.img-delete').click(function() {
+		this.src = '<%=request.getContextPath()%>/images/full.jpg';
+		this.classList.remove('img-delete');
+		this.classList.add('img-insert');
+	})
+	
 </script>
---%>
 
 </html>

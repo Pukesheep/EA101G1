@@ -11,6 +11,11 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
 <title>會員資料修改 - update_member_input.jsp</title>
+<%-- 
+<script src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>
+--%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script src="<%=request.getContextPath()%>/files/jQuery-TWzipcode-master/jquery.twzipcode.min.js"></script>
 
 <style>
 	table#table-1 {
@@ -28,7 +33,7 @@
 		display: inline;
 	}
 	table {
-		width: 450px;
+		width: 700px;
 		background-color: white;
 		margin-top: 1px;
 		margin-bottom: 1px;
@@ -55,6 +60,9 @@
 	img#display {
 		width: 200px;
 		height: 200px;
+	}
+	input#address, select#city, select#district {
+		display: inline;
 	}
 </style>
 
@@ -115,7 +123,17 @@
 		</tr>
 		<tr>
 			<td>會員地址：</td>
-			<td><input type="text" name="mem_addr" size="45" value="<%=memberVO.getMem_addr()%>"></td>
+			<td>
+				<div id="twzipcode">
+				<script>
+					$('#twzipcode').twzipcode({
+						zipcodeIntoDistrict : true,
+					});
+				</script>
+				
+				<input type="text" name="mem_addr" size="45" value="<%=memberVO.getMem_addr()%>" id="address">
+				</div>
+			</td>
 		</tr>
 		<tr>
 			<td>銀行帳戶：</td>
@@ -294,6 +312,8 @@
         });
     }
     window.onload = init;
+    
+
         
 </script>
 
