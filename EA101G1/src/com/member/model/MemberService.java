@@ -85,13 +85,13 @@ public class MemberService {
 	public MemberVO loginByEmail(String mem_email) {
 		
 		String mem_id = dao.loginByEmail(mem_email);
-		
 		return dao.findByPrimaryKey(mem_id);
 	}
 	
-	public MemberVO signUp(String mem_email, String mem_pass, Integer mem_autho) {
+	public MemberVO signUp(String mem_name, String mem_email, String mem_pass, Integer mem_autho) {
 		
 		MemberVO memberVO = new MemberVO();
+		memberVO.setMem_name(mem_name);
 		memberVO.setMem_email(mem_email);
 		memberVO.setMem_pass(mem_pass);
 		memberVO.setMem_autho(mem_autho);

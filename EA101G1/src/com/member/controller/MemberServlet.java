@@ -10,13 +10,14 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.*;
 import javax.servlet.http.Part;
 import com.member.model.*;
+import com.google.gson.Gson;
 import com.member.controller.*;
 
 //@WebServlet("/MemberServlet")
 @MultipartConfig
 public class MemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req, res);
 	}
@@ -1007,6 +1008,14 @@ public class MemberServlet extends HttpServlet {
 			
 			try {
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+				String mem_name = req.getParameter("mem_name").trim();
+				String mem_nameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9)]{2,30}$";
+				if(mem_name == null || mem_name.trim().length() == 0) {
+					errorMsgs.add("會員名稱： 請勿空白");
+				} else if (!mem_name.trim().matches(mem_nameReg)) {
+					errorMsgs.add("會員名稱： 只能是中、英文字母(含大小寫)、數字和_ , 且長度在2到30之間");
+				}
+				
 				String mem_email = req.getParameter("mem_email").trim();
 				String mem_emailReg = "[@.(a-zA-Z0-9)]{2,30}";
 				if (mem_email == null || mem_email.trim().length() == 0) {
@@ -1021,6 +1030,7 @@ public class MemberServlet extends HttpServlet {
 				Integer mem_autho = new Integer(1);
 				
 				MemberVO memberVO = new MemberVO();
+				memberVO.setMem_name(mem_name);
 				memberVO.setMem_email(mem_email);
 				memberVO.setMem_pass(mem_pass);
 				memberVO.setMem_autho(mem_autho);
@@ -1033,23 +1043,22 @@ public class MemberServlet extends HttpServlet {
 				
 				/***************************2.開始新增資料***************************************/
 				MemberService memberSvc = new MemberService();
-				memberVO = memberSvc.signUp(mem_email, mem_pass, mem_autho);
+				memberVO = memberSvc.signUp(mem_name, mem_email, mem_pass, mem_autho);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
 				String url = "";
 				String to = "aa00245@gmail.com";
 				String subject = "密碼通知";
-				String messageText = "Hello 新會員您好, 請使用這組密碼登入本網站： " + mem_pass + " 共8碼";
+				String messageText = "親愛的 " + mem_name + " 您好： \n\n	您已經註冊成為了 S.F.G 的會員， \n\n請使用這組密碼登入本網站： " + mem_pass + ", 共8碼";
 				
 				MailService mailSvc = new MailService();
-//				mailSvc.sendMail(to, subject, messageText);
-				sendMail(to, subject, messageText);
+				mailSvc.sendMail(to, subject, messageText);
+//				sendMail(to, subject, messageText);
 				
-				RequestDispatcher successView = req.getRequestDispatcher("/front-end/member/addMember.jsp");
+				RequestDispatcher successView = req.getRequestDispatcher("/front-end/member/login.jsp");
 				successView.forward(req, res);
 				
 				/***************************其他可能的錯誤處理**********************************/
-
 				
 			} catch (Exception e) {
 				errorMsgs.add("新增資料失敗： " + e.getMessage());
@@ -1057,7 +1066,6 @@ public class MemberServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
-		
 		
 		
 		

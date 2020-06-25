@@ -18,7 +18,7 @@ public class MemberJDBCDAO implements MemberDAO_interface {
 	private static final String DELETE = "DELETE FROM member WHERE mem_id = ?";
 	private static final String UPDATE = "UPDATE member SET mem_email = ?, mem_pass = ?, mem_name = ?, mem_icon = ?, mem_phone = ?, mem_addr = ?, bank_acc = ?, card_no = ?, card_yy = ?, card_mm = ?, card_sec = ?, mem_autho = ?, mem_bonus = ?, mem_birth = ?, mem_warn = ? WHERE mem_id = ?";
 	private static final String LOGIN = "SELECT mem_id FROM member WHERE mem_email = ?";
-	private static final String SIGN_UP = "INSERT INTO member (mem_id, mem_email, mem_pass, mem_autho, mem_joindat) VALUES ('M'||LPAD(to_char(member_seq.NEXTVAL), 6, '0'), ?, ?, ?, SYSDATE)";
+	private static final String SIGN_UP = "INSERT INTO member (mem_id, mem_name, mem_email, mem_pass, mem_autho, mem_joindat) VALUES ('M'||LPAD(to_char(member_seq.NEXTVAL), 6, '0'), ?, ?, ?, ?, SYSDATE)";
 	
 	@Override
 	public String insert(MemberVO memberVO) {
@@ -315,8 +315,9 @@ public class MemberJDBCDAO implements MemberDAO_interface {
 			pstmt = con.prepareStatement(LOGIN);
 			pstmt.setString(1, mem_email);
 			rs = pstmt.executeQuery();
-			rs.next();
-			mem_id = rs.getString("mem_id");
+			while (rs.next()) {
+				mem_id = rs.getString("mem_id");
+			}
 			
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
@@ -356,9 +357,10 @@ public class MemberJDBCDAO implements MemberDAO_interface {
 			String[] cols = {"mem_id"};
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(SIGN_UP, cols);
-			pstmt.setString(1, memberVO.getMem_email());
-			pstmt.setString(2, memberVO.getMem_pass());
-			pstmt.setInt(3, memberVO.getMem_autho());
+			pstmt.setString(1, memberVO.getMem_name());
+			pstmt.setString(2, memberVO.getMem_email());
+			pstmt.setString(3, memberVO.getMem_pass());
+			pstmt.setInt(4, memberVO.getMem_autho());
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();
 			rs.next();
@@ -488,11 +490,14 @@ public class MemberJDBCDAO implements MemberDAO_interface {
 //			}
 			
 			// 註冊
-			MemberVO memberVO4 = new MemberVO();
-			memberVO4.setMem_email("123ggg@gmail.com");
-			memberVO4.setMem_pass("123456");
-			memberVO4.setMem_autho(1);
-			dao.signUp(memberVO4);
+//			MemberVO memberVO4 = new MemberVO();
+//			memberVO4.setMem_email("123ggg@gmail.com");
+//			memberVO4.setMem_pass("123456");
+//			memberVO4.setMem_autho(1);
+//			dao.signUp(memberVO4);
+			
+			String memii = dao.loginByEmail("difjdifj@gmail.com");
+			System.out.println(memii);;
 			
 //		} catch (IOException ioe) {
 //			ioe.printStackTrace(System.err);

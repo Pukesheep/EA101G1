@@ -24,7 +24,7 @@ public class MemberJNDIDAO implements MemberDAO_interface {
 	private static final String DELETE = "DELETE FROM member WHERE mem_id = ?";
 	private static final String UPDATE = "UPDATE member SET mem_email = ?, mem_pass = ?, mem_name = ?, mem_icon = ?, mem_phone = ?, mem_addr = ?, bank_acc = ?, card_no = ?, card_yy = ?, card_mm = ?, card_sec = ?, mem_autho = ?, mem_bonus = ?, mem_birth = ?, mem_warn = ? WHERE mem_id = ?";
 	private static final String LOGIN = "SELECT mem_id FROM member WHERE mem_email = ?";
-	private static final String SIGN_UP = "INSERT INTO member (mem_id, mem_email, mem_pass, mem_autho, mem_joindat) VALUES ('M'||LPAD(to_char(member_seq.NEXTVAL), 6, '0'), ?, ?, ?, SYSDATE)";
+	private static final String SIGN_UP = "INSERT INTO member (mem_id, mem_name, mem_email, mem_pass, mem_autho, mem_joindat) VALUES ('M'||LPAD(to_char(member_seq.NEXTVAL), 6, '0'), ?, ?, ?, ?, SYSDATE)";
 
 
 	@Override
@@ -294,7 +294,6 @@ public class MemberJNDIDAO implements MemberDAO_interface {
 		java.sql.Connection con = null;
 		java.sql.PreparedStatement pstmt = null;
 		java.sql.ResultSet rs = null;
-		MemberVO memberVO = null;
 		String mem_id= null;
 		
 		try {
@@ -302,8 +301,9 @@ public class MemberJNDIDAO implements MemberDAO_interface {
 			pstmt = con.prepareStatement(LOGIN);
 			pstmt.setString(1, mem_email);
 			rs = pstmt.executeQuery();
-			rs.next();
-			mem_id = rs.getString("mem_id");
+			while (rs.next()) {
+				mem_id = rs.getString("mem_id");
+			}
 			
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occurred. " + se.getMessage());
@@ -340,9 +340,10 @@ public class MemberJNDIDAO implements MemberDAO_interface {
 			String[] cols = {"mem_id"};
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(SIGN_UP, cols);
-			pstmt.setString(1, memberVO.getMem_email());
-			pstmt.setString(2, memberVO.getMem_pass());
-			pstmt.setInt(3, memberVO.getMem_autho());
+			pstmt.setString(1, memberVO.getMem_name());
+			pstmt.setString(2, memberVO.getMem_email());
+			pstmt.setString(3, memberVO.getMem_pass());
+			pstmt.setInt(4, memberVO.getMem_autho());
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();
 			rs.next();

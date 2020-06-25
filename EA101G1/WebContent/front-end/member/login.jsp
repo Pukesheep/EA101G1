@@ -45,9 +45,10 @@
         
     <!-- SweetAlert2 -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+	
 	<style>
 		div.full {
-			background-image: url('<%=request.getContextPath()%>/images/full1.jpg');
+			background-image: url('<%=request.getContextPath()%>/images/full.jpg');
 		}
 	</style>
 
@@ -97,7 +98,7 @@
                     <a class="nav-link" href="<%=request.getContextPath()%>/front-end/protected/listOneMember.jsp">會員中心</a>
                 </li>
                 <li class="nav-item">
-                	<a class="nav-link" href="<%=request.getContextPath()%>/login/login.do?action=logout">登出</a>
+                	<a class="nav-link" href="<%=request.getContextPath()%>/member/login.do?action=logout">登出</a>
                 </li>
           	</c:if>
                 <li class="nav-item">
@@ -145,7 +146,7 @@
 	   			
 	   			
 				   <div class="col-md-5 align-self-center">
-						<form action="<%=request.getContextPath()%>/login/login.do" method="post" id="login">
+						<form action="<%=request.getContextPath()%>/member/login.do" method="post" id="login">
 							<div class="form-group col-md-4 align-self-center">
 					    		<label for="formGroupExampleInput1">E-mail</label>
 					    		<input type="text" class="form-control" id="formGroupExampleInput1" placeholder="E-mail" name="email">

@@ -29,7 +29,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Lakki+Reddy&display=swap" rel="stylesheet">
 
     <!-- 使用style.css -->
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/css/style.css">
 
     <!-- 連結Bootstrap所需要的js -->
     <!-- jquery.min.js -->
@@ -51,7 +51,7 @@
     <!-- 設定Navbar緊貼畫面上緣 -->
     <!-- b4-navbar-default 安裝Bootstrap外掛,可以使用快捷指令 -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top">
-        <a class="navbar-brand" href="index.html">
+        <a class="navbar-brand" href="<%=request.getContextPath()%>/front-end/index.jsp">
             <span class="logo"><i class="fas fa-bomb"></i></span>
             <span class="logo2">S.F.G</span>
             <span class="logo3">{{{</span>
@@ -86,6 +86,9 @@
             <c:if test="${memberVO ne null}">
                 <li class="nav-item">
                     <a class="nav-link" href="<%=request.getContextPath()%>/front-end/protected/listOneMember.jsp">會員中心</a>
+                </li>
+                <li class="nav-item">
+                	<a class="nav-link" href="<%=request.getContextPath()%>/member/member.do?action=logout">登出</a>
                 </li>
           	</c:if>
                 <li class="nav-item">
@@ -130,10 +133,10 @@
                         <h5>快速連結</h4>
                         <ul>
                             <li>
-                                <a class="footer-link" href="">S.F.G首頁</a>
+                                <a class="footer-link" href="<%=request.getContextPath()%>/front-end/index.jsp">S.F.G首頁</a>
                             </li>
                             <li>
-                                <a class="footer-link" href="">註冊會員</a>
+                                <a class="footer-link" href="<%=request.getContextPath()%>/front-end/member/addMember.jsp">註冊會員</a>
                             </li>
                             <li>
                                 <a class="footer-link" href="">商城</a>
@@ -153,7 +156,7 @@
                                 <a class="footer-link" href="">直購區</a>
                             </li>
                             <li>
-                                <a class="footer-link" href="">討論區</a>
+                                <a class="footer-link" href="<%=request.getContextPath()%>/front-end/post/select_page.jsp">討論區</a>
                             </li>
                             <li>
                                 <a class="footer-link" href="">聊天室</a>
