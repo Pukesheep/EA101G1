@@ -315,6 +315,7 @@ public class MemberJDBCDAO implements MemberDAO_interface {
 			pstmt = con.prepareStatement(LOGIN);
 			pstmt.setString(1, mem_email);
 			rs = pstmt.executeQuery();
+			
 			while (rs.next()) {
 				mem_id = rs.getString("mem_id");
 			}
@@ -363,8 +364,10 @@ public class MemberJDBCDAO implements MemberDAO_interface {
 			pstmt.setInt(4, memberVO.getMem_autho());
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();
-			rs.next();
-			generatedKey = rs.getString(1);
+			
+			while (rs.next()) {
+				generatedKey = rs.getString(1);
+			}
 			
 			
 		} catch (ClassNotFoundException e) {

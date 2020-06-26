@@ -176,7 +176,6 @@
 				},
 				dataType: 'json',
 				success: function(data){
-					JSON.stringify(data);
 					if (data !== null) {
 						if (data.isUsed === false){
 							$('#check').css('display', 'inline');

@@ -67,11 +67,11 @@
 	div.hdd {
 		margin: 2px;
 	}
-	img#heart-icon, img#empty-icon {
+	img#full-icon, img#empty-icon {
 		width: 30px;
 		height: 30px;
 	}
-	img.img-delete, img.img-insert {
+	img.img-favpost {
 		width: 30px;
 		height: 30px;
 		float: right;
@@ -184,28 +184,17 @@
 			    <div class="card-footer bg-transparent border-success">
 			      <small class="text-muted">
 			      	<fmt:formatDate value="${postVO.post_time}" pattern="yyyy-MM-dd HH:mm:ss" />
-			      </small>
-			      <div></div>
 			      	<c:if test="${sessionScope.memberVO ne null}">
 			      		<c:if test="${favpostSvc.getOneFavpost(memberVO.mem_id, postVO.post_id).mem_id eq null}">
-			    			 
-			    			<button class="float-right btn-insert" id="${postVO.post_id}${memberVO.mem_id}insert"><img alt="" src="<%=request.getContextPath()%>/images/full.jpg" id="heart-icon"></button>
-			    			
-			    			<%-- 
-			    			<img class="float-right img-insert" alt="" src="<%=request.getContextPath()%>/images/full.jpg" id="${postVO.post_id}${memberVO.mem_id}insert" name="${postVO.post_id}${memberVO.mem_id}">
-			    			--%>
-			    		</c:if>
-			    	</c:if>
-			    	<c:forEach var="favpostVO" items="${favpostSvc.all}">
-				    	<c:if test="${favpostVO.mem_id == memberVO.mem_id and favpostVO.post_id == postVO.post_id}">
-				    		 
-				    		<button class="float-right btn-delete" id="${postVO.post_id}${memberVO.mem_id}delete"><img alt="" src="<%=request.getContextPath()%>/images/empty.jpg" id="empty-icon"></button>
-				    		
-				    		<%--
-				    		<img class="float-right img-delete" alt="" src="<%=request.getContextPath()%>/images/empty.jpg" id="${postVO.post_id}${memberVO.mem_id}delete" name="${postVO.post_id}${memberVO.mem_id}">
-				    		--%>
-				    	</c:if>
-				    </c:forEach>
+			      			<img class="float-right img-favpost" alt="" src="<%=request.getContextPath()%>/images/full.png" id="${postVO.post_id}${memberVO.mem_id}">
+			      		</c:if>
+			      	</c:if>
+			      	<c:forEach var="favpostVO" items="${favpostSvc.all}">
+			      		<c:if test="${favpostVO.mem_id == memberVO.mem_id and favpostVO.post_id == postVO.post_id}">
+			      			<img class="float-right img-favpost" alt="" src="<%=request.getContextPath()%>/images/empty.png" id="${postVO.post_id}${memberVO.mem_id}">
+			      		</c:if>
+			      	</c:forEach>
+			      </small>
 			    </div>
 			  </div>
 		  	</div>
@@ -214,29 +203,73 @@
   </div>
   <br>
 </div>
-  <%-- 
-  <div class="card col-md-3">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-    </div>
-    <div class="card-footer">
-      <small class="text-muted">Last updated 3 mins ago</small>
-    </div>
-  </div>
-  <div class="card col-md-3">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-    </div>
-    <div class="card-footer">
-      <small class="text-muted">Last updated 3 mins ago</small>
-    </div>
-  </div>
-</div>
---%>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+	$('img').click(function(){
+		var source = $(this).attr('src');
+		if (source.includes('full')){
+			var thisID = this.id;
+			var post_id = thisID.substring(0, 10);
+			var mem_id = thisID.substring(10, 17);
+			$(this).attr('src', '<%=request.getContextPath()%>/images/empty.png');
+			$.ajax({
+				url: '<%=request.getContextPath()%>/favpost/favpost.do',
+				type: 'POST',
+				data: {
+					post_id: post_id,
+					mem_id: mem_id,
+					action: 'insert'
+				},
+				success: function(){
+					Swal.fire({
+						icon: 'info',
+						title: '收藏文章成功',
+						showConfirmButton: false,
+						timer: 750
+					})
+				}
+			});
+			
+		} else if (source.includes('empty')){
+			var thisID = this.id;
+			var post_id = thisID.substring(0, 10);
+			var mem_id = thisID.substring(10, 17);
+			$(this).attr('src', '<%=request.getContextPath()%>/images/full.png');
+			$.ajax({
+				url: '<%=request.getContextPath()%>/favpost/favpost.do',
+				type: 'POST',
+				data: {
+					post_id: post_id,
+					mem_id: mem_id,
+					action: 'delete'
+				},
+				success: function(){
+					Swal.fire({
+						icon: 'info',
+						title: '取消收藏成功',
+						showConfirmButton: false,
+						timer: 750
+					})
+				}
+			});
+		}
+
+	});
+</script>
 		
 		
 		
@@ -324,69 +357,6 @@
 
 </body>
 
-<script>
-	
-	$('button').click(function() {
-		var button_id = this.id;
-		var post_id = button_id.substring(0, 10);
-		var mem_id = button_id.substring(10, 17);
-		var action = button_id.substring(17);
-		$.ajax({
-			url: '<%=request.getContextPath()%>/favpost/favpost.do',
-			type: 'POST',
-			data: {
-				post_id: post_id,
-				mem_id : mem_id,
-				action: action
-			},
-			success: function(){
-				Swal.fire({
-				  icon: 'info',
-				  title: (action === "insert") ? "收藏文章成功" : "取消收藏成功"
-				})
-			}
-		});
-	});
-	
-	<%--
-	$('img').click(function() {
-		var name = this.name;
-		var classs = this.className;
-		var post_id = name.substring(0, 10);
-		var mem_id = name.substring(10, 17);
-		var action = classs.substring(-6);
-		$.ajax({
-			url: '<%=request.getContextPath()%>/favpost/favpost.do',
-			type: 'POST',
-			data: {
-				post_id: post_id,
-				mem_id: mem_id,
-				action: action
-			},
-			success: function(){
-				Swal.fire({
-					icon: 'info',
-					title: (action === "insert") ? "收藏文章成功" : "取消收藏成功"
-				})
-			}
-		});
-	});
-	--%>
-	
-	
-	
-	$('.img-insert').click(function() {
-		this.src = '<%=request.getContextPath()%>/images/empty.jpg';
-		this.classList.remove('img-insert');
-		this.classList.add('img-delete');
-	})
-	
-	$('.img-delete').click(function() {
-		this.src = '<%=request.getContextPath()%>/images/full.jpg';
-		this.classList.remove('img-delete');
-		this.classList.add('img-insert');
-	})
-	
-</script>
+
 
 </html>

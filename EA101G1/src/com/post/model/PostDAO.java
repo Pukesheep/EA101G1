@@ -17,7 +17,7 @@ public class PostDAO implements PostDAO_interface {
 	}
 	
 	private static final String INSERT_STMT = "INSERT INTO post (post_id, mem_id, ptype_id, p_status, p_title, text, image, last_edit) VALUES ('POST'||LPAD(to_char(post_seq.NEXTVAL), 6, '0'), ?, ?, ?, ?, ?, ?, SYSDATE)";
-	private static final String GET_ALL_STMT = "SELECT post_id, mem_id, ptype_id, p_status, p_title, text, image, last_edit, post_time FROM post ORDER BY post_id";
+	private static final String GET_ALL_STMT = "SELECT post_id, mem_id, ptype_id, p_status, p_title, text, image, last_edit, post_time FROM post ORDER BY post_id DESC";
 	private static final String GET_ONE_STMT = "SELECT post_id, mem_id, ptype_id, p_status, p_title, text, image, last_edit, post_time FROM post WHERE post_id = ?";
 	private static final String DELETE = "DELETE FROM post WHERE post_id = ?";
 	private static final String UPDATE = "UPDATE post SET ptype_id = ?, p_status = ?, p_title = ?, text = ?, image = ?, last_edit = SYSDATE WHERE post_id = ?";
