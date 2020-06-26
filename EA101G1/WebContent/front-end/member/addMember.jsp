@@ -179,10 +179,10 @@
 					if (data !== null) {
 						if (data.isUsed === false){
 							$('#check').css('display', 'inline');
-							$('#check').attr('src', '<%=request.getContextPath()%>/images/allow.png');
+							$('#check').attr('src', '<%=request.getContextPath()%>/images/icons/allow.png');
 						} else {
 							$('#check').css('display', 'inline');
-							$('#check').attr('src', '<%=request.getContextPath()%>/images/notallow.png');
+							$('#check').attr('src', '<%=request.getContextPath()%>/images/icons/notallow.png');
 						}
 					} 
 				},

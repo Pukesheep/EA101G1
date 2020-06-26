@@ -76,7 +76,7 @@
                 <div class="item col-md-2"><a href="#"></a>商城</div>
                 <div class="item col-md-2"><a href="#"></a>團購</div>
                 <div class="item col-md-2"><a href="#"></a>交易</div>
-                <div class="item col-md-2"><a href="#"></a>討論區</div>
+                <div class="item col-md-2"><a href="<%=request.getContextPath()%>/front-end/post/listAllPost.jsp" id="">討論區</a></div>
                 <div class="item col-md-2"><a href="#"></a>紅利</div>
                 <div class="item col-md-2"><a href="#"></a>Q&A</div>
             </div>
@@ -117,24 +117,26 @@
     <section class="blank0"></section>
     <!-- 內容 -->
     <section class="blank1">
-		<%-- 錯誤表列 --%>
-		<c:if test="${not empty errorMsgs }">
-			<%
-				java.util.List<String> errorMsgs = (java.util.List<String>) request.getAttribute("errorMsgs");
-				String message = "";
-				for (String msg : errorMsgs) {
-					message += msg;
-					message += "\\n";
-				}
-			%>
-			<script>
-				Swal.fire({
-					  icon: 'error',
-					  title: '<%=message%>',
-					})
+<%-- 錯誤表列 --%>
+<c:if test="${not empty errorMsgs }">
+<%
+	java.util.List<String> errorMsgs = (java.util.List<String>) request.getAttribute("errorMsgs");
+	String message = "";
+	for (String msg : errorMsgs) {
+		message += msg;
+		message += "\\n";
+	}
+%>
+<script>
+	Swal.fire({
+		  icon: 'error',
+		  title: '<%=message%>'
+		});
 
-			</script>
-		</c:if>
+</script>
+<%-- 錯誤表列 --%>
+
+</c:if>
 	
 	   <div class="row">
 	   		<div class="col-md-12">
@@ -201,7 +203,7 @@
                                 <a class="footer-link" href="">直購區</a>
                             </li>
                             <li>
-                                <a class="footer-link" href="<%=request.getContextPath()%>/front-end/post/select_page.jsp">討論區</a>
+                                <a class="footer-link" href="<%=request.getContextPath()%>/front-end/post/listAllPost.jsp">討論區</a>
                             </li>
                             <li>
                                 <a class="footer-link" href="">聊天室</a>

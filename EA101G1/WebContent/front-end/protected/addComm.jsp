@@ -169,15 +169,15 @@
 <!-- =========================================以下為 datetimepicker 之相關設定========================================== -->
 
 <%
-	java.sql.Date last_edit = null;
-	java.sql.Date post_time = null;
+	java.sql.Timestamp last_edit = null;
+	java.sql.Timestamp post_time = null;
 	
 	try {
 		last_edit = commVO.getLast_edit();
 		post_time = commVO.getPost_time();
 	} catch (Exception e) {
-		last_edit = new java.sql.Date(System.currentTimeMillis());
-		post_time = new java.sql.Date(System.currentTimeMillis());
+		last_edit = new java.sql.Timestamp(System.currentTimeMillis());
+		post_time = new java.sql.Timestamp(System.currentTimeMillis());
 	}
 %>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/files/datetimepicker/jquery.datetimepicker.css" />

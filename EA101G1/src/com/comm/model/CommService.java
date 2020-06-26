@@ -1,6 +1,6 @@
 package com.comm.model;
 
-import java.sql.Date;
+import java.sql.*;
 
 public class CommService {
 	
@@ -11,7 +11,7 @@ public class CommService {
 	}
 	
 	public CommVO addComm(String post_id, String mem_id,
-			Integer c_status, String c_text, Date last_edit, Date post_time) {
+			Integer c_status, String c_text, Timestamp last_edit, Timestamp post_time) {
 		
 		CommVO commVO = new CommVO();
 		
@@ -29,7 +29,7 @@ public class CommService {
 	
 	public CommVO updateComm(String comm_id, String post_id,
 			String mem_id, Integer c_status, String c_text,
-			Date last_edit, Date post_time) {
+			Timestamp last_edit, Timestamp post_time) {
 		
 		CommVO commVO = new CommVO();
 		
@@ -55,6 +55,10 @@ public class CommService {
 	
 	public java.util.List<CommVO> getAll(){
 		return dao.getAll();
+	}
+	
+	public CommVO findComm(String post_id){
+		return dao.findComm(post_id);
 	}
 
 }

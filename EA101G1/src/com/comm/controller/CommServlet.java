@@ -117,11 +117,11 @@ public class CommServlet extends HttpServlet {
 					errorMsgs.add("留言內容： 請輸入留言內容");
 				}
 				
-				java.sql.Date now = new java.sql.Date(System.currentTimeMillis());
+				java.sql.Timestamp now = new java.sql.Timestamp(System.currentTimeMillis());
 				long nowLong = now.getTime();
-				java.sql.Date last_edit = null;
+				java.sql.Timestamp last_edit = null;
 				try {
-					last_edit = java.sql.Date.valueOf(req.getParameter("last_edit").trim());
+					last_edit = java.sql.Timestamp.valueOf(req.getParameter("last_edit").trim());
 					long inputLong = last_edit.getTime();
 					if (inputLong - nowLong >= 0) {
 						// 輸入的日期是現在之後 (未來)
@@ -134,9 +134,9 @@ public class CommServlet extends HttpServlet {
 					errorMsgs.add("最後修改時間： 請輸入時間");
 				}
 				
-				java.sql.Date post_time = null;
+				java.sql.Timestamp post_time = null;
 				try {
-					post_time = java.sql.Date.valueOf(req.getParameter("post_time").trim());
+					post_time = java.sql.Timestamp.valueOf(req.getParameter("post_time").trim());
 					long inputLong = post_time.getTime();
 					if (inputLong - nowLong >= 0) {
 						post_time = now;
@@ -238,12 +238,12 @@ public class CommServlet extends HttpServlet {
 					errorMsgs.add("留言內容： 請輸入留言內容");
 				}
 				
-				java.sql.Date now = new java.sql.Date(System.currentTimeMillis());
+				java.sql.Timestamp now = new java.sql.Timestamp(System.currentTimeMillis());
 				long nowLong = now.getTime();
-				java.sql.Date last_edit = null;
+				java.sql.Timestamp last_edit = null;
 				
 				try {
-					last_edit = java.sql.Date.valueOf(req.getParameter("last_edit").trim());
+					last_edit = java.sql.Timestamp.valueOf(req.getParameter("last_edit").trim());
 					long inputLong = last_edit.getTime();
 					
 					if (inputLong - nowLong >= 0) {
@@ -256,9 +256,9 @@ public class CommServlet extends HttpServlet {
 					errorMsgs.add("最後修改時間： 請輸入最後修改時間");
 				}
 				
-				java.sql.Date post_time = null;
+				java.sql.Timestamp post_time = null;
 				try {
-					post_time = java.sql.Date.valueOf(req.getParameter("post_time").trim());
+					post_time = java.sql.Timestamp.valueOf(req.getParameter("post_time").trim());
 					long inputLong = post_time.getTime();
 					if (inputLong - nowLong >= 0) {
 						post_time = now;

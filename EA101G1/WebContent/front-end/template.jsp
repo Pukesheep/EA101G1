@@ -67,7 +67,7 @@
                 <div class="item col-md-2"><a href="#"></a>商城</div>
                 <div class="item col-md-2"><a href="#"></a>團購</div>
                 <div class="item col-md-2"><a href="#"></a>交易</div>
-                <div class="item col-md-2"><a href="#"></a>討論區</div>
+                <div class="item col-md-2"><a href="<%=request.getContextPath()%>/front-end/post/listAllPost.jsp">討論區</a></div>
                 <div class="item col-md-2"><a href="#"></a>紅利</div>
                 <div class="item col-md-2"><a href="#"></a>Q&A</div>
             </div>
@@ -156,7 +156,7 @@
                                 <a class="footer-link" href="">直購區</a>
                             </li>
                             <li>
-                                <a class="footer-link" href="<%=request.getContextPath()%>/front-end/post/select_page.jsp">討論區</a>
+                                <a class="footer-link" href="<%=request.getContextPath()%>/front-end/post/listAllPost.jsp">討論區</a>
                             </li>
                             <li>
                                 <a class="footer-link" href="">聊天室</a>

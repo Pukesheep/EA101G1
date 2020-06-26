@@ -164,15 +164,15 @@
 <!-- =========================================以下為 datetimepicker 之相關設定========================================== -->
 
 <%
-	java.sql.Date last_edit = null;
-	java.sql.Date post_time = null;
+	java.sql.Timestamp last_edit = null;
+	java.sql.Timestamp post_time = null;
 	
 	try {
 		last_edit = commVO.getLast_edit();
 		post_time = commVO.getPost_time();
 	} catch (Exception e) {
-		last_edit = new java.sql.Date(System.currentTimeMillis());
-		post_time = new java.sql.Date(System.currentTimeMillis());
+		last_edit = new java.sql.Timestamp(System.currentTimeMillis());
+		post_time = new java.sql.Timestamp(System.currentTimeMillis());
 	}
 %>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/files/datetimepicker/jquery.datetimepicker.css" />
@@ -193,9 +193,9 @@
 
          $('#f_date1').datetimepicker({
              theme: '',              //theme: 'dark',
-   	       timepicker:false,       //timepicker:true,
+   	       timepicker:true,       //timepicker:true,
    	       step: 1,                //step: 60 (這是timepicker的預設間隔60分鐘)
-   	       format:'Y-m-d',         //format:'Y-m-d H:i:s',
+   	       format:'Y-m-d H:i:s',         //format:'Y-m-d H:i:s',
    		   value: '<%=last_edit%>', // value:   new Date(),
              //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
              //startDate:	            '2017/07/10',  // 起始日
@@ -205,9 +205,9 @@
          
          $('#f_date2').datetimepicker({
              theme: '',              //theme: 'dark',
-   	       timepicker:false,       //timepicker:true,
+   	       timepicker:true,       //timepicker:true,
    	       step: 1,                //step: 60 (這是timepicker的預設間隔60分鐘)
-   	       format:'Y-m-d',         //format:'Y-m-d H:i:s',
+   	       format:'Y-m-d H:i:s',         //format:'Y-m-d H:i:s',
    		   value: '<%=post_time%>', // value:   new Date(),
              //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
              //startDate:	            '2017/07/10',  // 起始日

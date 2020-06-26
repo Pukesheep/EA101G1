@@ -428,6 +428,36 @@ public class PostServlet extends HttpServlet {
 			}
 		}
 		
+		
+		if ("remove".equals(action)) {
+			
+			try {
+				/***************************1.接收請求參數***************************************/
+				String post_id = req.getParameter("post_id");
+				
+				/***************************2.開始移除資料***************************************/
+				PostService postSvc = new PostService();
+				postSvc.removePost(post_id);
+				
+				/***************************3.移除完成,準備轉交(Send the Success view)***********/								
+				String url = "/front-end/post/listAllPost.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+				
+				/***************************其他可能的錯誤處理**********************************/
+				
+			} catch (Exception e) {
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/post/listAllPost.jsp");
+				failureView.forward(req, res);
+			}
+			
+			
+		}
+		
+		
+		
+		
+		
 	}
 	
 	public byte[] getPartByteArray(HttpServletRequest req) throws ServletException, IOException {

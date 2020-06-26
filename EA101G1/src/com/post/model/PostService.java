@@ -62,4 +62,8 @@ public class PostService {
 		return dao.getAll();
 	}
 	
+	public void removePost(String post_id) {
+		dao.removePost(post_id);
+	}
+	
 }

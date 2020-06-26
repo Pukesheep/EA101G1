@@ -11,10 +11,12 @@ public class CommJDBCDAO implements CommDAO_interface {
 	String passwd = "123456";
 	
 	private static final String INSERT_STMT = "INSERT INTO comm (comm_id, post_id, mem_id, c_status, c_text, last_edit) VALUES ('COMM'||LPAD(to_char(comm_seq.NEXTVAL), 6, '0'), ?, ?, ?, ?, SYSDATE)";
-	private static final String GET_ALL_STMT = "SELECT comm_id, post_id, mem_id, c_status, c_text, to_char(last_edit, 'yyyy-mm-dd') last_edit, to_char(post_time, 'yyyy-mm-dd') post_time FROM comm ORDER BY comm_id";
-	private static final String GET_ONE_STMT = "SELECT comm_id, post_id, mem_id, c_status, c_text, to_char(last_edit, 'yyyy-mm-dd') last_edit, to_char(post_time, 'yyyy-mm-dd') post_time FROM comm WHERE comm_id = ?";
+	private static final String GET_ALL_STMT = "SELECT comm_id, post_id, mem_id, c_status, c_text, last_edit, post_time FROM comm ORDER BY comm_id";
+	private static final String GET_ONE_STMT = "SELECT comm_id, post_id, mem_id, c_status, c_text, last_edit, post_time FROM comm WHERE comm_id = ?";
 	private static final String DELETE = "DELETE FROM comm WHERE comm_id = ?";
 	private static final String UPDATE = "UPDATE comm SET c_status = ?, c_text = ?, last_edit = SYSDATE WHERE comm_id = ?";
+	private static final String GET_COMM = "SELECT comm_id FROM comm WHERE post_id = ?";
+
 	
 	@Override
 	public String insert(CommVO commVO) {
@@ -171,8 +173,8 @@ public class CommJDBCDAO implements CommDAO_interface {
 				commVO.setMem_id(rs.getString("mem_id"));
 				commVO.setC_status(rs.getInt("c_status"));
 				commVO.setC_text(rs.getString("c_text"));
-				commVO.setLast_edit(rs.getDate("last_edit"));
-				commVO.setPost_time(rs.getDate("post_time"));
+				commVO.setLast_edit(rs.getTimestamp("last_edit"));
+				commVO.setPost_time(rs.getTimestamp("post_time"));
 				
 			}
 			
@@ -226,8 +228,8 @@ public class CommJDBCDAO implements CommDAO_interface {
 				commVO.setMem_id(rs.getString("mem_id"));
 				commVO.setC_status(rs.getInt("c_status"));
 				commVO.setC_text(rs.getString("c_text"));
-				commVO.setLast_edit(rs.getDate("last_edit"));
-				commVO.setPost_time(rs.getDate("post_time"));
+				commVO.setLast_edit(rs.getTimestamp("last_edit"));
+				commVO.setPost_time(rs.getTimestamp("post_time"));
 				list.add(commVO);
 			}
 			
@@ -254,6 +256,51 @@ public class CommJDBCDAO implements CommDAO_interface {
 			}
 		}
 		return list;
+	}
+	
+	@Override
+	public CommVO findComm(String post_id) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		CommVO commVO = null;
+		
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_COMM);
+			pstmt.setString(1, post_id);
+			rs = pstmt.executeQuery();
+			commVO = new CommVO();
+			
+			while (rs.next()) {
+				commVO.setComm_id(rs.getString("comm_id"));
+			}
+			
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return commVO;
 	}
 
 	public static void main(String[] args) {
@@ -316,4 +363,6 @@ public class CommJDBCDAO implements CommDAO_interface {
 		}
 		
 	}
+
+
 }

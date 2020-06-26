@@ -13,11 +13,11 @@ public class PostJDBCDAO implements PostDAO_interface {
 	
 	private static final String INSERT_STMT = "INSERT INTO post (post_id, mem_id, ptype_id, p_status, p_title, text, image, last_edit) VALUES ('POST'||LPAD(to_char(post_seq.NEXTVAL), 6, '0'), ?, ?, ?, ?, ?, ?, SYSDATE)";
 	private static final String GET_ALL_STMT = "SELECT post_id, mem_id, ptype_id, p_status, p_title, text, image, last_edit, post_time FROM post ORDER BY post_id";
-//	private static final String GET_ALL_STMT = "SELECT post_id, mem_id, ptype_id, p_status, p_title, text, image, to_char(last_edit, 'yyyy-MM-dd HH:mm:ss') last_edit, to_char(post_time, 'yyyy-MM-dd HH:mm:ss') post_time FROM post ORDER BY post_id";
-//	private static final String GET_ONE_STMT = "SELECT post_id, mem_id, ptype_id, p_status, p_title, text, image, to_char(last_edit, 'yyyy-MM-dd HH:mm:ss') last_edit, to_char(post_time, 'yyyy-MM-dd HH:mm:ss') post_time FROM post WHERE post_id = ?";
 	private static final String GET_ONE_STMT = "SELECT post_id, mem_id, ptype_id, p_status, p_title, text, image, last_edit, post_time FROM post WHERE post_id = ?";
 	private static final String DELETE = "DELETE FROM post WHERE post_id = ?";
 	private static final String UPDATE = "UPDATE post SET ptype_id = ?, p_status = ?, p_title = ?, text = ?, image = ?, last_edit = SYSDATE WHERE post_id = ?";
+	private static final String REMOVE = "UPDATE post SET p_status = 0 WHERE post_id = ?";
+
 	
 	@Override
 	public String insert(PostVO postVO) {
@@ -269,6 +269,45 @@ public class PostJDBCDAO implements PostDAO_interface {
 		return list;
 	}
 	
+	@Override
+	public void removePost(String post_id) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(REMOVE);
+			pstmt.setString(1, post_id);
+			pstmt.executeUpdate();
+			
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
+		
+	}
+	
 	public static void main(String[] args) {
 		
 		String post1, post2, post3, post4;
@@ -409,5 +448,7 @@ public class PostJDBCDAO implements PostDAO_interface {
 		fos.flush();
 		fos.close();
 	}
+
+
 
 }

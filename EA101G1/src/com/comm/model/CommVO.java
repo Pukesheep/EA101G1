@@ -1,6 +1,6 @@
 package com.comm.model;
 
-import java.sql.Date;
+import java.sql.*;
 
 public class CommVO implements java.io.Serializable {
 
@@ -11,8 +11,8 @@ public class CommVO implements java.io.Serializable {
 	private String mem_id;
 	private Integer c_status;
 	private String c_text;
-	private java.sql.Date last_edit;
-	private java.sql.Date post_time;
+	private java.sql.Timestamp last_edit;
+	private java.sql.Timestamp post_time;
 	
 	public void setComm_id(String comm_id) {
 		this.comm_id = comm_id;
@@ -54,19 +54,19 @@ public class CommVO implements java.io.Serializable {
 		return c_text;
 	}
 	
-	public void setLast_edit(Date last_edit) {
+	public void setLast_edit(Timestamp last_edit) {
 		this.last_edit = last_edit;
 	}
 	
-	public Date getLast_edit() {
+	public Timestamp getLast_edit() {
 		return last_edit;
 	}
 	
-	public void setPost_time(Date post_time) {
+	public void setPost_time(Timestamp post_time) {
 		this.post_time = post_time;
 	}
 	
-	public Date getPost_time() {
+	public Timestamp getPost_time() {
 		return post_time;
 	}
 	

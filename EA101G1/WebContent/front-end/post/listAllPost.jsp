@@ -14,6 +14,8 @@
 %>
 <jsp:useBean id="ptypeSvc" scope="page" class="com.ptype.model.PtypeService" />
 <jsp:useBean id="favpostSvc" scope="page" class="com.favpost.model.FavpostService" />
+<jsp:useBean id="memberSvc" scope="page" class="com.member.model.MemberService" />
+<jsp:useBean id="commSvc" scope="page" class="com.comm.model.CommService" />
 
 <html lang="en">
 <head>
@@ -54,10 +56,8 @@
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <style>
 
-	img.card-img-top {
-		height: 250px;
-	}
-	div.card-group {
+
+	div.card-group, div.card {
 		max-width: 95%;
 		margin: 2% auto;
 	}
@@ -67,14 +67,29 @@
 	div.hdd {
 		margin: 2px;
 	}
-	img#full-icon, img#empty-icon {
-		width: 30px;
-		height: 30px;
-	}
-	img.img-favpost {
-		width: 30px;
-		height: 30px;
+	img.img-icon {
+		width: 25px;
+		height: 25px;
 		float: right;
+		margin: 0 2px;
+	}
+	img.img-icon:hover {
+		cursor:pointer;
+	}
+	img.card-img, img.card-img-top {
+		height: 250px;
+		padding: 0 1px;
+	}
+	img.card-img:hover {
+		cursor: pointer;
+	}
+	img.postBy {
+		width: 25px;
+		height: 25px;
+		border-radius: 50%;
+	}
+	p > img {
+		max-width: 95%;
 	}
 </style>
 </head>
@@ -100,7 +115,7 @@
                 <div class="item col-md-2"><a href="#"></a>商城</div>
                 <div class="item col-md-2"><a href="#"></a>團購</div>
                 <div class="item col-md-2"><a href="#"></a>交易</div>
-                <div class="item col-md-2"><a href="#"></a>討論區</div>
+                <div class="item col-md-2"><a href="<%=request.getContextPath()%>/front-end/post/listAllPost.jsp">討論區</a></div>
                 <div class="item col-md-2"><a href="#"></a>紅利</div>
                 <div class="item col-md-2"><a href="#"></a>Q&A</div>
             </div>
@@ -122,7 +137,7 @@
                     <a class="nav-link" href="<%=request.getContextPath()%>/front-end/protected/listOneMember.jsp">會員中心</a>
                 </li>
                 <li class="nav-item">
-                	<a class="nav-link" href="<%=request.getContextPath()%>/login/login.do?action=logout">登出</a>
+                	<a class="nav-link" href="<%=request.getContextPath()%>/member/login.do?action=logout">登出</a>
                 </li>
           	</c:if>
                 <li class="nav-item">
@@ -141,67 +156,156 @@
     <section class="blank0"></section>
     <!-- 內容 -->
 
-		<%-- 錯誤表列 --%>
-		<c:if test="${not empty errorMsgs }">
-			<font>請修正以下錯誤：</font>
-			<ul>
-				<c:forEach var="message" items="${errorMsgs}">
-						<%--
-							java.util.List<String> errorMsgs = (java.util.List<String>) request.getAttribute("errorMsgs");
-							String aaa = "";
-							for (String msg : errorMsgs) {
-								aaa += msg;
-								aaa += "\r\n";
-							}
-						--%>
+<%-- 錯誤表列 --%>
+<c:if test="${not empty errorMsgs }">
+<%
+	java.util.List<String> errorMsgs = (java.util.List<String>) request.getAttribute("errorMsgs");
+	String message = "";
+	for (String msg : errorMsgs) {
+		message += msg;
+		message += "\\n";
+	}
+%>
+<script>
+	Swal.fire({
+		icon: 'error',
+		title: '<%=message%>'
+	});
+</script>
+</c:if>
+<%-- 錯誤表列 --%>
+
+<div class="container">
+	<div class="row">
+		<c:forEach var="postVO" items="${list}">
+			<c:if test="${postVO.p_status eq 1}">
+				<div class="col-4 justify-content-around">
+					<div class="accordion" id="accordionExample">
+						<div class="row">
+							<div class="card w-100 border-dark">
+								<label for="${postVO.post_id}">
+									<img alt="" src="<%=request.getContextPath()%>/post/ShowPostPic.do?post_id=${postVO.post_id}" class="card-img">
+								</label>
+							<div class="card-header text-center" id="heading${postVO.post_id}">
+								<h5 class="card-title">
+								<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${postVO.post_id}" aria-expanded="false" aria-controls="collapse${postVO.post_id}" id="${postVO.post_id}">
+									<c:forEach var="ptypeVO" items="${ptypeSvc.all}">
+				      					<c:if test="${postVO.ptype_id == ptypeVO.ptype_id}">
+				      						[${ptypeVO.type}] ${postVO.p_title}
+				      					</c:if>
+			      					</c:forEach>
+								</button>
+								</h5>
+								<c:forEach var="memberVOpost" items="${memberSvc.all}">
+									<c:if test="${memberVOpost.mem_id == postVO.mem_id}">
+										<small class="text-muted">
+											文章作者 ：<a href="<%=request.getContextPath()%>/member/member.do?action=getOne_For_Display-front&mem_id=${postVO.mem_id}">${memberVOpost.mem_name}<img class="postBy" alt="" src="<%=request.getContextPath()%>/member/ShowMemberPic.do?mem_id=${postVO.mem_id}"></a>
+											<br>
+											<br>
+										</small>
+										<c:if test="${sessionScope.memberVO ne null}">
+								      		<c:if test="${favpostSvc.getOneFavpost(memberVO.mem_id, postVO.post_id).mem_id eq null}">
+								      			<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/full.png" id="${postVO.post_id}${memberVO.mem_id}" title="收藏文章">
+								      		</c:if>
+					      					<c:forEach var="favpostVO" items="${favpostSvc.all}">
+									      		<c:if test="${favpostVO.mem_id == memberVO.mem_id and favpostVO.post_id == postVO.post_id}">
+									      			<img class="float-right img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/empty.png" id="${postVO.post_id}${memberVO.mem_id}" title="取消收藏">
+									      		</c:if>
+					      					</c:forEach>
+					      					<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/comm.png" id="${postVO.post_id}${memberVO.mem_id}" title="回覆文章">
+					      					<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/reportmember.png" id="${postVO.post_id}${memberVO.mem_id}" title="檢舉會員">
+					      					<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/reportpost.png" id="${postVO.post_id}${memberVO.mem_id}" title="檢舉文章">
+											<c:if test="${sessionScope.memberVO.mem_id == postVO.mem_id}">
+												<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/remove.png" id="${postVO.post_id}${memberVO.mem_id}" title="移除文章">
+												<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/update.png" id="${postVO.post_id}${memberVO.mem_id}" title="修改文章">
+											</c:if>
+			      						</c:if>
+									</c:if>
+								</c:forEach>
+							</div>
+							<div id="collapse${postVO.post_id}" class="collapse" aria-labelledby="heading${postVO.post_id}" data-parent="#accordionExample">
+								<div class="card-body h5">
+									<b>
+										${postVO.text}
+									</b>
+								</div>
+								<div class="card-header text-center" id="headingOne">
+									<h5 class="card-title">
+										<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${postVO.post_id}" aria-expanded="false" aria-controls="collapse${postVO.post_id}">
+											收合文章
+										</button>
+									</h5>
+								</div>
+							</div>
+							 
+								<c:if test="${commSvc.findComm(postVO.post_id).comm_id ne null}">
+									<div class="accordion" id="accordionExample">
+										<div class="card-header text-center" id="headingOne">
+											<h5 class="card-title">
+												<button class="btn btn-link" type="button" data-toggle="collapse" data-target=".${postVO.post_id}" aria-expanded="false" aria-controls="collapseOne">
+													瀏覽留言
+												</button>
+											</h5>
+										</div>
+										<c:forEach var="commVO" items="${commSvc.all}">
+											<c:if test="${commVO.c_status eq 1}">
+												<c:if test="${commVO.post_id == postVO.post_id}">
+													<div id="collapseOne" class="collapse ${postVO.post_id}" aria-labelledby="headingOne" data-parent="#accordionExample">
+														<c:forEach var="memberVOcomm" items="${memberSvc.all}">
+															<c:if test="${memberVOcomm.mem_id == commVO.mem_id}">
+																<div class="card-header">
+																	<small class="text-muted">
+																		留言會員 ：<a href="<%=request.getContextPath()%>/member/member.do?action=getOne_For_Display-front&mem_id=${commVO.mem_id}">${memberVOcomm.mem_name}<img class="postBy" alt="" src="<%=request.getContextPath()%>/member/ShowMemberPic.do?mem_id=${commVO.mem_id}"></a>
+																	</small>
+																<c:if test="${sessionScope.memberVO ne null}">
+																	<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/reportmember.png" id="${commVO.comm_id}${memberVO.mem_id}" title="檢舉會員">
+																	<c:if test="${sessionScope.memberVO.mem_id == commVO.mem_id}">
+																		<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/remove.png" id="${commVO.comm_id}${memberVO.mem_id}" title="移除留言">
+																		<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/update.png" id="${commVO.comm_id}${memberVO.mem_id}" title="修改留言">
+																	</c:if>
+																</c:if>
+																</div>
+															</c:if>
+														</c:forEach>
+														<div class="card-body h6">
+															<small class="text-muted post_time float-right">留言時間 ： <fmt:formatDate value="${commVO.post_time}" pattern="yyyy-MM-dd HH:mm:ss" /></small>
+															<br>
+															<small class="text-muted last_time float-right">修改時間 ： <fmt:formatDate value="${commVO.last_edit}" pattern="yyyy-MM-dd HH:mm:ss" /></small>
+															<br>
+															<br>
+															<b>
+																${commVO.c_text}
+															</b>
+															<br>
+														</div>
+													</div>
+												</c:if>
+											</c:if>		
+										</c:forEach>
+										<div id="collapseOne" class="collapse ${postVO.post_id}" aria-labelledby="headingOne" data-parent="#accordionExample">
+											<div class="card-header text-center" id="headingOne">
+												<h5 class="card-title">
+													<button class="btn btn-link" type="button" data-toggle="collapse" data-target=".${postVO.post_id}" aria-expanded="false" aria-controls="collapseOne">
+														收合留言
+													</button>
+												</h5>
+											</div>
+										</div>
+									</div>
+								</c:if>		
+								<div class="card-footer">
+									<small class="text-muted post_time float-right">張貼時間 ： <fmt:formatDate value="${postVO.post_time}" pattern="yyyy-MM-dd HH:mm:ss" /></small>
+									<br>
+									<small class="text-muted last_edit float-right">修改時間 ： <fmt:formatDate value="${postVO.last_edit}" pattern="yyyy-MM-dd HH:mm:ss" /></small>
+								</div>
+							</div>
 						
-					<li id="errormsg">${message}</li>
-					
-				</c:forEach>
-			</ul>
-		</c:if>
-	
-<div class="card-group justify-content-around">
-  <div class="row justify-content-around">
- 	 <c:forEach var="postVO" items="${list}">
- 	 	<c:if test="${postVO.p_status eq 1}">
-	  		<div class="card-deck col-md-3 hdd">
-			  <div class="card border-dark">
-			  	<a href="<%=request.getContextPath()%>/post/post.do?action=getOne_For_Display&post_id=${postVO.post_id}">
-					<img src="<%=request.getContextPath()%>/post/ShowPostPic.do?post_id=${postVO.post_id}" class="card-img-top" alt="...">
-			    </a>
-			    <div class="card-body text-success">
-			      <p class="card-text">
-			      	<a href="<%=request.getContextPath()%>/post/post.do?action=getOne_For_Display&post_id=${postVO.post_id}">
-			      		<c:forEach var="ptypeVO" items="${ptypeSvc.all}">
-			      			<c:if test="${postVO.ptype_id == ptypeVO.ptype_id}">
-			      				[${ptypeVO.type}] ${postVO.p_title}
-			      			</c:if>
-			      		</c:forEach>
-			      	</a>
-			      </p>
-			    </div>
-			    <div class="card-footer bg-transparent border-success">
-			      <small class="text-muted">
-			      	<fmt:formatDate value="${postVO.post_time}" pattern="yyyy-MM-dd HH:mm:ss" />
-			      	<c:if test="${sessionScope.memberVO ne null}">
-			      		<c:if test="${favpostSvc.getOneFavpost(memberVO.mem_id, postVO.post_id).mem_id eq null}">
-			      			<img class="float-right img-favpost" alt="" src="<%=request.getContextPath()%>/images/full.png" id="${postVO.post_id}${memberVO.mem_id}">
-			      		</c:if>
-			      	</c:if>
-			      	<c:forEach var="favpostVO" items="${favpostSvc.all}">
-			      		<c:if test="${favpostVO.mem_id == memberVO.mem_id and favpostVO.post_id == postVO.post_id}">
-			      			<img class="float-right img-favpost" alt="" src="<%=request.getContextPath()%>/images/empty.png" id="${postVO.post_id}${memberVO.mem_id}">
-			      		</c:if>
-			      	</c:forEach>
-			      </small>
-			    </div>
-			  </div>
-		  	</div>
-	  	</c:if>
- 	 </c:forEach>
-  </div>
-  <br>
+						</div>
+					</div>
+				</div>
+			</c:if>
+		</c:forEach>
+	</div>
 </div>
 
 
@@ -214,18 +318,17 @@
 
 
 
-
-
-
-
 <script>
-	$('img').click(function(){
+	// 處理icon圖片及功能的切換
+	$('img.img-icon').click(function(){
 		var source = $(this).attr('src');
 		if (source.includes('full')){
+			// full 為 實心愛心圖案, 代表收藏文章功能, 按下後置換圖片, 並且以AJAX方式送出請求
 			var thisID = this.id;
 			var post_id = thisID.substring(0, 10);
 			var mem_id = thisID.substring(10, 17);
 			$(this).attr('src', '<%=request.getContextPath()%>/images/empty.png');
+			$(this).attr('title', '取消收藏');
 			$.ajax({
 				url: '<%=request.getContextPath()%>/favpost/favpost.do',
 				type: 'POST',
@@ -245,10 +348,12 @@
 			});
 			
 		} else if (source.includes('empty')){
+			// empty 代表空心愛心圖案, 代表取消收藏功能, 按下後置換圖片, 並且以AJAX方式送出請求
 			var thisID = this.id;
 			var post_id = thisID.substring(0, 10);
 			var mem_id = thisID.substring(10, 17);
 			$(this).attr('src', '<%=request.getContextPath()%>/images/full.png');
+			$(this).attr('title', '收藏文章');
 			$.ajax({
 				url: '<%=request.getContextPath()%>/favpost/favpost.do',
 				type: 'POST',
@@ -266,9 +371,92 @@
 					})
 				}
 			});
+		} else if (source.includes('remove')){
+			// remove 為垃圾桶圖案, 代表移除文章或留言
+			var thisID = this.id;
+			if (thisID.includes('POST')){
+				// 每個.img-icon 的 img 標籤的 ID 當中都加入了
+				// ${postVO.post_id}${memberVO.mem_id} 或是 ${commVO.comm_id}${memberVO.mem_id}
+				// 以此判斷是文章或是留言的移除 icon 被按下
+				// 再擷取'POST000000' 或是 'COMM000000' 作為請求參數
+				var post_id = thisID.substring(0, 10);
+				var post = $(this).parents('div.justify-content-around');
+				$.ajax({
+					url: '<%=request.getContextPath()%>/post/post.do',
+					type: 'POST',
+					data: {
+						post_id: post_id,
+						action: 'remove'
+					},
+					success: function(){
+						post.hide();
+						Swal.fire({
+							icon: 'info',
+							title: '移除文章成功',
+							showConfirmButton: false,
+							timer: 1200
+						});
+					},
+					error: function(){
+						Swal.fire({
+							icon: 'error',
+							title: '移除文章失敗'
+						})
+					}
+				});
+			} else if (thisID.includes('COMM')){
+				<%-- 移除留言區塊 --%>
+				<%-- comm 的 model 、 controller 還沒撰寫 remove 功能, 不過網頁的邏輯已經處理好了 --%>
+				// div.collapse, div.accordion
+				var comm_id = thisID.substring(0, 10);
+				var comm = $(this).parents('div.collapse');
+				var commRoot = $(this).parents('div.accordion');
+				var commSibling = commRoot.find('div.collapse');
+				var oooSibling = comm.siblings();
+				
+				$.ajax({
+					url: '<%=request.getContextPath()%>/comm/comm.do',
+					type: 'POST',
+					date: {
+						comm_id: comm_id,
+						action: 'remove'
+					},
+					success: function(){
+						
+						if (commSibling.length <= 3){
+							oooSibling.hide();
+							comm.hide();
+						} else {
+							comm.remove();
+						}
+						
+						Swal.fire({
+							icon: 'info',
+							title: '移除留言成功',
+							showConfirmButton: false,
+							timer: 1200
+						});
+					},
+					error: function(){
+						Swal.fire({
+							icon: 'error',
+							title: '移除文章失敗'
+						})
+					}
+				});
+				
+			}
+			
+		} else if (source.includes('update')){
+			var parent = $(this).parents('.col-4 justify-content-around');
+			parent.attr('class', 'ririri');
+			console.log(parent);
+			
 		}
 
 	});
+
+	
 </script>
 		
 		
@@ -308,7 +496,7 @@
                                 <a class="footer-link" href="">直購區</a>
                             </li>
                             <li>
-                                <a class="footer-link" href="<%=request.getContextPath()%>/front-end/post/select_page.jsp">討論區</a>
+                                <a class="footer-link" href="<%=request.getContextPath()%>/front-end/post/listAllPost.jsp">討論區</a>
                             </li>
                             <li>
                                 <a class="footer-link" href="">聊天室</a>

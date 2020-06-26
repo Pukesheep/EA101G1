@@ -10,4 +10,5 @@ public interface CommDAO_interface {
 	public CommVO findByPrimaryKey(String comm_id);
 	public java.util.List<CommVO> getAll();
 //	public java.util.List<CommVO> getAll(Map<String, String[]> map);
+	public CommVO findComm(String post_id);
 }

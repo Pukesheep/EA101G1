@@ -10,4 +10,5 @@ public interface PostDAO_interface {
 	public PostVO findByPrimaryKey(String post_id);
 	public java.util.List<PostVO> getAll();
 //	public java.util.List<PostVO> getAll(Map<String, String[]> map);
+	public void removePost(String post_id);
 }
