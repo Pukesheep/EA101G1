@@ -330,6 +330,32 @@ public class CommServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
+		
+		
+		if ("remove".equals(action)) {
+			
+			try {
+				/***************************1.接收請求參數***************************************/
+				String comm_id = req.getParameter("comm_id");
+				
+				/***************************2.開始移除資料***************************************/
+				CommService commSvc = new CommService();
+				CommVO commVO = commSvc.getOneComm(comm_id);
+				commSvc.updateComm(comm_id, commVO.getPost_id(), commVO.getMem_id(), 0, commVO.getC_text(), commVO.getLast_edit(), commVO.getPost_time());
+				
+				/***************************3.移除完成,準備轉交(Send the Success view)***********/								
+				String url = "/front-end/post/listAllPost.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+				
+				/***************************其他可能的錯誤處理**********************************/
+				
+			} catch (Exception e) {
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/post/listAllPost.jsp");
+				failureView.forward(req, res);
+			}
+			
+		}
 
 		
 		

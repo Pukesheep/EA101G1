@@ -437,7 +437,8 @@ public class PostServlet extends HttpServlet {
 				
 				/***************************2.開始移除資料***************************************/
 				PostService postSvc = new PostService();
-				postSvc.removePost(post_id);
+				PostVO postVO = postSvc.getOnePost(post_id);
+				postSvc.updatePost(post_id, postVO.getMem_id(), postVO.getPtype_id(), 0, postVO.getP_title(), postVO.getText(), postVO.getImage(), postVO.getLast_edit(), postVO.getPost_time());
 				
 				/***************************3.移除完成,準備轉交(Send the Success view)***********/								
 				String url = "/front-end/post/listAllPost.jsp";

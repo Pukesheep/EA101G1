@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="BIG5"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*" %>
@@ -22,25 +22,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>©Ò¦³¤å³¹¸ê®Æ - listAllPost.jsp</title>
-    <!-- TODO: ´«title ªºicon -->
+    <title>æ‰€æœ‰æ–‡ç« è³‡æ–™ - listAllPost.jsp</title>
+    <!-- TODO: æ›title çš„icon -->
     <link rel="icon shortcut" href="./img/ICON.ico">
-    <!-- Bootstrap©x¤èºô¯¸ https://getbootstrap.com/ -->
-    <!-- ³sµ²Bootstrap.min.css -->
+    <!-- Bootstrapå®˜æ–¹ç¶²ç«™ https://getbootstrap.com/ -->
+    <!-- é€£çµBootstrap.min.css -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <!-- ¨Ï¥Îfont awesome -->
+    <!-- ä½¿ç”¨font awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
         integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-    <!-- ¨Ï¥Îgoogle Fonts -->
+    <!-- ä½¿ç”¨google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Sedgwick+Ave+Display&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lakki+Reddy&display=swap" rel="stylesheet">
 
-    <!-- ¨Ï¥Îstyle.css -->
+    <!-- ä½¿ç”¨style.css -->
     <link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/css/style.css">
 
-    <!-- ³sµ²Bootstrap©Ò»İ­nªºjs -->
+    <!-- é€£çµBootstrapæ‰€éœ€è¦çš„js -->
     <!-- jquery.min.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- popper.min.js -->
@@ -63,9 +63,6 @@
 	}
 	div.card border-dark {
 		margin: 20px;
-	}
-	div.hdd {
-		margin: 2px;
 	}
 	img.img-icon {
 		width: 25px;
@@ -91,20 +88,34 @@
 	p > img {
 		max-width: 95%;
 	}
+	div.card-body > b {
+		line-height: 42px !important;
+	}
+	div.collapse div.card-body {
+		margin-bottom: -2px;
+	}
+	img#left-sign, img#left-sign {
+		max-width: 95%;
+	}
+	img.member-icon {
+		border-radius: 50%;
+		width: 50px;
+		height: 50px;
+	}
 </style>
 </head>
 <body>
     <!-- navbar -->
-    <!-- ¨Ï¥ÎBoostrap Navbar -->
-    <!-- ³]©wNavbarºò¶Kµe­±¤W½t -->
-    <!-- b4-navbar-default ¦w¸ËBootstrap¥~±¾,¥i¥H¨Ï¥Î§Ö±¶«ü¥O -->
+    <!-- ä½¿ç”¨Boostrap Navbar -->
+    <!-- è¨­å®šNavbarç·Šè²¼ç•«é¢ä¸Šç·£ -->
+    <!-- b4-navbar-default å®‰è£Bootstrapå¤–æ›,å¯ä»¥ä½¿ç”¨å¿«æ·æŒ‡ä»¤ -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top">
         <a class="navbar-brand" href="<%=request.getContextPath()%>/front-end/index.jsp">
             <span class="logo"><i class="fas fa-bomb"></i></span>
             <span class="logo2">S.F.G</span>
             <span class="logo3">{{{</span>
         </a>
-        <!-- ¤â¾÷¿ï³æ«ö¶s -->
+        <!-- æ‰‹æ©Ÿé¸å–®æŒ‰éˆ• -->
         <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
             aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -112,11 +123,11 @@
         
         <div class="navbar2 navbar-dark">
             <div class="row">
-                <div class="item col-md-2"><a href="#"></a>°Ó«°</div>
-                <div class="item col-md-2"><a href="#"></a>¹ÎÁÊ</div>
-                <div class="item col-md-2"><a href="#"></a>¥æ©ö</div>
-                <div class="item col-md-2"><a href="<%=request.getContextPath()%>/front-end/post/listAllPost.jsp">°Q½×°Ï</a></div>
-                <div class="item col-md-2"><a href="#"></a>¬õ§Q</div>
+                <div class="item col-md-2"><a href="#"></a>å•†åŸ</div>
+                <div class="item col-md-2"><a href="#"></a>åœ˜è³¼</div>
+                <div class="item col-md-2"><a href="#"></a>äº¤æ˜“</div>
+                <div class="item col-md-2"><a href="<%=request.getContextPath()%>/front-end/post/listAllPost.jsp">è¨è«–å€</a></div>
+                <div class="item col-md-2"><a href="#"></a>ç´…åˆ©</div>
                 <div class="item col-md-2"><a href="#"></a>Q&A</div>
             </div>
         </div>
@@ -125,26 +136,26 @@
             <ul class="navbar-nav ml-auto">
                 <c:if test="${memberVO == null}">
                 <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/front-end/member/login.jsp">µn¤J</a>
+                    <a class="nav-link" href="<%=request.getContextPath()%>/front-end/member/login.jsp">ç™»å…¥</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/front-end/member/addMember.jsp">µù¥U</a>
+                    <a class="nav-link" href="<%=request.getContextPath()%>/front-end/member/addMember.jsp">è¨»å†Š</a>
                 </li>
             </c:if>
             <c:if test="${sessionScope.memberVO ne null}">
             	
                 <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/front-end/protected/listOneMember.jsp">·|­û¤¤¤ß</a>
+                    <a class="nav-link" href="<%=request.getContextPath()%>/front-end/protected/listOneMember.jsp">æœƒå“¡ä¸­å¿ƒ</a>
                 </li>
                 <li class="nav-item">
-                	<a class="nav-link" href="<%=request.getContextPath()%>/member/login.do?action=logout">µn¥X</a>
+                	<a class="nav-link" href="<%=request.getContextPath()%>/member/login.do?action=logout">ç™»å‡º</a>
                 </li>
           	</c:if>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">§Úªº³Ì·R</a>
+                    <a class="nav-link" href="#">æˆ‘çš„æœ€æ„›</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">ÁÊª«¨®</a>
+                    <a class="nav-link" href="#">è³¼ç‰©è»Š</a>
                 </li>
 
             </ul>
@@ -154,9 +165,9 @@
     </nav>
     <!-- navbar end -->
     <section class="blank0"></section>
-    <!-- ¤º®e -->
+    <!-- å…§å®¹ -->
 
-<%-- ¿ù»~ªí¦C --%>
+<%-- éŒ¯èª¤è¡¨åˆ— --%>
 <c:if test="${not empty errorMsgs }">
 <%
 	java.util.List<String> errorMsgs = (java.util.List<String>) request.getAttribute("errorMsgs");
@@ -173,13 +184,53 @@
 	});
 </script>
 </c:if>
-<%-- ¿ù»~ªí¦C --%>
+<%-- éŒ¯èª¤è¡¨åˆ— --%>
 
 <div class="container">
 	<div class="row">
+		
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-2">
+					<img alt="" src="<%=request.getContextPath()%>/member/ShowMemberPic.do?mem_id=${sessionScope.memberVO.mem_id}" class="member-icon float-right">
+				</div>
+				<div class="col-md-8">
+					
+					
+					
+					<input type="text" class="form-control insert-head" name="p_title" aria-describedby="emailHelp" placeholder="Hi ${sessionScope.memberVO.mem_name}, åœ¨æƒ³ä»€éº¼å—ï¼Ÿ" autocomplete="off" >
+					<div class="collapse insert-body" id="collapseExample">
+						
+						
+						
+						
+						
+						<div class="btn-group col-md-12" role="group" aria-label="Basic example">
+							<c:forEach var="ptypeVO" items="${ptypeSvc.all}">
+								<button type="button" class="btn btn-warning">${ptypeVO.type}</button>
+							</c:forEach>
+							
+						</div>
+							
+							
+							
+							
+						
+						
+					</div>
+					
+					
+					
+					
+					
+					
+				</div>
+			</div>
+		</div>
+		
 		<c:forEach var="postVO" items="${list}">
 			<c:if test="${postVO.p_status eq 1}">
-				<div class="col-4 justify-content-around">
+				<div class="col-md-4 justify-content-around">
 					<div class="accordion" id="accordionExample">
 						<div class="row">
 							<div class="card w-100 border-dark">
@@ -199,32 +250,32 @@
 								<c:forEach var="memberVOpost" items="${memberSvc.all}">
 									<c:if test="${memberVOpost.mem_id == postVO.mem_id}">
 										<small class="text-muted">
-											¤å³¹§@ªÌ ¡G<a href="<%=request.getContextPath()%>/member/member.do?action=getOne_For_Display-front&mem_id=${postVO.mem_id}">${memberVOpost.mem_name}<img class="postBy" alt="" src="<%=request.getContextPath()%>/member/ShowMemberPic.do?mem_id=${postVO.mem_id}"></a>
+											æ–‡ç« ä½œè€… ï¼š<a href="<%=request.getContextPath()%>/member/member.do?action=getOne_For_Display-front&mem_id=${postVO.mem_id}">${memberVOpost.mem_name}<img class="postBy" alt="" src="<%=request.getContextPath()%>/member/ShowMemberPic.do?mem_id=${postVO.mem_id}"></a>
 											<br>
 											<br>
 										</small>
 										<c:if test="${sessionScope.memberVO ne null}">
 								      		<c:if test="${favpostSvc.getOneFavpost(memberVO.mem_id, postVO.post_id).mem_id eq null}">
-								      			<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/full.png" id="${postVO.post_id}${memberVO.mem_id}" title="¦¬ÂÃ¤å³¹">
+								      			<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/empty.png" id="${postVO.post_id}${memberVO.mem_id}" title="æ”¶è—æ–‡ç« ">
 								      		</c:if>
 					      					<c:forEach var="favpostVO" items="${favpostSvc.all}">
 									      		<c:if test="${favpostVO.mem_id == memberVO.mem_id and favpostVO.post_id == postVO.post_id}">
-									      			<img class="float-right img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/empty.png" id="${postVO.post_id}${memberVO.mem_id}" title="¨ú®ø¦¬ÂÃ">
+									      			<img class="float-right img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/full.png" id="${postVO.post_id}${memberVO.mem_id}" title="å–æ¶ˆæ”¶è—">
 									      		</c:if>
 					      					</c:forEach>
-					      					<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/comm.png" id="${postVO.post_id}${memberVO.mem_id}" title="¦^ÂĞ¤å³¹">
-					      					<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/reportmember.png" id="${postVO.post_id}${memberVO.mem_id}" title="ÀËÁ|·|­û">
-					      					<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/reportpost.png" id="${postVO.post_id}${memberVO.mem_id}" title="ÀËÁ|¤å³¹">
+					      					<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/comm.png" id="${postVO.post_id}${memberVO.mem_id}" title="å›è¦†æ–‡ç« ">
+					      					<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/reportmember.png" id="${postVO.post_id}${memberVO.mem_id}" title="æª¢èˆ‰æœƒå“¡">
+					      					<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/reportpost.png" id="${postVO.post_id}${memberVO.mem_id}" title="æª¢èˆ‰æ–‡ç« ">
 											<c:if test="${sessionScope.memberVO.mem_id == postVO.mem_id}">
-												<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/remove.png" id="${postVO.post_id}${memberVO.mem_id}" title="²¾°£¤å³¹">
-												<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/update.png" id="${postVO.post_id}${memberVO.mem_id}" title="­×§ï¤å³¹">
+												<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/remove.png" id="${postVO.post_id}${memberVO.mem_id}" title="ç§»é™¤æ–‡ç« ">
+												<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/update.png" id="${postVO.post_id}${memberVO.mem_id}" title="ä¿®æ”¹æ–‡ç« ">
 											</c:if>
 			      						</c:if>
 									</c:if>
 								</c:forEach>
 							</div>
 							<div id="collapse${postVO.post_id}" class="collapse" aria-labelledby="heading${postVO.post_id}" data-parent="#accordionExample">
-								<div class="card-body h5">
+								<div class="card-body h5 bg-warning">
 									<b>
 										${postVO.text}
 									</b>
@@ -232,7 +283,7 @@
 								<div class="card-header text-center" id="headingOne">
 									<h5 class="card-title">
 										<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${postVO.post_id}" aria-expanded="false" aria-controls="collapse${postVO.post_id}">
-											¦¬¦X¤å³¹
+											æ”¶åˆæ–‡ç« 
 										</button>
 									</h5>
 								</div>
@@ -243,7 +294,7 @@
 										<div class="card-header text-center" id="headingOne">
 											<h5 class="card-title">
 												<button class="btn btn-link" type="button" data-toggle="collapse" data-target=".${postVO.post_id}" aria-expanded="false" aria-controls="collapseOne">
-													ÂsÄı¯d¨¥
+													ç€è¦½ç•™è¨€
 												</button>
 											</h5>
 										</div>
@@ -253,24 +304,24 @@
 													<div id="collapseOne" class="collapse ${postVO.post_id}" aria-labelledby="headingOne" data-parent="#accordionExample">
 														<c:forEach var="memberVOcomm" items="${memberSvc.all}">
 															<c:if test="${memberVOcomm.mem_id == commVO.mem_id}">
-																<div class="card-header">
+																<div class="card-header bg-info">
 																	<small class="text-muted">
-																		¯d¨¥·|­û ¡G<a href="<%=request.getContextPath()%>/member/member.do?action=getOne_For_Display-front&mem_id=${commVO.mem_id}">${memberVOcomm.mem_name}<img class="postBy" alt="" src="<%=request.getContextPath()%>/member/ShowMemberPic.do?mem_id=${commVO.mem_id}"></a>
+																		ç•™è¨€æœƒå“¡ ï¼š<a href="<%=request.getContextPath()%>/member/member.do?action=getOne_For_Display-front&mem_id=${commVO.mem_id}">${memberVOcomm.mem_name}<img class="postBy" alt="" src="<%=request.getContextPath()%>/member/ShowMemberPic.do?mem_id=${commVO.mem_id}"></a>
 																	</small>
 																<c:if test="${sessionScope.memberVO ne null}">
-																	<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/reportmember.png" id="${commVO.comm_id}${memberVO.mem_id}" title="ÀËÁ|·|­û">
+																	<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/reportmember.png" id="${commVO.comm_id}${memberVO.mem_id}" title="æª¢èˆ‰æœƒå“¡">
 																	<c:if test="${sessionScope.memberVO.mem_id == commVO.mem_id}">
-																		<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/remove.png" id="${commVO.comm_id}${memberVO.mem_id}" title="²¾°£¯d¨¥">
-																		<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/update.png" id="${commVO.comm_id}${memberVO.mem_id}" title="­×§ï¯d¨¥">
+																		<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/remove.png" id="${commVO.comm_id}${memberVO.mem_id}" title="ç§»é™¤ç•™è¨€">
+																		<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/update.png" id="${commVO.comm_id}${memberVO.mem_id}" title="ä¿®æ”¹ç•™è¨€">
 																	</c:if>
 																</c:if>
 																</div>
 															</c:if>
 														</c:forEach>
-														<div class="card-body h6">
-															<small class="text-muted post_time float-right">¯d¨¥®É¶¡ ¡G <fmt:formatDate value="${commVO.post_time}" pattern="yyyy-MM-dd HH:mm:ss" /></small>
+														<div class="card-body h6 bg-warning">
+															<small class="text-muted post_time float-right">ç•™è¨€æ™‚é–“ ï¼š <fmt:formatDate value="${commVO.post_time}" pattern="yyyy-MM-dd HH:mm:ss" /></small>
 															<br>
-															<small class="text-muted last_time float-right">­×§ï®É¶¡ ¡G <fmt:formatDate value="${commVO.last_edit}" pattern="yyyy-MM-dd HH:mm:ss" /></small>
+															<small class="text-muted last_time float-right">ä¿®æ”¹æ™‚é–“ ï¼š <fmt:formatDate value="${commVO.last_edit}" pattern="yyyy-MM-dd HH:mm:ss" /></small>
 															<br>
 															<br>
 															<b>
@@ -286,7 +337,7 @@
 											<div class="card-header text-center" id="headingOne">
 												<h5 class="card-title">
 													<button class="btn btn-link" type="button" data-toggle="collapse" data-target=".${postVO.post_id}" aria-expanded="false" aria-controls="collapseOne">
-														¦¬¦X¯d¨¥
+														æ”¶åˆç•™è¨€
 													</button>
 												</h5>
 											</div>
@@ -294,9 +345,9 @@
 									</div>
 								</c:if>		
 								<div class="card-footer">
-									<small class="text-muted post_time float-right">±i¶K®É¶¡ ¡G <fmt:formatDate value="${postVO.post_time}" pattern="yyyy-MM-dd HH:mm:ss" /></small>
+									<small class="text-muted post_time float-right">å¼µè²¼æ™‚é–“ ï¼š <fmt:formatDate value="${postVO.post_time}" pattern="yyyy-MM-dd HH:mm:ss" /></small>
 									<br>
-									<small class="text-muted last_edit float-right">­×§ï®É¶¡ ¡G <fmt:formatDate value="${postVO.last_edit}" pattern="yyyy-MM-dd HH:mm:ss" /></small>
+									<small class="text-muted last_edit float-right">ä¿®æ”¹æ™‚é–“ ï¼š <fmt:formatDate value="${postVO.last_edit}" pattern="yyyy-MM-dd HH:mm:ss" /></small>
 								</div>
 							</div>
 						
@@ -317,18 +368,17 @@
 
 
 
-
 <script>
-	// ³B²zicon¹Ï¤ù¤Î¥\¯àªº¤Á´«
+	// è™•ç†iconåœ–ç‰‡åŠåŠŸèƒ½çš„åˆ‡æ›
 	$('img.img-icon').click(function(){
 		var source = $(this).attr('src');
-		if (source.includes('full')){
-			// full ¬° ¹ê¤ß·R¤ß¹Ï®×, ¥Nªí¦¬ÂÃ¤å³¹¥\¯à, «ö¤U«á¸m´«¹Ï¤ù, ¨Ã¥B¥HAJAX¤è¦¡°e¥X½Ğ¨D
+		if (source.includes('empty')){
+			// full ç‚º å¯¦å¿ƒæ„›å¿ƒåœ–æ¡ˆ, ä»£è¡¨æ”¶è—æ–‡ç« åŠŸèƒ½, æŒ‰ä¸‹å¾Œç½®æ›åœ–ç‰‡, ä¸¦ä¸”ä»¥AJAXæ–¹å¼é€å‡ºè«‹æ±‚
 			var thisID = this.id;
 			var post_id = thisID.substring(0, 10);
 			var mem_id = thisID.substring(10, 17);
-			$(this).attr('src', '<%=request.getContextPath()%>/images/empty.png');
-			$(this).attr('title', '¨ú®ø¦¬ÂÃ');
+			$(this).attr('src', '<%=request.getContextPath()%>/images/icons/full.png');
+			$(this).attr('title', 'å–æ¶ˆæ”¶è—');
 			$.ajax({
 				url: '<%=request.getContextPath()%>/favpost/favpost.do',
 				type: 'POST',
@@ -340,20 +390,20 @@
 				success: function(){
 					Swal.fire({
 						icon: 'info',
-						title: '¦¬ÂÃ¤å³¹¦¨¥\',
+						title: 'æ”¶è—æ–‡ç« æˆåŠŸ',
 						showConfirmButton: false,
 						timer: 750
 					})
 				}
 			});
 			
-		} else if (source.includes('empty')){
-			// empty ¥NªíªÅ¤ß·R¤ß¹Ï®×, ¥Nªí¨ú®ø¦¬ÂÃ¥\¯à, «ö¤U«á¸m´«¹Ï¤ù, ¨Ã¥B¥HAJAX¤è¦¡°e¥X½Ğ¨D
+		} else if (source.includes('full')){
+			// empty ä»£è¡¨ç©ºå¿ƒæ„›å¿ƒåœ–æ¡ˆ, ä»£è¡¨å–æ¶ˆæ”¶è—åŠŸèƒ½, æŒ‰ä¸‹å¾Œç½®æ›åœ–ç‰‡, ä¸¦ä¸”ä»¥AJAXæ–¹å¼é€å‡ºè«‹æ±‚
 			var thisID = this.id;
 			var post_id = thisID.substring(0, 10);
 			var mem_id = thisID.substring(10, 17);
-			$(this).attr('src', '<%=request.getContextPath()%>/images/full.png');
-			$(this).attr('title', '¦¬ÂÃ¤å³¹');
+			$(this).attr('src', '<%=request.getContextPath()%>/images/icons/empty.png');
+			$(this).attr('title', 'æ”¶è—æ–‡ç« ');
 			$.ajax({
 				url: '<%=request.getContextPath()%>/favpost/favpost.do',
 				type: 'POST',
@@ -365,20 +415,20 @@
 				success: function(){
 					Swal.fire({
 						icon: 'info',
-						title: '¨ú®ø¦¬ÂÃ¦¨¥\',
+						title: 'å–æ¶ˆæ”¶è—æˆåŠŸ',
 						showConfirmButton: false,
 						timer: 750
 					})
 				}
 			});
 		} else if (source.includes('remove')){
-			// remove ¬°©U§£±í¹Ï®×, ¥Nªí²¾°£¤å³¹©Î¯d¨¥
+			// remove ç‚ºåƒåœ¾æ¡¶åœ–æ¡ˆ, ä»£è¡¨ç§»é™¤æ–‡ç« æˆ–ç•™è¨€
 			var thisID = this.id;
 			if (thisID.includes('POST')){
-				// ¨C­Ó.img-icon ªº img ¼ĞÅÒªº ID ·í¤¤³£¥[¤J¤F
-				// ${postVO.post_id}${memberVO.mem_id} ©Î¬O ${commVO.comm_id}${memberVO.mem_id}
-				// ¥H¦¹§PÂ_¬O¤å³¹©Î¬O¯d¨¥ªº²¾°£ icon ³Q«ö¤U
-				// ¦AÂ^¨ú'POST000000' ©Î¬O 'COMM000000' §@¬°½Ğ¨D°Ñ¼Æ
+				// æ¯å€‹.img-icon çš„ img æ¨™ç±¤çš„ ID ç•¶ä¸­éƒ½åŠ å…¥äº†
+				// ${postVO.post_id}${memberVO.mem_id} æˆ–æ˜¯ ${commVO.comm_id}${memberVO.mem_id}
+				// ä»¥æ­¤åˆ¤æ–·æ˜¯æ–‡ç« æˆ–æ˜¯ç•™è¨€çš„ç§»é™¤ icon è¢«æŒ‰ä¸‹
+				// å†æ“·å–'POST000000' æˆ–æ˜¯ 'COMM000000' ä½œç‚ºè«‹æ±‚åƒæ•¸
 				var post_id = thisID.substring(0, 10);
 				var post = $(this).parents('div.justify-content-around');
 				$.ajax({
@@ -392,7 +442,7 @@
 						post.hide();
 						Swal.fire({
 							icon: 'info',
-							title: '²¾°£¤å³¹¦¨¥\',
+							title: 'ç§»é™¤æ–‡ç« æˆåŠŸ',
 							showConfirmButton: false,
 							timer: 1200
 						});
@@ -400,13 +450,13 @@
 					error: function(){
 						Swal.fire({
 							icon: 'error',
-							title: '²¾°£¤å³¹¥¢±Ñ'
+							title: 'ç§»é™¤æ–‡ç« å¤±æ•—'
 						})
 					}
 				});
 			} else if (thisID.includes('COMM')){
-				<%-- ²¾°£¯d¨¥°Ï¶ô --%>
-				<%-- comm ªº model ¡B controller ÁÙ¨S¼¶¼g remove ¥\¯à, ¤£¹Lºô­¶ªºÅŞ¿è¤w¸g³B²z¦n¤F --%>
+				<%-- ç§»é™¤ç•™è¨€å€å¡Š --%>
+				<%-- comm çš„ model ã€ controller é‚„æ²’æ’°å¯« remove åŠŸèƒ½, ä¸éç¶²é çš„é‚è¼¯å·²ç¶“è™•ç†å¥½äº† --%>
 				// div.collapse, div.accordion
 				var comm_id = thisID.substring(0, 10);
 				var comm = $(this).parents('div.collapse');
@@ -417,7 +467,7 @@
 				$.ajax({
 					url: '<%=request.getContextPath()%>/comm/comm.do',
 					type: 'POST',
-					date: {
+					data: {
 						comm_id: comm_id,
 						action: 'remove'
 					},
@@ -432,7 +482,7 @@
 						
 						Swal.fire({
 							icon: 'info',
-							title: '²¾°£¯d¨¥¦¨¥\',
+							title: 'ç§»é™¤ç•™è¨€æˆåŠŸ',
 							showConfirmButton: false,
 							timer: 1200
 						});
@@ -440,7 +490,7 @@
 					error: function(){
 						Swal.fire({
 							icon: 'error',
-							title: '²¾°£¤å³¹¥¢±Ñ'
+							title: 'ç§»é™¤æ–‡ç« å¤±æ•—'
 						})
 					}
 				});
@@ -455,14 +505,24 @@
 		}
 
 	});
-
+	
+	
+	$('.insert-head').click(function(){
+		$('.insert-body').collapse('show');
+	})
+	
+	$('.member-icon').click(function(){
+		$('.insert-body').collapse('hide');
+	})
+	
+	
 	
 </script>
 		
 		
 		
 
-    <!-- ¤º®e ---end  -->
+    <!-- å…§å®¹ ---end  -->
 
 
         <!-- footer -->
@@ -470,64 +530,64 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-3 col-sm-6 footer-list">
-                        <h5 class="text-uppercase">§Ö³t³sµ²</h5>
+                        <h5 class="text-uppercase">å¿«é€Ÿé€£çµ</h5>
                         <ul>
                             <li>
-                                <a class="footer-link" href="<%=request.getContextPath()%>/front-end/index.jsp">S.F.G­º­¶</a>
+                                <a class="footer-link" href="<%=request.getContextPath()%>/front-end/index.jsp">S.F.Gé¦–é </a>
                             </li>
                             <li>
-                                <a class="footer-link" href="<%=request.getContextPath()%>/front-end/member/addMember.jsp">µù¥U·|­û</a>
+                                <a class="footer-link" href="<%=request.getContextPath()%>/front-end/member/addMember.jsp">è¨»å†Šæœƒå“¡</a>
                             </li>
                             <li>
-                                <a class="footer-link" href="">°Ó«°</a>
+                                <a class="footer-link" href="">å•†åŸ</a>
                             </li>
                             <li>
-                                <a class="footer-link" href="">¹ÎÁÊ</a>
+                                <a class="footer-link" href="">åœ˜è³¼</a>
                             </li>
                         </ul>
                     </div>
                     <div class="col-md-3 col-sm-6 footer-list">
-                        <h5 class="text-uppercase">·|­û¤¬°Ê</h5>
+                        <h5 class="text-uppercase">æœƒå“¡äº’å‹•</h5>
                         <ul>
                             <li>
-                                <a class="footer-link" href="">Äv¼Ğ°Ï</a>
+                                <a class="footer-link" href="">ç«¶æ¨™å€</a>
                             </li>
                             <li>
-                                <a class="footer-link" href="">ª½ÁÊ°Ï</a>
+                                <a class="footer-link" href="">ç›´è³¼å€</a>
                             </li>
                             <li>
-                                <a class="footer-link" href="<%=request.getContextPath()%>/front-end/post/listAllPost.jsp">°Q½×°Ï</a>
+                                <a class="footer-link" href="<%=request.getContextPath()%>/front-end/post/listAllPost.jsp">è¨è«–å€</a>
                             </li>
                             <li>
-                                <a class="footer-link" href="">²á¤Ñ«Ç</a>
+                                <a class="footer-link" href="">èŠå¤©å®¤</a>
                             </li>
                         </ul>
                     </div>
                     <div class="col-md-3 col-sm-6 footer-list">
-                        <h5 class="text-uppercase">Ãö©ó§Ú­Ì</h5>
+                        <h5 class="text-uppercase">é—œæ–¼æˆ‘å€‘</h5>
                         <ul>
                             <li>
-                                <a class="footer-link" href="">Ãö©óS.F.G</a>
+                                <a class="footer-link" href="">é—œæ–¼S.F.G</a>
                             </li>
                             <li>
-                                <a class="footer-link" href="">³Ì·s®ø®§</a>
+                                <a class="footer-link" href="">æœ€æ–°æ¶ˆæ¯</a>
                             </li>
                             <li>
-                                <a class="footer-link" href="">Áô¨pÅv¬Fµ¦</a>
+                                <a class="footer-link" href="">éš±ç§æ¬Šæ”¿ç­–</a>
                             </li>
                         </ul>
                     </div>
                     <div class="col-md-3 col-sm-6 footer-list">
-                        <h5 class="text-uppercase">§Ş³N¤ä´©</h5>
+                        <h5 class="text-uppercase">æŠ€è¡“æ”¯æ´</h5>
                         <ul>
                             <li>
-                                <a class="footer-link" href="">·s¤â¤W¸ô</a>
+                                <a class="footer-link" href="">æ–°æ‰‹ä¸Šè·¯</a>
                             </li>
                             <li>
-                                <a class="footer-link" href="">À°§U&¤ä´©</a>
+                                <a class="footer-link" href="">å¹«åŠ©&æ”¯æ´</a>
                             </li>
                             <li>
-                                <a class="footer-link" href="">ªA°È±ø´Ú</a>
+                                <a class="footer-link" href="">æœå‹™æ¢æ¬¾</a>
                             </li>
                         </ul>                    
                     </div>

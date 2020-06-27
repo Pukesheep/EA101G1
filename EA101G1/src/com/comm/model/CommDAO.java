@@ -25,7 +25,6 @@ public class CommDAO implements CommDAO_interface {
 	private static final String UPDATE = "UPDATE comm SET c_status = ?, c_text = ?, last_edit = SYSDATE WHERE comm_id = ?";
 	private static final String GET_COMM = "SELECT comm_id FROM comm WHERE post_id = ?";
 	
-	
 	@Override
 	public String insert(CommVO commVO) {
 		
