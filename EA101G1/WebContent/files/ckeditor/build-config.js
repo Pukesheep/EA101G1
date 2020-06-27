@@ -13,10 +13,10 @@
  * (1) https://ckeditor.com/cke4/builder
  *     Visit online builder to build CKEditor from scratch.
  *
- * (2) https://ckeditor.com/cke4/builder/78f1e2adacfbc23a368a0f037cc73818
+ * (2) https://ckeditor.com/cke4/builder/011ca68ef7c56f72c6d863d8ff9e86c9
  *     Visit online builder to build CKEditor, starting with the same setup as before.
  *
- * (3) https://ckeditor.com/cke4/builder/download/78f1e2adacfbc23a368a0f037cc73818
+ * (3) https://ckeditor.com/cke4/builder/download/011ca68ef7c56f72c6d863d8ff9e86c9
  *     Straight download link to the latest version of CKEditor (Optimized) with the same setup as before.
  *
  * NOTE:
@@ -25,8 +25,8 @@
  */
 
 var CKBUILDER_CONFIG = {
-	skin: 'bootstrapck',
-	preset: 'basic',
+	skin: 'moono-lisa',
+	preset: 'standard',
 	ignore: [
 		'.DS_Store',
 		'.bender',
@@ -52,19 +52,47 @@ var CKBUILDER_CONFIG = {
 		'tests'
 	],
 	plugins : {
+		'a11yhelp' : 1,
 		'about' : 1,
 		'base64image' : 1,
 		'basicstyles' : 1,
+		'blockquote' : 1,
 		'clipboard' : 1,
+		'contextmenu' : 1,
+		'elementspath' : 1,
 		'enterkey' : 1,
 		'entities' : 1,
+		'filebrowser' : 1,
 		'floatingspace' : 1,
+		'font' : 1,
+		'format' : 1,
+		'horizontalrule' : 1,
+		'htmlwriter' : 1,
 		'indentlist' : 1,
 		'link' : 1,
 		'list' : 1,
+		'magicline' : 1,
+		'maximize' : 1,
 		'pastebase64' : 1,
+		'pastefromgdocs' : 1,
+		'pastefromword' : 1,
+		'pastetext' : 1,
+		'pastetools' : 1,
+		'placeholder' : 1,
+		'removeformat' : 1,
+		'resize' : 1,
+		'scayt' : 1,
+		'showborders' : 1,
+		'sourcearea' : 1,
+		'specialchar' : 1,
+		'stylescombo' : 1,
+		'tab' : 1,
+		'table' : 1,
+		'tableselection' : 1,
+		'tabletools' : 1,
 		'toolbar' : 1,
 		'undo' : 1,
+		'wsc' : 1,
 		'wysiwygarea' : 1
 	},
 	languages : {

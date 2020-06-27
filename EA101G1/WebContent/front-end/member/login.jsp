@@ -46,12 +46,6 @@
     <!-- SweetAlert2 -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 	
-	<style>
-		div.full {
-			background-image: url('<%=request.getContextPath()%>/images/full.jpg');
-		}
-	</style>
-
 </head>
 
 <body>
@@ -151,7 +145,7 @@
 						<form action="<%=request.getContextPath()%>/member/login.do" method="post" id="login">
 							<div class="form-group col-md-4 align-self-center">
 					    		<label for="formGroupExampleInput1">E-mail</label>
-					    		<input type="text" class="form-control" id="formGroupExampleInput1" placeholder="E-mail" name="email">
+					    		<input type="text" class="form-control" id="formGroupExampleInput1" placeholder="E-mail" name="email" autocomplete="off">
 					  			<label for="formGroupExampleInput2">Password</label>
 					    		<input type="password" class="form-control" id="formGroupExampleInput2" placeholder="Password" name="password">
 					  		</div>

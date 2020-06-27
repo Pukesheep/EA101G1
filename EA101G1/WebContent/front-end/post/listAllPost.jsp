@@ -54,6 +54,7 @@
         
     <!-- SweetAlert2 -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+	<script src="<%=request.getContextPath()%>/files/ckeditor/ckeditor.js"></script>
 <style>
 
 
@@ -80,6 +81,14 @@
 	img.card-img:hover {
 		cursor: pointer;
 	}
+	img.card-display {
+		height: 250px;
+		max-width: 100%;
+		padding: 0 1px;
+	}
+	label > img.card-display {
+		text-align: center;
+	}
 	img.postBy {
 		width: 25px;
 		height: 25px;
@@ -102,6 +111,10 @@
 		width: 50px;
 		height: 50px;
 	}
+	nav.breadcrumb, ol.breadcrumb {
+		background-color: rgba(92, 133, 214, 0.4);
+	}
+	
 </style>
 </head>
 <body>
@@ -186,47 +199,153 @@
 </c:if>
 <%-- 錯誤表列 --%>
 
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<%=request.getContextPath()%>/front-end/index.jsp">首頁</a></li>
+		<li class="breadcrumb-item active" aria-current="page">討論區</li>
+	</ol>
+</nav>
+
 <div class="container">
 	<div class="row">
-		
+	
+		<%-- 新增文章區塊 --%>
 		<div class="col-md-12">
 			<div class="row">
-				<div class="col-md-2">
-					<img alt="" src="<%=request.getContextPath()%>/member/ShowMemberPic.do?mem_id=${sessionScope.memberVO.mem_id}" class="member-icon float-right">
-				</div>
-				<div class="col-md-8">
+				<div class="col-md-8 offset-md-2">
+					<form action="<%=request.getContextPath()%>/post/post.do" method="post" enctype="">
+						
+							
+							
+							<div class="form-group">
+							<input type="text" class="form-control insert-head" name="p_title" placeholder="Hi ${sessionScope.memberVO.mem_name}, 在想什麼嗎？" autocomplete="off" >
+							</div>
+							<div class="collapse insert-body" id="collapseExample">
+								
+								<div class="form-group">
+										<select class="form-control" id="exampleFormControlSelect2">
+											<optgroup label="文章分類">
+												<c:forEach var="ptypeVO" items="${ptypeSvc.all}" varStatus="s">
+												<%-- 利用varStatus來解決分類問題 --%>
+													<c:if test="${ptypeVO.ptype_id < 5}">
+														<option value="${ptypeVO.ptype_id}">${ptypeVO.type}</option>
+													</c:if>
+													<c:if test="${sessionScope.memberVO.mem_id == M000012}">
+														<option value="${ptypeVO.ptype_id}">${ptypeVO.type}</option>
+													</c:if>
+												</c:forEach>
+											</optgroup>
+										</select>
+								</div>
+								<div class="form-group">
+							<textarea name="text" id="editor1"></textarea>
+							</div>
+							<script>
+								var config = {};
+								config.placeholder = '新增文章.....'; 
+								CKEDITOR.replace('editor1', config);
+			                </script>
+							<img class="addPost" alt="" src="">
+							<input type="file" id="upload">	
+								
+							</div>
+							
+							
 					
-					
-					
-					<input type="text" class="form-control insert-head" name="p_title" aria-describedby="emailHelp" placeholder="Hi ${sessionScope.memberVO.mem_name}, 在想什麼嗎？" autocomplete="off" >
-					<div class="collapse insert-body" id="collapseExample">
-						
-						
-						
-						
-						
-						<div class="btn-group col-md-12" role="group" aria-label="Basic example">
-							<c:forEach var="ptypeVO" items="${ptypeSvc.all}">
-								<button type="button" class="btn btn-warning">${ptypeVO.type}</button>
-							</c:forEach>
-							
-						</div>
-							
-							
-							
-							
-						
-						
+					</form>
 					</div>
-					
-					
-					
-					
-					
-					
+			</div>
+		</div>
+		<%-- 新增文章區塊 --%>
+		
+		
+		
+	<%-- 
+				<div class="row">
+				<div class="col-md-4 justify-content-around display">
+			<div class="accordion" id="accordionExample">
+				<div class="collapse insert-body" id="collapseExample">
+					<div class="card w-100 border-dark">
+						
+												<label for="${sessionScope.memberVO.mem_id}">
+							<img alt="" src="<%=request.getContextPath()%>/post/ShowPostPic.do?post_id=${postVO.post_id}" class="card-display img-fluid">
+						</label>
+						<div class="card-header text-center" id="heading${sessionScope.memberVO.mem_id}">
+
+							<h5 class="card-title">
+								<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${sessionScope.memberVO.mem_id}" aria-expanded="false" aria-controls="collapse${sessionScope.memberVO.mem_id}" id="${sessionScope.memberVO.mem_id}">
+									[${ptypeVO.type}] ${postVO.p_title}
+								</button>
+							</h5>
+							<small class="text-muted">
+								文章作者 ：<a href="<%=request.getContextPath()%>/member/member.do?action=getOne_For_Display-front&mem_id=${sessionScope.memberVO.mem_id}">${sessionScope.memberVO.mem_name}<img class="postBy" alt="" src="<%=request.getContextPath()%>/member/ShowMemberPic.do?mem_id=${sessionScope.memberVO.mem_id}"></a>
+								<br>
+								<br>
+							</small>
+						</div>
+						<div id="collapse${sessionScope.memberVO.mem_id}" class="collapse" aria-labelledby="heading${sessionScope.memberVO.mem_id}" data-parent="#accordionExample">
+							<div class="card-body h5 bg-warning">
+								<b>
+									${sessionScope.memberVO.mem_id}${sessionScope.memberVO.mem_id}${sessionScope.memberVO.mem_id}${sessionScope.memberVO.mem_id}
+								</b>
+							</div>
+							<div class="card-header text-center" id="headingOne">
+								<h5 class="card-title">
+									<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${sessionScope.memberVO.mem_id}" aria-expanded="false" aria-controls="collapse${sessionScope.memberVO.mem_id}">
+										收合文章
+									</button>
+								</h5>
+							</div>
+						</div>
+						<div class="accordion" id="accordionExample">
+							<div class="card-header text-center" id="headingOne">
+								<h5 class="card-title">
+									<button class="btn btn-link" type="button" data-toggle="collapse" data-target=".${sessionScope.memberVO.mem_id}q" aria-expanded="false" aria-controls="collapseOne">
+										瀏覽留言
+									</button>
+								</h5>
+							</div>
+							<div id="collapseOne" class="collapse ${sessionScope.memberVO.mem_id}q" aria-labelledby="headingOne" data-parent="#accordionExample">
+								<div class="card-header bg-success">
+									<small class="text-muted">
+										留言會員 ：<a href="#">123123<img class="postBy" alt="" src=""></a>
+									</small>
+								</div>
+								<div class="card-body h6 bg-warning">
+									<small class="text-muted post_time float-right">留言時間 ： <fmt:formatDate value="${commVO.post_time}" pattern="yyyy-MM-dd HH:mm:ss" /></small>
+									<br>
+									<small class="text-muted post_time float-right">修改時間 ： <fmt:formatDate value="${commVO.last_edit}" pattern="yyyy-MM-dd HH:mm:ss" /></small>
+									<br>
+									<br>
+									<b>
+										${sessionScope.memberVO.mem_name}${sessionScope.memberVO.mem_id}${sessionScope.memberVO.mem_id}
+									</b>
+								</div>
+							</div>
+							<div id="collapseOne" class="collapse ${sessionScope.memberVO.mem_id}q" aria-labelledby="headingOne" data-parent="#accordionExample">
+								<div class="card-header text-center" id="headingOne">
+									<h5 class="card-title">
+										<button class="btn btn-link" type="button" data-toggle="collapse" data-target=".${sessionScope.memberVO.mem_id}q" aria-expanded="false" aria-controls="collapseOne">
+											收合留言
+										</button>
+									</h5>
+								</div>
+							</div>
+						</div>
+						<div class="card-footer">
+							<small class="text-muted post_time float-right">張貼時間 ： <fmt:formatDate value="${postVO.post_time}" pattern="yyyy-MM-dd HH:mm:ss" /></small>
+							<br>
+							<small class="text-muted last_edit float-right">修改時間 ： <fmt:formatDate value="${postVO.last_edit}" pattern="yyyy-MM-dd HH:mm:ss" /></small>
+						</div>
+					</div>
+					</div>
 				</div>
 			</div>
 		</div>
+	--%>
+		
+		
+		
 		
 		<c:forEach var="postVO" items="${list}">
 			<c:if test="${postVO.p_status eq 1}">
@@ -288,7 +407,7 @@
 									</h5>
 								</div>
 							</div>
-							 
+							
 								<c:if test="${commSvc.findComm(postVO.post_id).comm_id ne null}">
 									<div class="accordion" id="accordionExample">
 										<div class="card-header text-center" id="headingOne">
@@ -304,7 +423,7 @@
 													<div id="collapseOne" class="collapse ${postVO.post_id}" aria-labelledby="headingOne" data-parent="#accordionExample">
 														<c:forEach var="memberVOcomm" items="${memberSvc.all}">
 															<c:if test="${memberVOcomm.mem_id == commVO.mem_id}">
-																<div class="card-header bg-info">
+																<div class="card-header bg-success">
 																	<small class="text-muted">
 																		留言會員 ：<a href="<%=request.getContextPath()%>/member/member.do?action=getOne_For_Display-front&mem_id=${commVO.mem_id}">${memberVOcomm.mem_name}<img class="postBy" alt="" src="<%=request.getContextPath()%>/member/ShowMemberPic.do?mem_id=${commVO.mem_id}"></a>
 																	</small>
@@ -507,12 +626,18 @@
 	});
 	
 	
-	$('.insert-head').click(function(){
+	$('.insert-head').mouseup(function(){
 		$('.insert-body').collapse('show');
+		if ($(this).attr('placeholder').includes('Hi')){
+			$(this).attr('placeholder', '請輸入文章標題');
+		} 
 	})
 	
 	$('.member-icon').click(function(){
 		$('.insert-body').collapse('hide');
+		if ($('.insert-head').attr('placeholder').includes('請輸入')){
+			$('.insert-head').attr('placeholder', 'Hi ${sessionScope.memberVO.mem_name}, 在想什麼嗎？');
+		}
 	})
 	
 	
