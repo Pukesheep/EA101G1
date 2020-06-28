@@ -235,9 +235,9 @@
 										</c:forEach>
 									</optgroup>
 								</select>
-								<div class="card pp_image" style=" height: 12rem;">
+								<div class="card pp_image" style=" height: 8rem;">
 									<label for="upload">
-										<img class="card-img-top" alt="" src="<%=request.getContextPath()%>/images/post/toupload.png" id="p_image" style=" height: 11.8rem;">
+										<img class="card-img-top" alt="" src="<%=request.getContextPath()%>/images/post/toupload.png" id="p_image" style=" height: 7.8rem;">
 									</label>
 								</div>
 								<input class="d-none" type="file" name="image" id="upload">	
@@ -381,21 +381,21 @@
 																		<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/reportmember.png" id="${commVO.comm_id}${memberVO.mem_id}" title="檢舉會員">
 																		<c:if test="${sessionScope.memberVO.mem_id == commVO.mem_id}">
 																			<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/remove.png" id="${commVO.comm_id}${memberVO.mem_id}" title="移除留言">
-																			<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/update.png" id="${commVO.comm_id}${memberVO.mem_id}" title="修改留言">
+																			<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/update.png" id="${postVO.post_id}${commVO.comm_id}${sessionScope.memberVO.mem_id}" title="修改留言">
 																		</c:if>
 																	</c:if>
 																</div>
 															</c:if>
 														</c:forEach>
 														 
-														<div class="collapse reply" id="reply${commVO.comm_id}">
+														<div class="collapse reply" id="update${commVO.comm_id}">
 															<div class="card card-body bg-secondary">
 																<div class="row">
 																	<div class="col">
 																		<input type="text" class="form-control c_text" name="c_text" placeholder="請輸入留言...." id="${postVO.post_id}${commVO.comm_id}${memberVO.mem_id}">
 																		<br>
 																		<img class="img-icon float-left d-inline-block" id="${commVO.comm_id}" alt="" src="<%=request.getContextPath()%>/images/icons/cross.png" title="取消">
-																		<img class="img-icon float-right d-inline-block" id="${postVO.post_id}${commVO.comm_id}${sessionScope.memberVO.mem_id}" alt="" src="<%=request.getContextPath()%>/images/icons/checked.png" title="送出">
+																		<img class="${postVO.post_id} img-icon float-right d-inline-block" id="${commVO.comm_id}${sessionScope.memberVO.mem_id}" alt="" src="<%=request.getContextPath()%>/images/icons/checked.png" title="送出">
 																	</div>
 																</div>
 															</div>
@@ -580,9 +580,18 @@
 			
 		} else if (source.includes('update')){
 			
-			var parent = $(this).parents('.col-4 justify-content-around');
-			parent.attr('class', 'ririri');
-			console.log(parent);
+			var thisID = this.id;
+			var splitID = thisID.substring(10, 14);
+			if (splitID === 'COMM'){
+				var post_id = thisID.substring(0, 10);
+				var comm_id = thisID.substring(10, 20);
+				var mem_id = thisID.substring(20, 27);
+				$('#update' + comm_id).collapse('toggle');
+			} else if (splitID !== 'COMM') {
+				
+				
+				
+			}
 			
 		} else if (source.includes('comm')){
 			var thisID = this.id;
@@ -590,10 +599,19 @@
 			$('#reply' + post_id).collapse('toggle');
 			
 		} else if (source.includes('cross')){
+			
 			var thisID = this.id;
-			var post_id = thisID;
-			$(this).prevAll('input').val('');
-			$('#reply' + post_id).collapse('hide');
+			
+			if (thisID.includes('POST')){
+				var post_id = thisID;
+				$(this).prevAll('input').val('');
+				$('#reply' + post_id).collapse('hide');
+				
+			} else if (thisID.includes('COMM')){
+				var comm_id = thisID;
+				$(this).prevAll('input').val('');
+				$('#update' + comm_id).collapse('hide');
+			}
 			
 		} else if (source.includes('checked')){
 			var thisID = this.id;
@@ -626,10 +644,12 @@
 				});
 				
 			} else if (thisID.includes('COMM')){
-				var post_id = thisID.substring(0, 10);
-				var comm_id = thisID.substring(10, 20);
-				var mem_id = thisID.substring(20, 27);
+				
+				var post_id = $(this).attr('class').substring(0, 10);
+				var comm_id = thisID.substring(0, 10);
+				var mem_id = thisID.substring(10, 17);
 				var c_text = $(this).prevAll('input').val();
+				console.log(c_text);
 				$.ajax({
 					url: '<%=request.getContextPath()%>/comm/comm.do',
 					type: 'POST',
