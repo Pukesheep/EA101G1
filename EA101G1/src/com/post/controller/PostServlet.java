@@ -263,12 +263,6 @@ public class PostServlet extends HttpServlet {
 			try {
 				/***************************1.接收請求參數****************************************/
 				String mem_id = req.getParameter("mem_id").trim();
-//				String mem_idReg = "^[(a-zA-Z0-9)]{2,30}$";
-//				if (mem_id == null || mem_id.trim().length() == 0) {
-//					errorMsgs.add("會員編號： 請勿空白");
-//				} else if (!mem_id.trim().matches(mem_idReg)) {
-//					errorMsgs.add("會員編號： 只能是英文字母(含大小寫)、數字 , 且長度必須在2到30之間");
-//				} 
 				
 				Integer ptype_id = null;
 				try {
@@ -291,63 +285,53 @@ public class PostServlet extends HttpServlet {
 				}
 				
 				String p_title = req.getParameter("p_title").trim();
-//				String p_titleReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9)]{2,50}$";
 				if (p_title == null || p_title.trim().length() == 0) {
 					errorMsgs.add("文章標題： 請勿空白");
 				} 
-//				else if (!p_title.trim().matches(p_titleReg)) {
-//					errorMsgs.add("文章標題： 只能是中、英文字母(含大小寫)、數字和_ , 且長度在2到30之間");
-//				}
 				
 				String text = req.getParameter("text").trim();
 //				String textReg = "[(\u4e00-\u9fa5)(a-zA-Z0-9)]";
 				if (text == null || text.trim().isEmpty()) {
 					errorMsgs.add("文章內容： 請勿空白");
 				} 
-//				else if (!text.trim().matches(textReg)) {
-//					errorMsgs.add("文章內容： 只能是中、英文字母(含大小寫)、數字和_ ");
-//				}
 				
 				byte[] image = getPartByteArray(req);
-//				if (image == null) {
-//					errorMsgs.add("附加圖片： 請勿空白");
-//				}
 				
 				java.sql.Timestamp now = new java.sql.Timestamp(System.currentTimeMillis());
-				long nowLong = now.getTime();
-				java.sql.Timestamp last_edit = null;
-				try {
-					last_edit = java.sql.Timestamp.valueOf(req.getParameter("last_edit").trim());
-					long inputLong = last_edit.getTime();
-					if (inputLong - nowLong >= 0) {
-						// 輸入的日期是現在之後(未來)
-//						last_edit = now;
-						last_edit = new java.sql.Timestamp(System.currentTimeMillis());
-						errorMsgs.add("最後修改時間： 請輸入正確的時間");
-					}
-					
-				} catch (IllegalArgumentException e) {
-//					last_edit = now;
-					last_edit = new java.sql.Timestamp(System.currentTimeMillis());
-					errorMsgs.add("最後修改時間： 請輸入時間" + e.getMessage());
-				}
-				
-				java.sql.Timestamp post_time = null;
-				try {
-					post_time = java.sql.Timestamp.valueOf(req.getParameter("post_time").trim());
-					long inputLong = post_time.getTime();
-					if (inputLong - nowLong >= 0) {
-						// 輸入的日期是現在之後(未來)
-//						post_time = now;
-						post_time = new java.sql.Timestamp(System.currentTimeMillis());
-						errorMsgs.add("發文時間： 請輸入正確的時間");
-					}
-					
-				} catch (IllegalArgumentException e) {
-//					post_time = now;
-					post_time = new java.sql.Timestamp(System.currentTimeMillis());
-					errorMsgs.add("發文時間： 請輸入發文時間");
-				}
+//				long nowLong = now.getTime();
+//				java.sql.Timestamp last_edit = null;
+//				try {
+//					last_edit = java.sql.Timestamp.valueOf(req.getParameter("last_edit").trim());
+//					long inputLong = last_edit.getTime();
+//					if (inputLong - nowLong >= 0) {
+//						// 輸入的日期是現在之後(未來)
+////						last_edit = now;
+//						last_edit = new java.sql.Timestamp(System.currentTimeMillis());
+//						errorMsgs.add("最後修改時間： 請輸入正確的時間");
+//					}
+//					
+//				} catch (IllegalArgumentException e) {
+////					last_edit = now;
+//					last_edit = new java.sql.Timestamp(System.currentTimeMillis());
+//					errorMsgs.add("最後修改時間： 請輸入時間" + e.getMessage());
+//				}
+//				
+//				java.sql.Timestamp post_time = null;
+//				try {
+//					post_time = java.sql.Timestamp.valueOf(req.getParameter("post_time").trim());
+//					long inputLong = post_time.getTime();
+//					if (inputLong - nowLong >= 0) {
+//						// 輸入的日期是現在之後(未來)
+////						post_time = now;
+//						post_time = new java.sql.Timestamp(System.currentTimeMillis());
+//						errorMsgs.add("發文時間： 請輸入正確的時間");
+//					}
+//					
+//				} catch (IllegalArgumentException e) {
+////					post_time = now;
+//					post_time = new java.sql.Timestamp(System.currentTimeMillis());
+//					errorMsgs.add("發文時間： 請輸入發文時間");
+//				}
 				
 				postVO = new PostVO();
 				postVO.setMem_id(mem_id);
@@ -356,36 +340,28 @@ public class PostServlet extends HttpServlet {
 				postVO.setP_title(p_title);
 				postVO.setText(text);
 				postVO.setImage(image);
-//				java.sql.Timestamp now = new java.sql.Timestamp(System.currentTimeMillis()); 
-				postVO.setLast_edit(last_edit);
-				postVO.setPost_time(post_time);
-				
-				
+				postVO.setLast_edit(now);
+				postVO.setPost_time(now);
 //				postVO.setLast_edit(last_edit);
 //				postVO.setPost_time(post_time);
 				
 				// Send the user back to the from, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("postVO", postVO);
-					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/post/addPost.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/post/listAllPost.jsp");
 					failureView.forward(req, res);
 					return; // 程式中斷
 				}
 				
 				/***************************2.開始新增資料***************************************/
 				PostService postSvc = new PostService();
-//				postVO = postSvc.addPost(mem_id, ptype_id,
-//						p_status, p_title, text, image, 
-//						last_edit, post_time);
 				postVO = postSvc.addPost(mem_id, ptype_id,
-						p_status, p_title, text, image, last_edit, post_time);
+						p_status, p_title, text, image, now, now);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-//				String newPK = postVO.getPost_id();
-//				postVO = postSvc.getOnePost(newPK);
 				
 				req.setAttribute("postVO", postVO);
-				String url = "/front-end/post/listOnePost.jsp";
+				String url = "/front-end/post/listAllPost.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
@@ -394,7 +370,7 @@ public class PostServlet extends HttpServlet {
 			} catch (Exception e) {
 				req.setAttribute("postVO", postVO);
 				errorMsgs.add("新增資料失敗： " + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/post/addPost.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/post/listAllPost.jsp");
 				failureView.forward(req, res);
 			}
 		}

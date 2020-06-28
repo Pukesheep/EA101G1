@@ -239,45 +239,45 @@ public class CommServlet extends HttpServlet {
 				}
 				
 				java.sql.Timestamp now = new java.sql.Timestamp(System.currentTimeMillis());
-				long nowLong = now.getTime();
-				java.sql.Timestamp last_edit = null;
-				
-				try {
-					last_edit = java.sql.Timestamp.valueOf(req.getParameter("last_edit").trim());
-					long inputLong = last_edit.getTime();
-					
-					if (inputLong - nowLong >= 0) {
-						last_edit = now;
-						errorMsgs.add("最後修改時間： 請輸入正確的時間");
-					}
-					
-				} catch (IllegalArgumentException e) {
-					last_edit = now;
-					errorMsgs.add("最後修改時間： 請輸入最後修改時間");
-				}
-				
-				java.sql.Timestamp post_time = null;
-				try {
-					post_time = java.sql.Timestamp.valueOf(req.getParameter("post_time").trim());
-					long inputLong = post_time.getTime();
-					if (inputLong - nowLong >= 0) {
-						post_time = now;
-						errorMsgs.add("留言時間： 請輸入正確的時間");
-					}
-					
-					
-				} catch (IllegalArgumentException e) {
-					post_time = now;
-					errorMsgs.add("留言時間： 請輸入發文時間");
-				}
+//				long nowLong = now.getTime();
+//				java.sql.Timestamp last_edit = null;
+//				
+//				try {
+//					last_edit = java.sql.Timestamp.valueOf(req.getParameter("last_edit").trim());
+//					long inputLong = last_edit.getTime();
+//					
+//					if (inputLong - nowLong >= 0) {
+//						last_edit = now;
+//						errorMsgs.add("最後修改時間： 請輸入正確的時間");
+//					}
+//					
+//				} catch (IllegalArgumentException e) {
+//					last_edit = now;
+//					errorMsgs.add("最後修改時間： 請輸入最後修改時間");
+//				}
+//				
+//				java.sql.Timestamp post_time = null;
+//				try {
+//					post_time = java.sql.Timestamp.valueOf(req.getParameter("post_time").trim());
+//					long inputLong = post_time.getTime();
+//					if (inputLong - nowLong >= 0) {
+//						post_time = now;
+//						errorMsgs.add("留言時間： 請輸入正確的時間");
+//					}
+//					
+//					
+//				} catch (IllegalArgumentException e) {
+//					post_time = now;
+//					errorMsgs.add("留言時間： 請輸入發文時間");
+//				}
 				
 				CommVO commVO = new CommVO();
 				commVO.setPost_id(post_id);
 				commVO.setMem_id(mem_id);
 				commVO.setC_status(c_status);
 				commVO.setC_text(c_text);
-				commVO.setLast_edit(last_edit);
-				commVO.setPost_time(post_time);
+//				commVO.setLast_edit(last_edit);
+//				commVO.setPost_time(post_time);
 				
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("commVO", commVO);
@@ -288,7 +288,7 @@ public class CommServlet extends HttpServlet {
 				
 				/***************************2.開始新增資料***************************************/
 				CommService commSvc = new CommService();
-				commVO = commSvc.addComm(post_id, mem_id, c_status, c_text, last_edit, post_time);
+				commVO = commSvc.addComm(post_id, mem_id, c_status, c_text, now, now);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
 				req.setAttribute("commVO", commVO);
