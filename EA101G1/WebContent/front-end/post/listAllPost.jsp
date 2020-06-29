@@ -617,9 +617,9 @@
 					},
 					success: function(){
 						
-						if (commSibling.length <= 4){
-							oooSibling.hide();
-							comm.hide();
+						if (commSibling.length <= 5){
+							oooSibling.remove();
+							comm.remove();
 						} else {
 							comm.remove();
 						}

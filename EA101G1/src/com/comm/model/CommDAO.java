@@ -19,7 +19,7 @@ public class CommDAO implements CommDAO_interface {
 	}
 	
 	private static final String INSERT_STMT = "INSERT INTO comm (comm_id, post_id, mem_id, c_status, c_text, last_edit) VALUES ('COMM'||LPAD(to_char(comm_seq.NEXTVAL), 6, '0'), ?, ?, ?, ?, SYSDATE)";
-	private static final String GET_ALL_STMT = "SELECT comm_id, post_id, mem_id, c_status, c_text, last_edit, post_time FROM comm ORDER BY comm_id";
+	private static final String GET_ALL_STMT = "SELECT comm_id, post_id, mem_id, c_status, c_text, last_edit, post_time FROM comm ORDER BY comm_id DESC";
 	private static final String GET_ONE_STMT = "SELECT comm_id, post_id, mem_id, c_status, c_text, last_edit, post_time FROM comm WHERE comm_id = ?";
 	private static final String DELETE = "DELETE FROM comm WHERE comm_id = ?";
 	private static final String UPDATE = "UPDATE comm SET c_status = ?, c_text = ?, last_edit = SYSDATE WHERE comm_id = ?";
