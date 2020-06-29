@@ -143,39 +143,39 @@ public class PostServlet extends HttpServlet {
 				
 				
 				java.sql.Timestamp now = new java.sql.Timestamp(System.currentTimeMillis());
-				long nowLong = now.getTime();
-				java.sql.Timestamp last_edit = null;
-				try {
-					last_edit = java.sql.Timestamp.valueOf(req.getParameter("last_edit").trim());
-					long inputLong = last_edit.getTime();
-					if (inputLong - nowLong >= 0) {
-						// 輸入的日期是現在之後(未來)
-//						last_edit = now;
-						last_edit = new java.sql.Timestamp(System.currentTimeMillis());
-						errorMsgs.add("最後修改時間： 請輸入正確的時間");
-					}
-					
-				} catch (IllegalArgumentException e) {
-//					last_edit = now;
-					last_edit = new java.sql.Timestamp(System.currentTimeMillis());
-					errorMsgs.add("最後修改時間： 請輸入時間");
-				}
-//				
-				java.sql.Timestamp post_time = null;
-				try {
-					post_time = java.sql.Timestamp.valueOf(req.getParameter("post_time").trim());
-					long inputLong = post_time.getTime();
-					if (inputLong - nowLong >= 0) {
-						// 輸入的日期是現在之後(未來)
-						post_time = now;
-						post_time = new java.sql.Timestamp(System.currentTimeMillis());
-						errorMsgs.add("發文時間： 請輸入正確的時間");
-					}
-				} catch (IllegalArgumentException e) {
-//					post_time = now;
-					post_time = new java.sql.Timestamp(System.currentTimeMillis());
-					errorMsgs.add("發文時間： 請輸入發文時間");
-				}
+//				long nowLong = now.getTime();
+//				java.sql.Timestamp last_edit = null;
+//				try {
+//					last_edit = java.sql.Timestamp.valueOf(req.getParameter("last_edit").trim());
+//					long inputLong = last_edit.getTime();
+//					if (inputLong - nowLong >= 0) {
+//						// 輸入的日期是現在之後(未來)
+////						last_edit = now;
+//						last_edit = new java.sql.Timestamp(System.currentTimeMillis());
+//						errorMsgs.add("最後修改時間： 請輸入正確的時間");
+//					}
+//					
+//				} catch (IllegalArgumentException e) {
+////					last_edit = now;
+//					last_edit = new java.sql.Timestamp(System.currentTimeMillis());
+//					errorMsgs.add("最後修改時間： 請輸入時間");
+//				}
+////				
+//				java.sql.Timestamp post_time = null;
+//				try {
+//					post_time = java.sql.Timestamp.valueOf(req.getParameter("post_time").trim());
+//					long inputLong = post_time.getTime();
+//					if (inputLong - nowLong >= 0) {
+//						// 輸入的日期是現在之後(未來)
+//						post_time = now;
+//						post_time = new java.sql.Timestamp(System.currentTimeMillis());
+//						errorMsgs.add("發文時間： 請輸入正確的時間");
+//					}
+//				} catch (IllegalArgumentException e) {
+////					post_time = now;
+//					post_time = new java.sql.Timestamp(System.currentTimeMillis());
+//					errorMsgs.add("發文時間： 請輸入發文時間");
+//				}
 				
 				PostVO postVO = new PostVO();
 				postVO.setPost_id(post_id);
@@ -185,13 +185,13 @@ public class PostServlet extends HttpServlet {
 				postVO.setP_title(p_title);
 				postVO.setText(text);
 				postVO.setImage(image);
-				postVO.setLast_edit(last_edit);
-				postVO.setPost_time(post_time);
+//				postVO.setLast_edit(last_edit);
+//				postVO.setPost_time(post_time);
 				
 				// Send the user back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("postVO", postVO);
-					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/post/update_post_input.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/post/listAllPost.jsp");
 					failureView.forward(req, res);
 					return; // 程式中斷
 				}
@@ -199,19 +199,19 @@ public class PostServlet extends HttpServlet {
 				/***************************2.開始修改資料***************************************/
 				PostService postSvc = new PostService();
 				postVO = postSvc.updatePost(post_id, mem_id, 
-						ptype_id, p_status, p_title, text, image, last_edit, post_time);
+						ptype_id, p_status, p_title, text, image, now, now);
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 //				postVO = postSvc.getOnePost(post_id);
 				req.setAttribute("postVO", postVO);
-				String url = "/front-end/post/listOnePost.jsp";
+				String url = "/front-end/post/listAllPost.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
 				/***************************其他可能的錯誤處理**********************************/
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗： " + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/post/update_post_input.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/post/listAllPost.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -333,6 +333,7 @@ public class PostServlet extends HttpServlet {
 //					errorMsgs.add("發文時間： 請輸入發文時間");
 //				}
 				
+				
 				postVO = new PostVO();
 				postVO.setMem_id(mem_id);
 				postVO.setPtype_id(ptype_id);
@@ -360,7 +361,6 @@ public class PostServlet extends HttpServlet {
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
 				
-				req.setAttribute("postVO", postVO);
 				String url = "/front-end/post/listAllPost.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);

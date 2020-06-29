@@ -210,7 +210,7 @@
 	</ol>
 </nav>
 
-<div class="container-fluid">
+<div class="container">
 	<div class="row">
 	
 		<%-- 新增文章區塊 --%>
@@ -254,7 +254,7 @@
 								<input type="hidden" name="action" value="insert">
 								<input type="hidden" name="mem_id" value="${sessionScope.memberVO.mem_id}">
 								<input type="hidden" name="p_status" value="1">
-								<button type="submit" class="btn btn-primary btn-lg">完成</button>
+								<button type="submit" class="btn btn-primary btn-lg submitedit">完成</button>
 							</div>
 						</div>
 					</div>
@@ -324,7 +324,7 @@
 					      					<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/reportpost.png" id="${postVO.post_id}${memberVO.mem_id}" title="檢舉文章">
 											<c:if test="${sessionScope.memberVO.mem_id == postVO.mem_id}">
 												<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/remove.png" id="${postVO.post_id}${memberVO.mem_id}" title="移除文章">
-												<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/update.png" id="${postVO.post_id}${memberVO.mem_id}" title="修改文章">
+												<img class="img-icon ${postVO.post_id}" alt="" src="<%=request.getContextPath()%>/images/icons/update.png" id="${postVO.post_id}${memberVO.mem_id}" title="修改文章">
 											</c:if>
 			      						</c:if>
 									</c:if>
@@ -351,7 +351,7 @@
 								<div class="card-header text-center" id="heading${postVO.post_id}">
 									<h5 class="card-title">
 										<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${postVO.post_id}" aria-expanded="false" aria-controls="collapse${postVO.post_id}">
-											收合文章
+											⇈⇈
 										</button>
 									</h5>
 								</div>
@@ -363,7 +363,7 @@
 										<div class="card-header text-center" id="headingOne">
 											<h5 class="card-title">
 												<button class="btn btn-link" type="button" data-toggle="collapse" data-target=".${postVO.post_id}" aria-expanded="false" aria-controls="collapseOne">
-													瀏覽留言
+													⇩⇩
 												</button>
 											</h5>
 										</div>
@@ -377,11 +377,13 @@
 																	<small class="text-muted">
 																		留言會員 ：<a href="<%=request.getContextPath()%>/member/member.do?action=getOne_For_Display-front&mem_id=${commVO.mem_id}">${memberVOcomm.mem_name}<img class="postBy" alt="" src="<%=request.getContextPath()%>/member/ShowMemberPic.do?mem_id=${commVO.mem_id}"></a>
 																	</small>
+																	<br>
 																	<c:if test="${sessionScope.memberVO ne null}">
 																		<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/reportmember.png" id="${commVO.comm_id}${memberVO.mem_id}" title="檢舉會員">
 																		<c:if test="${sessionScope.memberVO.mem_id == commVO.mem_id}">
 																			<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/remove.png" id="${commVO.comm_id}${memberVO.mem_id}" title="移除留言">
 																			<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/update.png" id="${postVO.post_id}${commVO.comm_id}${sessionScope.memberVO.mem_id}" title="修改留言">
+																			<br>
 																		</c:if>
 																	</c:if>
 																</div>
@@ -392,7 +394,7 @@
 															<div class="card card-body bg-secondary">
 																<div class="row">
 																	<div class="col">
-																		<input type="text" class="form-control c_text" name="c_text" placeholder="請輸入留言...." id="${postVO.post_id}${commVO.comm_id}${memberVO.mem_id}">
+																		<input type="text" class="form-control c_text" name="c_text" placeholder="請輸入留言...." id="${postVO.post_id}${commVO.comm_id}${memberVO.mem_id}" value="${commVO.c_text}">
 																		<br>
 																		<img class="img-icon float-left d-inline-block" id="${commVO.comm_id}" alt="" src="<%=request.getContextPath()%>/images/icons/cross.png" title="取消">
 																		<img class="${postVO.post_id} img-icon float-right d-inline-block" id="${commVO.comm_id}${sessionScope.memberVO.mem_id}" alt="" src="<%=request.getContextPath()%>/images/icons/checked.png" title="送出">
@@ -420,7 +422,7 @@
 											<div class="card-header text-center" id="headingOne">
 												<h5 class="card-title">
 													<button class="btn btn-link" type="button" data-toggle="collapse" data-target=".${postVO.post_id}" aria-expanded="false" aria-controls="collapseOne">
-														收合留言
+														⇧⇧
 													</button>
 												</h5>
 											</div>
@@ -438,17 +440,13 @@
 						</div>
 					</div>
 				</div>
+	
+	
+	
+	
 				
-				
-			</c:if>
-		</c:forEach>
-	</div>
-</div>
-<%-- 文章呈現區塊 --%>
-</div>
-
 <!-- 修改文章區塊 -->
-<div class="modal fade modal-update" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<div class="modal fade modal-update" id="modal-update${postVO.post_id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -457,13 +455,14 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
+			<form action="<%=request.getContextPath()%>/post/post.do" method="post" enctype="multipart/form-data" id="form-upload${postVO.post_id}">
 			<div class="modal-body">
 				<div class="container-fluid">
-					<form action="<%=request.getContextPath()%>/post/post.do" method="post" enctype="multipart/form-data" id="form-upload">
+					
 						<div class="row">
 							<div class="col-12">
 								<div class="form-group">
-									<input type="text" class="form-control" name="p_title" placeholder="請輸入文章標題..." autocomplete="off" >
+									<input type="text" class="form-control" name="p_title" placeholder="請輸入文章標題..." autocomplete="off" value="${postVO.p_title}" >
 									<select class="form-control" name="ptype_id">
 										<optgroup label="文章分類">
 											<c:forEach var="ptypeVO" items="${ptypeSvc.all}" varStatus="s">
@@ -471,48 +470,91 @@
 													<option value="${ptypeVO.ptype_id}">${ptypeVO.type}</option>
 												</c:if>
 												<c:if test="${sessionScope.memberVO.mem_id eq 'M000012' and s.count >= 5}">
-													<option value="${ptypeVO.ptype_id}">${ptypeVO.type}</option>
+													<option value="${ptypeVO.ptype_id}" ${(ptypeVO.ptype_id == postVO.ptype_id) ? "selected" : "" }>${ptypeVO.type}</option>
 												</c:if>
 											</c:forEach>
 										</optgroup>
 									</select>
 									<div class="card pp_image" style=" height: 8rem;">
-										<label for="upload1">
-											<img class="card-img-top" alt="" src="<%=request.getContextPath()%>/images/post/toupload.png" id="p_image1" style=" height: 7.8rem;">
+										<label for="upload${postVO.post_id}">
+											<img class="card-img-top" alt="" src="<%=request.getContextPath()%>/post/ShowPostPic.do?post_id=${postVO.post_id}" id="p_image${postVO.post_id}" style=" height: 7.8rem;">
+											<input class="d-none" type="file" name="image" id="upload${postVO.post_id}">
 										</label>
 									</div>
-									<input class="d-none" type="file" name="image" id="upload1">	
-									<textarea name="text" id="p_update"></textarea>
+									<textarea name="text" id="p_update${postVO.post_id}">${postVO.text}</textarea>
 									<script>
-										CKEDITOR.replace('p_update', {
+										CKEDITOR.replace('p_update${postVO.post_id}', {
 											language: 'zh'
 										});
 			                		</script>
 								</div>
 							</div>
 						</div>
-					</form>
 				</div>
 			</div>
 				<div class="d-flex justify-content-around">
 					<button type="button" class="btn btn-danger btn-lg cancelupdate">取消</button>
-					<button type="button" class="btn btn-secondary btn-lg cleanupdate">清除</button>
+					<button type="button" class="btn btn-secondary btn-lg cleanupdate" id="cleanBtn${postVO.post_id}">清除</button>
 					<input type="hidden" name="action" value="update">
+					<input type="hidden" name="post_id" value="${postVO.post_id}">
 					<input type="hidden" name="mem_id" value="${sessionScope.memberVO.mem_id}">
 					<input type="hidden" name="p_status" value="1">
 					<button type="submit" class="btn btn-primary btn-lg">完成</button>
 				</div>
 				<br>
+				</form>
 		</div>
 	</div>
-</div>				
+</div>
+<script>
+	$('.cleanupdate').click(function(){
+		
+		var thisID = this.id;
+		var post_id = thisID.substring(8);
+		var target = 'form-upload' + post_id;
+		var formUpload = document.getElementById(target);
+		formUpload.reset();
+		
+		$('#p_image' + post_id).attr('src', '<%=request.getContextPath()%>/images/post/toupload.png');
+		CKEDITOR.instances.p_update${postVO.post_id}.setData('');
+	});
+	
+	
+    
+    upload${postVO.post_id}.addEventListener("change", function(){
+    	var qqq = $(this).prevAll('img');
+    	
+    	var files = this.files;
+        if (files && files[0]) {
+            for (i = 0; i < files.length; i ++) {
+                if (files[i].type.indexOf("image") < 0) {
+					Swal.fire({
+						icon: 'error',
+						title: '上傳的格式不符'
+					})
+                } else {
+                    var file = files[i];
+                    var reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        var result = e.target.result;
+                        qqq.attr('src', result);
+
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+    })
+</script>				
 <!-- 修改文章區塊 -->			
-
-
-
-
-
-
+				
+			</c:if>
+		</c:forEach>
+	</div>
+</div>
+<%-- 文章呈現區塊 --%>
+</div>
 
 
 <script>
@@ -651,7 +693,11 @@
 				var mem_id = thisID.substring(20, 27);
 				$('#update' + comm_id).collapse('toggle');
 			} else if (splitID !== 'COMM') {
-				$('.modal-update').modal('toggle');
+				
+				var thisClass = $(this).attr('class');
+				var post_id = thisClass.substring(9);
+				//modal-update${postVO.post_id}
+				$('#modal-update' + post_id).modal('toggle');
 
 				
 				
@@ -792,23 +838,21 @@
 		CKEDITOR.instances.p_text.setData('');
 	})
 	
-	$('.cleanupdate').click(function(){
-		var formUpload = document.getElementById('form-upload');
-		formUpload.reset();
+	$('.submitedit').click(function(){
 		
-		$('#p_image1').attr('src', '<%=request.getContextPath()%>/images/post/toupload.png');
-		CKEDITOR.instances.p_update.setDate('');
+		var timer = setTimeout(function(){
+			var formInsert = document.getElementById('form-insert');
+			formInsert.reset();
+			CKEDITOR.instances.p_text.setData('');
+		}, 1000);
+		
 	})
 	
 	
-	
-	
-	
     function init() {
+		 
         var p_image = document.getElementById("p_image");
         var upload = document.getElementById("upload");
-        var p_image1 = document.getElementById("p_image1");
-        var upload1 = document.getElementById("upload1");
 
         upload.addEventListener("change", function(e){
             var files = upload.files;
@@ -835,31 +879,8 @@
             }
         });
         
-        upload1.addEventListener("change", function(e){
-            var files = upload1.files;
-            if (files && files[0]) {
-                for (i = 0; i < files.length; i ++) {
-                    if (files[i].type.indexOf("image") < 0) {
-						Swal.fire({
-							icon: 'error',
-							title: '上傳的格式不符'
-						})
-                    } else {
-                        var file = files[i];
-                        var reader = new FileReader();
-
-                        reader.onload = function(e) {
-                            var result = e.target.result;
-
-                            p_image1.setAttribute("src", result);
-
-                        }
-                        reader.readAsDataURL(file);
-                    }
-                }
-            }
-        });
     }
+    
     window.onload = init;	
 	
 	
