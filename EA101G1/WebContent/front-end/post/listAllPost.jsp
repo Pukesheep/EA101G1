@@ -438,12 +438,75 @@
 						</div>
 					</div>
 				</div>
+				
+				
 			</c:if>
 		</c:forEach>
 	</div>
 </div>
 <%-- 文章呈現區塊 --%>
 </div>
+
+<!-- 修改文章區塊 -->
+<div class="modal fade modal-update" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="container-fluid">
+					<form action="<%=request.getContextPath()%>/post/post.do" method="post" enctype="multipart/form-data" id="form-upload">
+						<div class="row">
+							<div class="col-12">
+								<div class="form-group">
+									<input type="text" class="form-control" name="p_title" placeholder="請輸入文章標題..." autocomplete="off" >
+									<select class="form-control" name="ptype_id">
+										<optgroup label="文章分類">
+											<c:forEach var="ptypeVO" items="${ptypeSvc.all}" varStatus="s">
+												<c:if test="${s.count < 5}">
+													<option value="${ptypeVO.ptype_id}">${ptypeVO.type}</option>
+												</c:if>
+												<c:if test="${sessionScope.memberVO.mem_id eq 'M000012' and s.count >= 5}">
+													<option value="${ptypeVO.ptype_id}">${ptypeVO.type}</option>
+												</c:if>
+											</c:forEach>
+										</optgroup>
+									</select>
+									<div class="card pp_image" style=" height: 8rem;">
+										<label for="upload1">
+											<img class="card-img-top" alt="" src="<%=request.getContextPath()%>/images/post/toupload.png" id="p_image1" style=" height: 7.8rem;">
+										</label>
+									</div>
+									<input class="d-none" type="file" name="image" id="upload1">	
+									<textarea name="text" id="p_update"></textarea>
+									<script>
+										CKEDITOR.replace('p_update', {
+											language: 'zh'
+										});
+			                		</script>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+				<div class="d-flex justify-content-around">
+					<button type="button" class="btn btn-danger btn-lg cancelupdate">取消</button>
+					<button type="button" class="btn btn-secondary btn-lg cleanupdate">清除</button>
+					<input type="hidden" name="action" value="update">
+					<input type="hidden" name="mem_id" value="${sessionScope.memberVO.mem_id}">
+					<input type="hidden" name="p_status" value="1">
+					<button type="submit" class="btn btn-primary btn-lg">完成</button>
+				</div>
+				<br>
+		</div>
+	</div>
+</div>				
+<!-- 修改文章區塊 -->			
 
 
 
@@ -588,7 +651,8 @@
 				var mem_id = thisID.substring(20, 27);
 				$('#update' + comm_id).collapse('toggle');
 			} else if (splitID !== 'COMM') {
-				
+				$('.modal-update').modal('toggle');
+
 				
 				
 			}
@@ -690,10 +754,12 @@
 		// 是, 則打開折疊的新增文章表單
 		// 否, 則在 session 存入此頁面的網址, 再導向到登入頁面
 		if (${sessionScope.memberVO ne null}) {
+			
 			$('.insert-body').collapse('show');
 			if ($(this).attr('placeholder').includes('Hi')){
 				$(this).attr('placeholder', '請輸入文章標題');
 			}
+			
 			
 		} else {
 			<% 
@@ -713,6 +779,10 @@
 		}
 	})
 	
+	$('.cancelupdate').click(function(){
+		$('.modal-update').modal('hide');
+	})
+	
 	$('.cleanedit').click(function(){
 		// 討論區頂端的表單清空按鈕
 		var formInsert = document.getElementById('form-insert');
@@ -722,6 +792,14 @@
 		CKEDITOR.instances.p_text.setData('');
 	})
 	
+	$('.cleanupdate').click(function(){
+		var formUpload = document.getElementById('form-upload');
+		formUpload.reset();
+		
+		$('#p_image1').attr('src', '<%=request.getContextPath()%>/images/post/toupload.png');
+		CKEDITOR.instances.p_update.setDate('');
+	})
+	
 	
 	
 	
@@ -729,6 +807,8 @@
     function init() {
         var p_image = document.getElementById("p_image");
         var upload = document.getElementById("upload");
+        var p_image1 = document.getElementById("p_image1");
+        var upload1 = document.getElementById("upload1");
 
         upload.addEventListener("change", function(e){
             var files = upload.files;
@@ -747,6 +827,31 @@
                             var result = e.target.result;
 
                             p_image.setAttribute("src", result);
+
+                        }
+                        reader.readAsDataURL(file);
+                    }
+                }
+            }
+        });
+        
+        upload1.addEventListener("change", function(e){
+            var files = upload1.files;
+            if (files && files[0]) {
+                for (i = 0; i < files.length; i ++) {
+                    if (files[i].type.indexOf("image") < 0) {
+						Swal.fire({
+							icon: 'error',
+							title: '上傳的格式不符'
+						})
+                    } else {
+                        var file = files[i];
+                        var reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            var result = e.target.result;
+
+                            p_image1.setAttribute("src", result);
 
                         }
                         reader.readAsDataURL(file);
