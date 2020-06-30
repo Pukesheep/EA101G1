@@ -844,7 +844,9 @@
 							timer: 1200
 						})
 						var timer = setTimeout(function(){
-							location.reload();
+							
+							document.location.href = '<%=request.getContextPath()%>/front-end/post/listAllPost.jsp';
+							
 						}, 500);
 					}
 				});
