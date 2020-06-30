@@ -4,6 +4,7 @@
 <%@ page import="java.util.*" %>
 <%@ page import="com.post.model.*" %>
 <%@ page import="com.member.model.*" %>
+<%@ page import="com.favpost.model.*" %>
 
 <%
 	PostService postSvc = new PostService();
@@ -403,7 +404,6 @@
 																	<small class="text-muted">
 																		留言會員 ：<a href="<%=request.getContextPath()%>/member/member.do?action=getOne_For_Display-front&mem_id=${commVO.mem_id}">${memberVOcomm.mem_name}<img class="postBy" alt="" src="<%=request.getContextPath()%>/member/ShowMemberPic.do?mem_id=${commVO.mem_id}"></a>
 																	</small>
-																	<br>
 																	<c:if test="${sessionScope.memberVO ne null}">
 																		<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/reportmember.png" id="${commVO.comm_id}${memberVO.mem_id}" title="檢舉會員">
 																		<c:if test="${sessionScope.memberVO.mem_id == commVO.mem_id}">
@@ -542,8 +542,6 @@
 		$('#p_image' + post_id).attr('src', '<%=request.getContextPath()%>/images/post/toupload.png');
 		CKEDITOR.instances.p_update${postVO.post_id}.setData('');
 	});
-	
-	
     
     upload${postVO.post_id}.addEventListener("change", function(){
     	var qqq = $(this).prevAll('img');
@@ -599,8 +597,10 @@
 								<c:if test="${postVO.ptype_id == ptypeVO.ptype_id}">
 									<div class="row">
 										<div class="col">
-											<p class="text-center">
-												[${ptypeVO.type}] ${postVO.post_id}
+											<p class="text-center" id="listAllFavpost">
+												<a href="#${postVO.post_id}">
+													[${ptypeVO.type}] ${postVO.post_id}
+												</a>
 											</p>	
 										</div>	
 									</div>
@@ -625,6 +625,25 @@
             autohide: false
         });
 		$('.toast').toast('show');
+		<%--
+		var listAllFavpost = document.getElementById('listAllFavpost');
+		<%
+			String resultList = "";
+			java.util.List<FavpostVO> favpostList = favpostSvc.getAllByM(memberVO.getMem_id());
+			for (FavpostVO aFav : favpostList){
+				
+				
+				resultList += aFav.getPost_id();
+			
+		%>
+		var anchor = document.createElement('a');
+		anchor
+		var br = document.createElement('br');
+		listAllFavpost.inner
+		listAllFavpost.append(br);
+		
+		<%}%>
+		--%>
 	})
 	
 </script>
