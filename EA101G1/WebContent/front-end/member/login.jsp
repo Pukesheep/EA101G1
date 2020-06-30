@@ -13,9 +13,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>login.jsp</title>
+    <title>登入</title>
     <!-- TODO: 換title 的icon -->
-    <link rel="icon shortcut" href="./img/ICON.ico">
+    <link rel="icon shortcut" href="<%=request.getContextPath()%>/front-end/img/ICON.ico">
     <!-- Bootstrap官方網站 https://getbootstrap.com/ -->
     <!-- 連結Bootstrap.min.css -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -45,6 +45,12 @@
         
     <!-- SweetAlert2 -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+	
+	<!-- member.css -->
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/css/member.css">
+	
+	
+	
 	
 </head>
 
@@ -132,36 +138,47 @@
 
 </c:if>
 	
-	   <div class="row">
-	   		<div class="col-md-12">
-	   			<div class="row  align-items-center">
-	   			
-	   				<div class="col-md-5 full">
-	   					
-	   				</div>
-	   			
-	   			
-				   <div class="col-md-5 align-self-center">
-						<form action="<%=request.getContextPath()%>/member/login.do" method="post" id="login">
-							<div class="form-group col-md-4 align-self-center">
-					    		<label for="formGroupExampleInput1">E-mail</label>
-					    		<input type="text" class="form-control" id="formGroupExampleInput1" placeholder="E-mail" name="email" autocomplete="off">
-					  			<label for="formGroupExampleInput2">Password</label>
-					    		<input type="password" class="form-control" id="formGroupExampleInput2" placeholder="Password" name="password">
-					  		</div>
-					  		<div class="form-row col-md-4 justify-content-around">
-					  			<button type="submit" class="btn btn-success btn-lg" form="login" name="action" value="login">Login</button>
-					  		</div>
-						</form>
-					</div>
-			
-			
-			
-			
+<div class="container">
+	<div class="d-flex justify-content-center h-100">
+		<div class="card">
+			<div class="card-header">
+				<h3>登入</h3>
+				<div class="d-flex justify-content-end social_icon">
+					<span><i class="fas fa-user"></i></span>
 				</div>
-				
+			</div>
+			<div class="card-body">
+				<form action="<%=request.getContextPath()%>/member/login.do" method="post">
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-envelope"></i></span>
+						</div>
+						<input type="text" name="email" class="form-control" placeholder="電子信箱" autocomplete="off">
+						
+					</div>
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-key"></i></span>
+						</div>
+						<input type="password" name="password" class="form-control" placeholder="密碼">
+					</div>
+					<div class="row align-items-center remember">
+						<input type="checkbox">Remember Me
+					</div>
+					<div class="form-group">
+						<input type="hidden" name="action" value="login">
+						<input type="submit" value="登入" class="btn float-right login_btn">
+					</div>
+				</form>
+			</div>
+			<div class="card-footer bg-warning">
+				<div class="d-flex justify-content-around links">
+					<a href="<%=request.getContextPath()%>/front-end/member/addMember.jsp">註冊</a><a href="#">忘記密碼</a>
+				</div>
 			</div>
 		</div>
+	</div>
+</div>
     </section>
     <!-- 內容 ---end  -->
 
@@ -245,17 +262,5 @@
         </button>
 
 </body>
-<%-- 
-<script>
-
-Swal.fire({
-	  icon: 'error',
-	  title: 'Oops...',
-	  text: 'Something went wrong!',
-	  footer: '<a href>Why do I have this issue?</a>'
-	})
-
-</script>
---%>
 
 </html>

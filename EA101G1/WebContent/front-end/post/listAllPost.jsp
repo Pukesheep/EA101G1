@@ -24,9 +24,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>所有文章資料 - listAllPost.jsp</title>
+    <title>討論區</title>
     <!-- TODO: 換title 的icon -->
-    <link rel="icon shortcut" href="./img/ICON.ico">
+    <link rel="icon shortcut" href="<%=request.getContextPath()%>/front-end/img/ICON.ico">
     <!-- Bootstrap官方網站 https://getbootstrap.com/ -->
     <!-- 連結Bootstrap.min.css -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -56,97 +56,11 @@
         
     <!-- SweetAlert2 -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+	<!-- CKEditor -->
 	<script src="<%=request.getContextPath()%>/files/ckeditor/ckeditor.js"></script>
-<style>
+	<!-- post.css -->
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/css/post.css">
 
-
-	div.card-group, div.card {
-		max-width: 95%;
-		margin: 2% auto;
-	}
-	div.card border-dark {
-		margin: 20px;
-	}
-	img.img-icon {
-		width: 25px;
-		height: 25px;
-		float: right;
-		margin: 0 2px;
-	}
-	img.img-icon:hover {
-		cursor:pointer;
-	}
-	img.img-icon-mini {
-		width: 25px;
-		height: 25px;
-	}
-	img.card-img, img.card-img-top {
-		height: 250px;
-		padding: 0 1px;
-	}
-	img.card-img:hover {
-		cursor: pointer;
-	}
-	img.card-display {
-		height: 250px;
-		max-width: 100%;
-		padding: 0 1px;
-	}
-	label > img.card-display {
-		text-align: center;
-	}
-	img.postBy {
-		width: 25px;
-		height: 25px;
-		border-radius: 50%;
-	}
-	p > img {
-		max-width: 95%;
-	}
-	div.card-body > b {
-		line-height: 42px !important;
-	}
-	div.collapse div.card-body {
-		margin-bottom: -2px;
-	}
-	img#left-sign, img#left-sign {
-		max-width: 95%;
-	}
-	img.member-icon {
-		border-radius: 50%;
-		width: 50px;
-		height: 50px;
-	}
-	div.pp_image {
-		margin-top: 3px;
-		margin-bottom: 3px;
-	}
-	div.reply {
-		margin-bottom: 5px;
-	}
-	#btn-toast {
-	    width: 70px;
-	    height: 70px;
-	    border:none;
-	    position: fixed;
-	    bottom: 100px;
-	    right: 25px;
-	    z-index: 1000;
-	    border-radius: 50%;
-	    font-size: 40px;
-	    color:whitesmoke;
-	    background:linear-gradient(#216683fb, #6ed3bdaf);
-	}
-	img.icon-toast {
-		max-width: 90%;
-		max-height: 90%;
-	}
-	div.toast {
-		position: fixed;
-		bottom: 100px;
-		right: 100px;
-	}
-</style>
 </head>
 <body>
     <!-- navbar -->
@@ -599,7 +513,7 @@
 										<div class="col">
 											<p class="text-center" id="listAllFavpost">
 												<a href="#${postVO.post_id}">
-													[${ptypeVO.type}] ${postVO.post_id}
+													[${ptypeVO.type}] ${postVO.p_title}
 												</a>
 											</p>	
 										</div>	
@@ -615,39 +529,21 @@
 </div>
 <%-- 顯示收藏文章區塊 --%>
 </div>
-<%-- 開啟收藏文章按鈕 --%>
-<button id="btn-toast" class="bg-primary btn-toast-show">
-	<img class="icon-toast" alt="" src="<%=request.getContextPath()%>/images/icons/full.png">
-</button>	
-<script>
-	$('#btn-toast').click(function(){
-		$('.toast').toast({
-            autohide: false
-        });
-		$('.toast').toast('show');
-		<%--
-		var listAllFavpost = document.getElementById('listAllFavpost');
-		<%
-			String resultList = "";
-			java.util.List<FavpostVO> favpostList = favpostSvc.getAllByM(memberVO.getMem_id());
-			for (FavpostVO aFav : favpostList){
-				
-				
-				resultList += aFav.getPost_id();
-			
-		%>
-		var anchor = document.createElement('a');
-		anchor
-		var br = document.createElement('br');
-		listAllFavpost.inner
-		listAllFavpost.append(br);
-		
-		<%}%>
-		--%>
-	})
-	
-</script>
-<%-- 開啟收藏文章按鈕 --%>
+<c:if test="${sessionScope.memberVO ne null}">
+	<%-- 開啟收藏文章按鈕 --%>
+	<button id="btn-toast" class="bg-primary btn-toast-show">
+		<img class="icon-toast" alt="" src="<%=request.getContextPath()%>/images/icons/full.png">
+	</button>	
+	<script>
+		$('#btn-toast').click(function(){
+			$('.toast').toast({
+	            autohide: false
+	        });
+			$('.toast').toast('show');
+		})
+	</script>
+	<%-- 開啟收藏文章按鈕 --%>
+</c:if>
 
 
 
