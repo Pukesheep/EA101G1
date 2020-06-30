@@ -75,6 +75,10 @@
 	img.img-icon:hover {
 		cursor:pointer;
 	}
+	img.img-icon-mini {
+		width: 25px;
+		height: 25px;
+	}
 	img.card-img, img.card-img-top {
 		height: 250px;
 		padding: 0 1px;
@@ -118,6 +122,28 @@
 	}
 	div.reply {
 		margin-bottom: 5px;
+	}
+	#btn-toast {
+	    width: 70px;
+	    height: 70px;
+	    border:none;
+	    position: fixed;
+	    bottom: 100px;
+	    right: 25px;
+	    z-index: 1000;
+	    border-radius: 50%;
+	    font-size: 40px;
+	    color:whitesmoke;
+	    background:linear-gradient(#216683fb, #6ed3bdaf);
+	}
+	img.icon-toast {
+		max-width: 90%;
+		max-height: 90%;
+	}
+	div.toast {
+		position: fixed;
+		bottom: 100px;
+		right: 100px;
 	}
 </style>
 </head>
@@ -286,7 +312,7 @@
 		<%-- 文章呈現區塊 --%>
 		<c:forEach var="postVO" items="${list}">
 			<c:if test="${postVO.p_status eq 1}">
-				<div class="col-3 justify-content-around">
+				<div class="col-4 justify-content-around">
 					<div class="accordion" id="accordionExample">
 						<div class="row">
 							<div class="card w-100 border-dark">
@@ -442,8 +468,6 @@
 				</div>
 	
 	
-	
-	
 				
 <!-- 修改文章區塊 -->
 <div class="modal fade modal-update" id="modal-update${postVO.post_id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -555,6 +579,59 @@
 </div>
 <%-- 文章呈現區塊 --%>
 </div>
+<div class="col-3">
+<%-- 顯示收藏文章區塊 --%>
+<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+	<div class="toast-header">
+		<img src="<%=request.getContextPath()%>/images/icons/full.png" class="rounded mr-2 img-icon-mini" alt="">
+		<strong class="mr-auto">收藏文章列表</strong>
+		<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="toast-body">
+		<c:forEach var="favpostVO" items="${favpostSvc.all}">
+			<c:if test="${favpostVO.mem_id == sessionScope.memberVO.mem_id}">
+				<c:forEach var="postVO" items="${list}">
+					<c:if test="${favpostVO.post_id == postVO.post_id}">
+						<c:if test="${postVO.p_status eq 1}">
+							<c:forEach var="ptypeVO" items="${ptypeSvc.all}">
+								<c:if test="${postVO.ptype_id == ptypeVO.ptype_id}">
+									<div class="row">
+										<div class="col">
+											<p class="text-center">
+												[${ptypeVO.type}] ${postVO.post_id}
+											</p>	
+										</div>	
+									</div>
+								</c:if>
+							</c:forEach>
+						</c:if>
+					</c:if>
+				</c:forEach>
+			</c:if>
+		</c:forEach>
+	</div>
+</div>
+<%-- 顯示收藏文章區塊 --%>
+</div>
+<%-- 開啟收藏文章按鈕 --%>
+<button id="btn-toast" class="bg-primary btn-toast-show">
+	<img class="icon-toast" alt="" src="<%=request.getContextPath()%>/images/icons/full.png">
+</button>	
+<script>
+	$('#btn-toast').click(function(){
+		$('.toast').toast({
+            autohide: false
+        });
+		$('.toast').toast('show');
+	})
+	
+</script>
+<%-- 開啟收藏文章按鈕 --%>
+
+
+
 
 
 <script>
@@ -886,7 +963,7 @@
 	
 	
 </script>
-		
+	
 		
 		
 
