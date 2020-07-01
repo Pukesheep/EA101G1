@@ -130,7 +130,7 @@
 		
 <div class="container">
 	<div class="d-flex justify-content-center h-100">
-		<div class="card">
+		<div class="card login">
 			<div class="card-header">
 				<h3>註冊</h3>
 				<div class="d-flex justify-content-end social_icon">
@@ -140,26 +140,54 @@
 			<div class="card-body">
 				<form action="<%=request.getContextPath()%>/member/member.do" method="post">
 					<div class="input-group form-group">
-						<div class="input-group-prepend">
+						<div class="input-group-prepend forlogin">
 							<span class="input-group-text"><i class="fas fa-user"></i></span>
 						</div>
-						<input type="text" name="mem_name" class="form-control" placeholder="會員名稱" autocomplete="off">
+						<input type="text" name="mem_name" class="form-control" placeholder="會員名稱" autocomplete="off" id="mem_name">
 						
 					</div>
 					<div class="input-group form-group">
-						<div class="input-group-prepend">
+						<div class="input-group-prepend forlogin">
 							<span class="input-group-text"><i class="fas fa-envelope"></i></span>
 						</div>
-						<input id="mem_email" type="text" name="mem_email" class="form-control" placeholder="電子信箱" autocomplete="off">
+						<input id="mem_email" type="text" name="mem_email" class="form-control" placeholder="電子信箱" autocomplete="off" id="mem_email">
 					</div>
-						<img id="check" class="invisible float-center">
-						<font id="font" class="hint"></font>
+					<font id="font" class="hint"></font>
+					<img id="check" class="invisible">
 					<div class="form-group">
 						<input type="hidden" name="action" value="signup">
-						<input type="submit" value="註冊" class="btn float-right login_btn">
+						<input type="submit" value="註冊" class="btn float-right login_btn" id="btn-submit">
 					</div>
 				</form>
 			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="success" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content bg-dark">
+			<div class="modal-header text-white">
+				<h6 class="modal-title display-4" id="exampleModalCenterTitle">註冊成功</h6>
+			</div>
+		<div class="modal-body text-white">
+			<p>
+				歡迎成為 S.F.G 的會員！
+			</p>
+			<p>
+				請到註冊的電子信箱收取信件,
+			</p>
+			<p>
+				 並使用當中的密碼登入
+			</p>
+		</div>
+		<div class="modal-footer text-white">
+			<font>
+				三秒後轉至登入頁面	或	
+			</font>
+			<a href="<%=request.getContextPath()%>/front-end/member/login.jsp"><button type="button" class="btn btn-warning btn-tologin">前往登入</button></a>
+		</div>
 		</div>
 	</div>
 </div>
@@ -170,7 +198,7 @@
 		
 		var font = document.getElementById('font');
 		var mem_email = $(this).val().trim();
-		var ok = /[@.(a-zA-Z)0-9]/g.test(mem_email);
+		var ok = /[.(a-zA-Z)0-9]/g.test(mem_email) && mem_email.includes('@');
 		if (ok === true) {
 			$.ajax({
 				url: '<%=request.getContextPath()%>/member/check.do',
@@ -201,6 +229,11 @@
 		font.innerText = '';
 		$('#check').attr('class', 'invisible');
 	});
+	
+	$('#btn-submit').click(function(){
+		$('#success').modal('show');
+	})
+	
 	
 </script>
 

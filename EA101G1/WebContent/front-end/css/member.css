@@ -1,9 +1,9 @@
+
 	html,body{
-		background-image: url('');
+		background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');
 		background-size: cover;
 		background-repeat: no-repeat;
-		height: 100%;
-		font-family: 'Numans', sans-serif;
+		
 	}
 	
 	.container{
@@ -11,7 +11,7 @@
 		align-content: center;
 	}
 	
-	.card{
+	div.login{
 		height: 370px;
 		margin-top: auto;
 		margin-bottom: auto;
@@ -40,7 +40,7 @@
 		top: -45px;
 	}
 	
-	.input-group-prepend span{
+	.forlogin span{
 		width: 50px;
 		background-color: #FFC312;
 		color: black;
@@ -56,8 +56,7 @@
 		color: white;
 	}
 	
-	.remember input
-	{
+	.remember input{
 		width: 20px;
 		height: 20px;
 		margin-left: 15px;
@@ -90,3 +89,39 @@
 	font.hint {
 		color: white;
 	}
+
+	img.profile {
+		position: relative;
+		margin-top: 100px;
+		width: 250px;
+		height: 250px;
+		border: 5px solid black;
+		z-index: 999 ;
+	}
+	img.profile:hover {
+		cursor: pointer;
+	}
+	div.profile {
+		margin-top: -100px;
+		background-color: rgba(0,0,0,0.5) !important;
+	}
+	div.profile-header {
+		margin-top: 50px;
+	}
+	img.img-icon {
+		width: 25px;
+		height: 25px;
+	}
+	img.img-icon:hover {
+		cursor: pointer;
+	}
+	button.submit {
+		margin-top: 30px;
+		margin-bottom: 50px;
+	}
+	  .xdsoft_datetimepicker .xdsoft_datepicker {
+	  	width:  300px;   /* width:  300px; */
+  	}
+  	.xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
+		height: 151px;   /* height:  151px; */
+  	}

@@ -81,7 +81,7 @@ public class LoginHandler extends HttpServlet {
 							session.removeAttribute("location");
 							res.sendRedirect(location);
 							return;
-						}
+						} 
 						
 					} catch (Exception ignored) {
 						ignored.printStackTrace(System.err);

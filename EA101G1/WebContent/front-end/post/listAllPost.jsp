@@ -230,7 +230,7 @@
 				<div class="col-4 justify-content-around">
 					<div class="accordion" id="accordionExample">
 						<div class="row">
-							<div class="card w-100 border-dark">
+							<div class="card w-100 border-dark" id="card${postVO.post_id}">
 								<label for="${postVO.post_id}">
 									<img alt="" src="<%=request.getContextPath()%>/post/ShowPostPic.do?post_id=${postVO.post_id}" class="card-img">
 								</label>
@@ -491,46 +491,52 @@
 </div>
 <%-- 文章呈現區塊 --%>
 </div>
+<%-- 顯示收藏文章區塊 --%>
 <div class="col-3">
-<%-- 顯示收藏文章區塊 --%>
-<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-	<div class="toast-header">
-		<img src="<%=request.getContextPath()%>/images/icons/full.png" class="rounded mr-2 img-icon-mini" alt="">
-		<strong class="mr-auto">收藏文章列表</strong>
-		<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-	</div>
-	<div class="toast-body">
-		<c:forEach var="favpostVO" items="${favpostSvc.all}">
-			<c:if test="${favpostVO.mem_id == sessionScope.memberVO.mem_id}">
-				<c:forEach var="postVO" items="${list}">
-					<c:if test="${favpostVO.post_id == postVO.post_id}">
-						<c:if test="${postVO.p_status eq 1}">
-							<c:forEach var="ptypeVO" items="${ptypeSvc.all}">
-								<c:if test="${postVO.ptype_id == ptypeVO.ptype_id}">
-									<div class="row">
-										<div class="col">
-											<p class="text-center" id="listAllFavpost">
-												<a href="#${postVO.post_id}">
-													[${ptypeVO.type}] ${postVO.p_title}
-												</a>
-											</p>	
-										</div>	
-									</div>
-								</c:if>
-							</c:forEach>
+	<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+		<div class="toast-header">
+			<img src="<%=request.getContextPath()%>/images/icons/full.png" class="rounded mr-2 img-icon-mini" alt="">
+			<strong class="mr-auto">收藏文章列表</strong>
+			<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="toast-body">
+			<c:forEach var="favpostVO" items="${favpostSvc.all}">
+				<c:if test="${favpostVO.mem_id == sessionScope.memberVO.mem_id}">
+					<c:forEach var="postVO" items="${list}">
+						<c:if test="${favpostVO.post_id == postVO.post_id}">
+							<c:if test="${postVO.p_status eq 1}">
+								<c:forEach var="ptypeVO" items="${ptypeSvc.all}">
+									<c:if test="${postVO.ptype_id == ptypeVO.ptype_id}">
+										<div class="row">
+											<div class="col">
+												<p class="text-center" id="listAllFavpost">
+													<a href="#card${postVO.post_id}">
+														<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${postVO.post_id}" aria-expanded="false" aria-controls="collapse${postVO.post_id}" id="${postVO.post_id}">
+															[${ptypeVO.type}] ${postVO.p_title}
+														</button>
+													</a>
+												</p>	
+											</div>	
+										</div>
+									</c:if>
+								</c:forEach>
+							</c:if>
 						</c:if>
-					</c:if>
-				</c:forEach>
-			</c:if>
-		</c:forEach>
+					</c:forEach>
+				</c:if>
+			</c:forEach>
+		</div>
 	</div>
 </div>
 <%-- 顯示收藏文章區塊 --%>
-</div>
+
+
+
+
+<%-- 開啟收藏文章按鈕 --%>
 <c:if test="${sessionScope.memberVO ne null}">
-	<%-- 開啟收藏文章按鈕 --%>
 	<button id="btn-toast" class="bg-primary btn-toast-show">
 		<img class="icon-toast" alt="" src="<%=request.getContextPath()%>/images/icons/full.png">
 	</button>	
@@ -542,9 +548,8 @@
 			$('.toast').toast('show');
 		})
 	</script>
-	<%-- 開啟收藏文章按鈕 --%>
 </c:if>
-
+<%-- 開啟收藏文章按鈕 --%>
 
 
 
@@ -844,7 +849,6 @@
 	
 	
     function init() {
-		 
         var p_image = document.getElementById("p_image");
         var upload = document.getElementById("upload");
 

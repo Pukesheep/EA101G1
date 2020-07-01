@@ -223,7 +223,7 @@
         });
         
         $('#f_date2').datetimepicker({
-            theme: '',              //theme: 'dark',
+           theme: '',              //theme: 'dark',
   	       timepicker:false,       //timepicker:true,
   	       step: 1,                //step: 60 (這是timepicker的預設間隔60分鐘)
   	       format:'Y-m-d',         //format:'Y-m-d H:i:s',

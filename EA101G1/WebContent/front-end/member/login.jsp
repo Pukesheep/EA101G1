@@ -140,7 +140,7 @@
 	
 <div class="container">
 	<div class="d-flex justify-content-center h-100">
-		<div class="card">
+		<div class="card login">
 			<div class="card-header">
 				<h3>登入</h3>
 				<div class="d-flex justify-content-end social_icon">
@@ -150,20 +150,17 @@
 			<div class="card-body">
 				<form action="<%=request.getContextPath()%>/member/login.do" method="post">
 					<div class="input-group form-group">
-						<div class="input-group-prepend">
+						<div class="input-group-prepend forlogin">
 							<span class="input-group-text"><i class="fas fa-envelope"></i></span>
 						</div>
 						<input type="text" name="email" class="form-control" placeholder="電子信箱" autocomplete="off">
 						
 					</div>
 					<div class="input-group form-group">
-						<div class="input-group-prepend">
+						<div class="input-group-prepend forlogin">
 							<span class="input-group-text"><i class="fas fa-key"></i></span>
 						</div>
 						<input type="password" name="password" class="form-control" placeholder="密碼">
-					</div>
-					<div class="row align-items-center remember">
-						<input type="checkbox">Remember Me
 					</div>
 					<div class="form-group">
 						<input type="hidden" name="action" value="login">
@@ -179,6 +176,7 @@
 		</div>
 	</div>
 </div>
+
     </section>
     <!-- 內容 ---end  -->
 
