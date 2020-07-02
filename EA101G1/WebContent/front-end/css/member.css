@@ -1,6 +1,8 @@
 
 	html,body{
-		background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');
+/* 		background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg'); */
+/* 		background-image: url('http://getwallpapers.com/wallpaper/full/9/1/e/168436.jpg'); */
+		background-image: url('http://getwallpapers.com/wallpaper/full/a/e/e/7532.jpg');
 		background-size: cover;
 		background-repeat: no-repeat;
 		
@@ -90,7 +92,7 @@
 		color: white;
 	}
 
-	img.profile {
+	img.profile, img.showprofile {
 		position: relative;
 		margin-top: 100px;
 		width: 250px;
@@ -119,7 +121,7 @@
 		margin-top: 30px;
 		margin-bottom: 50px;
 	}
-	  .xdsoft_datetimepicker .xdsoft_datepicker {
+	.xdsoft_datetimepicker .xdsoft_datepicker {
 	  	width:  300px;   /* width:  300px; */
   	}
   	.xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {

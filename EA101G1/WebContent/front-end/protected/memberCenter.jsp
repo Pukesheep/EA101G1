@@ -172,7 +172,7 @@
 					<div class="form-group">
 						<label for="mem_pass">會員密碼</label>
 						<div class="input-group mb-3">
-							<input type="password" class="form-control" id="mem_pass" name="mem_pass" value="${memberVO.mem_pass}">
+							<input type="password" class="form-control" id="mem_pass" name="mem_pass" value="${memberVO.mem_pass}" autocomplete="off">
 							<div class="input-group-append">
 								<span class="input-group-text"><img alt="" src="<%=request.getContextPath()%>/images/icons/opend-eye.png" class="float-right img-icon mem_pass" title="顯示"></span>
 							</div>
@@ -246,11 +246,6 @@
 						<input type="text" class="form-control" id="mem_birth" name="mem_birth" autocomplete="off">
 					</div>					
 					
-					<div class="form-group">
-						<label for="mem_autho">會員權限</label>
-						<input type="text" class="form-control" id="mem_autho" value="${memberVO.mem_autho}" readonly>
-					</div>
-					
 					<%
 						String autho = "";
 						switch (memberVO.getMem_autho()){
@@ -265,6 +260,11 @@
 								break;
 						}
 					%>
+					
+					<div class="form-group">
+						<label for="mem_autho">會員權限</label>
+						<input type="text" class="form-control" id="mem_autho" value="<%=autho%>" readonly>
+					</div>
 
 					<div class="form-group">
 						<label for="mem_bonus">紅利點數</label>
@@ -339,8 +339,7 @@
 
 		
 		
-		
-		
+
 </div>
 
 <script>

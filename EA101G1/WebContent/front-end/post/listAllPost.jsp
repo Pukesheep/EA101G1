@@ -60,7 +60,8 @@
 	<script src="<%=request.getContextPath()%>/files/ckeditor/ckeditor.js"></script>
 	<!-- post.css -->
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/css/post.css">
-
+	
+	
 </head>
 <body>
     <!-- navbar -->
@@ -103,7 +104,7 @@
             <c:if test="${sessionScope.memberVO ne null}">
             	
                 <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/front-end/protected/listOneMember.jsp">會員中心</a>
+                    <a class="nav-link" href="<%=request.getContextPath()%>/member/member.do?action=getOne_For_Update-front&mem_id=${sessionScope.memberVO.mem_id}">會員中心</a>
                 </li>
                 <li class="nav-item">
                 	<a class="nav-link" href="<%=request.getContextPath()%>/member/login.do?action=logout">登出</a>
@@ -189,6 +190,14 @@
 									});
 			                	</script>
 							</div>
+							<script>
+								var ptype_id = document.getElementById('ptype_id').value;
+								$('#ptype_id').change(function(){
+									
+// 									$('this:last-child').val();
+									console.log($('select#ptype_id > select').val());
+								});
+							</script>
 			                <div class="d-flex justify-content-between">
 								<button type="button" class="btn btn-danger btn-lg canceledit">取消</button>
 								<button type="button" class="btn btn-secondary btn-lg cleanedit">清除</button>
@@ -265,7 +274,7 @@
 					      					<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/reportpost.png" id="${postVO.post_id}${memberVO.mem_id}" title="檢舉文章">
 											<c:if test="${sessionScope.memberVO.mem_id == postVO.mem_id}">
 												<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/remove.png" id="${postVO.post_id}${memberVO.mem_id}" title="移除文章">
-												<img class="img-icon ${postVO.post_id}" alt="" src="<%=request.getContextPath()%>/images/icons/update.png" id="${postVO.post_id}${memberVO.mem_id}" title="修改文章">
+												<img class="img-icon" alt="" src="<%=request.getContextPath()%>/images/icons/update.png" id="${postVO.post_id}${memberVO.mem_id}" title="修改文章">
 											</c:if>
 			      						</c:if>
 									</c:if>
@@ -547,12 +556,10 @@
 	        });
 			$('.toast').toast('show');
 		})
+		
 	</script>
 </c:if>
 <%-- 開啟收藏文章按鈕 --%>
-
-
-
 
 <script>
 	// 處理icon圖片及功能的切換
@@ -692,7 +699,7 @@
 			} else if (splitID !== 'COMM') {
 				
 				var thisClass = $(this).attr('class');
-				var post_id = thisClass.substring(9);
+				var post_id = thisID.substring(0, 10);
 				//modal-update${postVO.post_id}
 				$('#modal-update' + post_id).modal('toggle');
 
