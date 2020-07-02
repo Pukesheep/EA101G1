@@ -13,7 +13,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>會員中心</title>
+    <title>修改會員資料</title>
     <!-- TODO: 換title 的icon -->
     <link rel="icon shortcut" href="<%=request.getContextPath()%>/front-end/img/ICON.ico">
     <!-- Bootstrap官方網站 https://getbootstrap.com/ -->
@@ -47,7 +47,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 	
 	<!-- member.css -->
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/css/member.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/member.css">
 	<!-- datetimepicker -->
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/files/datetimepicker/jquery.datetimepicker.css" />
 	<script src="<%=request.getContextPath()%>/files/datetimepicker/jquery.js"></script>
@@ -102,7 +102,7 @@
             <c:if test="${sessionScope.memberVO ne null}">
             	
                 <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/member/member.do?action=getOne_For_Update-front&mem_id=${sessionScope.memberVO.mem_id}">會員中心</a>
+                    <a class="nav-link" href="<%=request.getContextPath()%>/member/member.do?action=getOne_For_Display-front&mem_id=${sessionScope.memberVO.mem_id}">會員中心</a>
                 </li>
                 <li class="nav-item">
                 	<a class="nav-link" href="<%=request.getContextPath()%>/member/login.do?action=logout">登出</a>
@@ -172,7 +172,7 @@
 					<div class="form-group">
 						<label for="mem_pass">會員密碼</label>
 						<div class="input-group mb-3">
-							<input type="password" class="form-control" id="mem_pass" name="mem_pass" value="${memberVO.mem_pass}" autocomplete="off">
+							<input type="password" class="form-control" id="mem_pass" name="mem_pass" value="${memberVO.mem_pass}">
 							<div class="input-group-append">
 								<span class="input-group-text"><img alt="" src="<%=request.getContextPath()%>/images/icons/opend-eye.png" class="float-right img-icon mem_pass" title="顯示"></span>
 							</div>
@@ -196,6 +196,7 @@
 									</select>
 								</div>
 							</div>
+							
 							<div>
 								<div class="input-group mb-3">
 									<div class="input-group-prepend">
@@ -206,11 +207,17 @@
 								</div>
 							</div>
 						</div>
+						
+						<%
+							String addr = memberVO.getMem_addr();
+							String deatil = addr.substring(6);
+						%>
+						
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
 								<span class="input-group-text">細項</span>
 							</div>
-							<input type="text" class="form-control" name="detail" id="detail" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" autocomplete="off">
+							<input type="text" class="form-control" name="detail" id="detail" value="<%=deatil%>" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" autocomplete="off">
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
@@ -244,8 +251,8 @@
 					<div class="form-group">
 						<label for="mem_birth">會員生日</label>
 						<input type="text" class="form-control" id="mem_birth" name="mem_birth" autocomplete="off">
-					</div>					
-					
+					</div>	
+									
 					<%
 						String autho = "";
 						switch (memberVO.getMem_autho()){
@@ -258,9 +265,12 @@
 							case 2:
 								autho = "賣家資格會員";
 								break;
+							case 99:
+								autho = "平台管理員";
+								break;
 						}
-					%>
-					
+					%>	
+									
 					<div class="form-group">
 						<label for="mem_autho">會員權限</label>
 						<input type="text" class="form-control" id="mem_autho" value="<%=autho%>" readonly>
@@ -339,7 +349,8 @@
 
 		
 		
-
+		
+		
 </div>
 
 <script>
@@ -367,6 +378,7 @@ $('img.img-icon').click(function(){
 		$(this).attr('src', '<%=request.getContextPath()%>/images/icons/opend-eye.png');
 	}
 });
+
 
 function init() {
 	 

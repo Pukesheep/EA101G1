@@ -1,11 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="com.member.model.*" %>
 
-<%
-	MemberVO memberVO = (MemberVO) request.getAttribute("memberVO");
-%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>修改會員資料</title>
+    <title>會員中心</title>
     <!-- TODO: 換title 的icon -->
     <link rel="icon shortcut" href="<%=request.getContextPath()%>/front-end/img/ICON.ico">
     <!-- Bootstrap官方網站 https://getbootstrap.com/ -->
@@ -207,17 +203,11 @@
 								</div>
 							</div>
 						</div>
-						
-						<%
-							String addr = memberVO.getMem_addr();
-							String deatil = addr.substring(5);
-						%>
-						<%=deatil%>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
 								<span class="input-group-text">細項</span>
 							</div>
-							<input type="text" class="form-control" name="detail" id="detail" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="<%=deatil%>" autocomplete="off">
+							<input type="text" class="form-control" name="detail" id="detail" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" autocomplete="off">
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
@@ -228,7 +218,6 @@
 					</div>
 					<%-- 處理地址下拉式選單與手動輸入合併的區塊 --%>
 					<script>
-					
 						$('#county').change(function(){
 							
 							$('#mem_addr').val($('#county').val() + $('#district').val() + $('#detail').val());
@@ -252,30 +241,13 @@
 					<div class="form-group">
 						<label for="mem_birth">會員生日</label>
 						<input type="text" class="form-control" id="mem_birth" name="mem_birth" autocomplete="off">
-					</div>		
-					
-					<%
-						String autho = "";
-						switch (memberVO.getMem_autho()){
-							case 0:
-								autho = "停權";
-								break;
-							case 1:
-								autho = "一般會員";
-								break;
-							case 2:
-								autho = "賣家資格會員";
-								break;
-							case 99:
-								autho = "平台管理員";
-								break;
-						}
-					%>			
+					</div>					
 					
 					<div class="form-group">
 						<label for="mem_autho">會員權限</label>
-						<input type="text" class="form-control" id="mem_autho" value="<%=autho%>" readonly>
+						<input type="text" class="form-control" id="mem_autho" value="${memberVO.mem_autho}" readonly>
 					</div>
+					
 
 					<div class="form-group">
 						<label for="mem_bonus">紅利點數</label>

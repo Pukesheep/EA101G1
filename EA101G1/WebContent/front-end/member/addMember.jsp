@@ -43,7 +43,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 	
 	<!-- member.css -->
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/css/member.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/member.css">
 	
 </head>
 

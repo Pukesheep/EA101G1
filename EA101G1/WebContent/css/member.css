@@ -68,7 +68,7 @@
 	.login_btn{
 		color: black;
 		background-color: #FFC312;
-		width: 100px;
+		width: 120px;
 	}
 	
 	.login_btn:hover{
@@ -92,7 +92,7 @@
 		color: white;
 	}
 
-	img.profile, img.showprofile {
+	img.profile{
 		position: relative;
 		margin-top: 100px;
 		width: 250px;
@@ -102,6 +102,9 @@
 	}
 	img.profile:hover {
 		cursor: pointer;
+	}
+	img.showprofile:hover {
+		cursor: default;
 	}
 	div.profile {
 		margin-top: -100px;
@@ -126,4 +129,8 @@
   	}
   	.xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
 		height: 151px;   /* height:  151px; */
+  	}
+  	div.back-end-form {
+  		margin-top: 150px;
+  		background-color: rgba(0,0,0,0.5) !important;
   	}

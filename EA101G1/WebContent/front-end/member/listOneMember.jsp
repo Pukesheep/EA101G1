@@ -47,7 +47,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 	
 	<!-- member.css -->
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/css/member.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/member.css">
 	<!-- datetimepicker -->
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/files/datetimepicker/jquery.datetimepicker.css" />
 	<script src="<%=request.getContextPath()%>/files/datetimepicker/jquery.js"></script>
@@ -91,7 +91,7 @@
 
         <div class="collapse navbar-collapse" id="collapsibleNavId">
             <ul class="navbar-nav ml-auto">
-                <c:if test="${memberVO == null}">
+                <c:if test="${sessionScope.memberVO == null}">
                 <li class="nav-item">
                     <a class="nav-link" href="<%=request.getContextPath()%>/front-end/member/login.jsp">登入</a>
                 </li>
@@ -102,7 +102,7 @@
             <c:if test="${sessionScope.memberVO ne null}">
             	
                 <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/member/member.do?action=getOne_For_Update-front&mem_id=${sessionScope.memberVO.mem_id}">會員中心</a>
+                    <a class="nav-link" href="<%=request.getContextPath()%>/member/member.do?action=getOne_For_Display-front&mem_id=${sessionScope.memberVO.mem_id}">會員中心</a>
                 </li>
                 <li class="nav-item">
                 	<a class="nav-link" href="<%=request.getContextPath()%>/member/login.do?action=logout">登出</a>
@@ -149,7 +149,7 @@
 	<div class="row justify-content-center">
 	<div class="col">
 		<div class="text-center">
-			<img alt="" src="<%=request.getContextPath()%>/member/ShowMemberPic.do?mem_id=${memberVO.mem_id}" class="showprofile rounded-circle" id="display">
+			<img alt="" src="<%=request.getContextPath()%>/member/ShowMemberPic.do?mem_id=${memberVO.mem_id}" class="profile showprofile rounded-circle" id="display">
 		</div>
 		</div>
 		</div>
@@ -185,6 +185,9 @@
 							case 2:
 								autho = "賣家資格會員";
 								break;
+							case 99:
+								autho = "平台管理員";
+								break;
 						}
 					%>
 					
@@ -202,6 +205,11 @@
 						<label for="mem_joindat">加入日期</label>
 						<input type="text" class="form-control" id="mem_joindat" name="mem_joindat" value="${memberVO.mem_joindat}" readonly>
 					</div>
+					<c:if test="${requestScope.memberVO.mem_id == sessionScope.memberVO.mem_id}">
+						<input type="hidden" name="mem_id" value="${sessionScope.memberVO.mem_id}">
+						<input type="hidden" name="action" value="getOne_For_Update-front">
+						<button type="submit" class="btn login_btn float-right submit">修改資料</button>
+					</c:if>
 				</div>
 			</form>
 		</div>
