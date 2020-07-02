@@ -278,26 +278,24 @@
 							</div>
 						</div>
 					</form>				
-				
+				<br>
 				
 					<form action="<%=request.getContextPath()%>/member/member.do" method="post">
 					
 						<div class="form-group">
-							<label for="mem_id">會員編號</label>
+<!-- 							<label for="mem_id">會員編號</label> -->
 							<input type="text" class="form-control" id="mem_id" name="mem_id" placeholder="請輸入會員編號 ex: M000001" autocomplete="off">
 						</div>
 						
 						<div class="form-group">
-							<label for="mem_name">會員名稱</label>
+<!-- 							<label for="mem_name">會員名稱</label> -->
 							<input type="text" class="form-control" id="mem_name" name="mem_name" placeholder="請輸入會員名稱 ex: 早餐店大冰奶" autocomplete="off">
 						</div>
 						
 						<div class="form-group">
-							<label for="mem_email">會員信箱</label>
+<!-- 							<label for="mem_email">會員信箱</label> -->
 							<input type="text" class="form-control" id="mem_email" name="mem_email" placeholder="請輸入會員信箱 ex: servereDiarrhea@gmail.com" autocomplete="off">
-						</div>
-						
-						<div class="form-group">
+							
 							<label for="mem_autho">會員權限</label>
 							<div class="input-group mb-3">
 								<select class="custom-select" id="mem_autho" name="mem_autho">
