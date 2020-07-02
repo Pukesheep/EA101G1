@@ -1072,6 +1072,44 @@ public class MemberServlet extends HttpServlet {
 		}
 		
 		
+		if ("listMembers_ByCompositeQuery".equals(action)) {
+			
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			String select_page = "/back-end/member/select_page.jsp";
+			String listMembers_ByCompositeQuery = "/back-end/member/listMembers_ByCompositeQuery.jsp";
+			
+			try {
+				/***************************1.將輸入資料轉為Map**********************************/ 
+				//採用Map<String,String[]> getParameterMap()的方法 
+				//注意:an immutable java.util.Map 
+				//Map<String, String[]> map = req.getParameterMap();
+				HttpSession session = req.getSession();
+				Map<String, String[]> map = (Map<String, String[]>) session.getAttribute("map");
+				if (req.getParameter("whichPage") == null) {
+					HashMap<String, String[]> map1 = new HashMap<String, String[]>(req.getParameterMap());
+					session.setAttribute("map", map1);
+					map = map1;
+				}
+				
+				/***************************2.開始複合查詢***************************************/
+				MemberService memberSvc = new MemberService();
+				List<MemberVO> list = memberSvc.getAll(map);
+				
+				/***************************3.查詢完成,準備轉交(Send the Success view)************/
+				req.setAttribute("listMembers_ByCompositeQuery", list);
+				RequestDispatcher successView = req.getRequestDispatcher(listMembers_ByCompositeQuery);
+				successView.forward(req, res);
+				
+			} catch (Exception e) {
+				errorMsgs.add("查詢資料失敗： " + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher(select_page);
+				failureView.forward(req, res);
+			}
+		}
+		
+		
 		
 	}
 	

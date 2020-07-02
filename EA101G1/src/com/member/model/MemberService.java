@@ -82,6 +82,10 @@ public class MemberService {
 		return dao.getAll();
 	}
 	
+	public java.util.List<MemberVO> getAll(java.util.Map<String, String[]> map){
+		return dao.getAll(map);
+	}
+	
 	public MemberVO loginByEmail(String mem_email) {
 		
 		String mem_id = dao.loginByEmail(mem_email);

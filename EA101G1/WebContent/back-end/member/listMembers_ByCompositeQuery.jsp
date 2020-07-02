@@ -3,6 +3,7 @@
 <%@ page import="com.member.model.*" %>
 
 <jsp:useBean id="memberSvc" scope="page" class="com.member.model.MemberService" />
+<jsp:useBean id="listMembers_ByCompositeQuery" scope="request" type="java.util.List<MemberVO>" />
 
 <!doctype html>
 <html lang="en">
@@ -252,70 +253,27 @@
 
 <div class="container">
 	<div class="row justify-content-center">
-		<div class="col-8">
-		<div class="card text-white back-end-form">
-				<div class="card-body">
-					<h2 class="card-title">會員管理</h2>
-					<form action="<%=request.getContextPath()%>/member/member.do" method="post">
-						<div class="input-group mb-3">
-							<input type="text" class="form-control" id="inlineFormInputGroup" placeholder="請輸入會員編號 ex: M000001">
-							<div class="input-group-append">
-								<button class="btn btn-outline-warning" type="submit">單筆查詢</button>
+		<div class="col-md-7">
+			<div class="card text-white back-end-form">
+				<h2 class="card-title">會員管理</h2>
+				<ul class="list-unstyled mr-3">
+					<%@ include file="../../files/page1_ByCompositeQueryMember.file" %>
+					<c:forEach var="memberVO" items="${listMembers_ByCompositeQuery}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+						<li class="media ${(memberVO.mem_id == param.mem_id) ? 'bg-success' : '' }">
+							<img src="<%=request.getContextPath()%>/member/ShowMemberPic.do?mem_id=${memberVO.mem_id}" class="rounded-circle align-self-center ml-3 mr-3 listAllMember" alt="">
+							<div class="media-body">
+								<h5 class="mt-0 mb-1">${memberVO.mem_id} - ${memberVO.mem_name}</h5>
+								<h6 class="mt-0 mb-1">${memberVO.mem_email} - ${memberVO.mem_phone}</h6>
+								${memberVO.mem_addr}
+								<button type="button" class="btn btn-outline-warning float-right d-inline-block">修改</button>
 							</div>
-						</div>
-					</form>
-
-					<form action="<%=request.getContextPath()%>/member/member.do" method="post">
-						<div class="input-group mb-3">
-							<select class="custom-select" id="mem_idQuery" name="mem_id">
-								<c:forEach var="memberVO" items="${memberSvc.all}">
-									<option value="${memberVO.mem_id}">${memberVO.mem_id}</option>
-								</c:forEach>
-							</select>
-							<div class="input-group-append">
-								<input type="hidden" name="action" value="getOne_For_Display-back">
-								<button class="btn btn-outline-warning" type="submit">單筆查詢</button>
-							</div>
-						</div>
-					</form>				
-				
-				
-					<form action="<%=request.getContextPath()%>/member/member.do" method="post">
-					
-						<div class="form-group">
-							<label for="mem_id">會員編號</label>
-							<input type="text" class="form-control" id="mem_id" name="mem_id" placeholder="請輸入會員編號 ex: M000001" autocomplete="off">
-						</div>
-						
-						<div class="form-group">
-							<label for="mem_name">會員名稱</label>
-							<input type="text" class="form-control" id="mem_name" name="mem_name" placeholder="請輸入會員名稱 ex: 早餐店大冰奶" autocomplete="off">
-						</div>
-						
-						<div class="form-group">
-							<label for="mem_email">會員信箱</label>
-							<input type="text" class="form-control" id="mem_email" name="mem_email" placeholder="請輸入會員信箱 ex: servereDiarrhea@gmail.com" autocomplete="off">
-						</div>
-						
-						<div class="form-group">
-							<label for="mem_autho">會員權限</label>
-							<div class="input-group mb-3">
-								<select class="custom-select" id="mem_autho" name="mem_autho">
-									<option></option>
-									<option value="0">停權會員</option>
-									<option value="1">一般會員</option>
-									<option value="2">賣家資格會員</option>
-									<option value="99">平台管理員</option>
-								</select>
-							</div>	
-						</div>
-						<input type="hidden" name="action" value="listMembers_ByCompositeQuery">
-						<button type="submit" class="btn btn-outline-warning float-right">複合查詢</button>
-						
-					</form>
-
-				</div>
+						</li>
+					</c:forEach>
+				</ul>
+				<%@ include file="../../files/page2_ByCompositeQueryMember.file" %>
+			</div>
 		</div>
+	</div>
 </div>
 		
 
@@ -382,8 +340,8 @@
             		
             		
             		
-            		</div>
-            		</div>
+            		
+            		
             		
             	</div>
             </div>

@@ -1,9 +1,11 @@
 package com.member.model;
 
-import java.sql.SQLException;
-import java.util.List;
+import java.sql.*;
+import java.util.*;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
+import jdbc.util.CompositeQuery.jdbcUtil_ConpositeQuery_Member;
 
 public class MemberDAO implements MemberDAO_interface {
 	
@@ -292,6 +294,69 @@ public class MemberDAO implements MemberDAO_interface {
 		}
 		return list;
 	}
+	
+	@Override
+	public List<MemberVO> getAll(Map<String, String[]> map) {
+		List<MemberVO> list = new ArrayList<MemberVO>();
+		MemberVO memberVO = null;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = ds.getConnection();
+			String finalSQL = "SELECT * FROM member"
+					+ jdbcUtil_ConpositeQuery_Member.get_WhereCondition(map)
+					+ " ORDER BY mem_id";
+			pstmt = con.prepareStatement(finalSQL);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				memberVO = new MemberVO();
+				memberVO.setMem_id(rs.getString("mem_id"));
+				memberVO.setMem_email(rs.getString("mem_email"));
+				memberVO.setMem_pass(rs.getString("mem_pass"));
+				memberVO.setMem_name(rs.getString("mem_name"));
+				memberVO.setMem_icon(rs.getBytes("mem_icon"));
+				memberVO.setMem_phone(rs.getString("mem_phone"));
+				memberVO.setMem_addr(rs.getString("mem_addr"));
+				memberVO.setBank_acc(rs.getString("bank_acc"));
+				memberVO.setCard_no(rs.getString("card_no"));
+				memberVO.setCard_yy(rs.getString("card_yy"));
+				memberVO.setCard_mm(rs.getString("card_mm"));
+				memberVO.setCard_sec(rs.getString("card_sec"));
+				memberVO.setMem_autho(rs.getInt("mem_autho"));
+				memberVO.setMem_bonus(rs.getInt("mem_bonus"));
+				memberVO.setMem_joindat(rs.getDate("mem_joindat"));
+				memberVO.setMem_birth(rs.getDate("mem_birth"));
+				memberVO.setMem_warn(rs.getInt("mem_warn"));
+				list.add(memberVO); // Store the row in the List
+			}
+			
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
 
 	@Override
 	public String loginByEmail(String mem_email) {
@@ -379,4 +444,6 @@ public class MemberDAO implements MemberDAO_interface {
 		}
 		return generatedKey;
 	}
+
+
 }
