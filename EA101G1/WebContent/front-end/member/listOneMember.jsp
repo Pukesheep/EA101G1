@@ -149,7 +149,9 @@
 	<div class="row justify-content-center">
 	<div class="col">
 		<div class="text-center">
-			<img alt="" src="<%=request.getContextPath()%>/member/ShowMemberPic.do?mem_id=${memberVO.mem_id}" class="profile showprofile rounded-circle" id="display">
+		<label for="upload">
+			<img alt="" src="<%=request.getContextPath()%>/member/ShowMemberPic.do?mem_id=${memberVO.mem_id}" class="profile rounded-circle showprofile" id="display">
+		</label>
 		</div>
 		</div>
 		</div>
@@ -159,21 +161,20 @@
 				
 					<div class="form-group profile-header">
 						<label for="mem_name">會員名稱</label>
-						<input type="text" class="form-control" id="mem_name" name="mem_name" value="${memberVO.mem_name}" autocomplete="off" readonly>
+						<input type="text" class="form-control" id="mem_name" name="mem_name" value="${memberVO.mem_name}" readonly>
 					</div>
 					
 					<div class="form-group">
 						<label for="mem_email">會員信箱</label>
-						<input type="email" class="form-control" id="mem_email" name="mem_email" value="${memberVO.mem_email}" readonly>
+						<input type="text" class="form-control" id="mem_email" name="mem_email" value="${memberVO.mem_email}" readonly>
 					</div>
-					
 					
 					<div class="form-group">
 						<label for="mem_birth">會員生日</label>
-						<input type="text" class="form-control" id="mem_birth" name="mem_birth" autocomplete="off" readonly value="${memberVO.mem_birth}">
-					</div>					
+						<input type="text" class="form-control" id="mem_birth" name="mem_birth" value="${memberVO.mem_birth}" readonly>
+					</div>		
 					
-					<%
+					<% 
 						String autho = "";
 						switch (memberVO.getMem_autho()){
 							case 0:
@@ -189,12 +190,13 @@
 								autho = "平台管理員";
 								break;
 						}
-					%>
+ 					%>			 
 					
 					<div class="form-group">
 						<label for="mem_autho">會員權限</label>
 						<input type="text" class="form-control" id="mem_autho" value="<%=autho%>" readonly>
 					</div>
+
 
 					<div class="form-group">
 						<label for="mem_warn">警告次數</label>
@@ -205,18 +207,11 @@
 						<label for="mem_joindat">加入日期</label>
 						<input type="text" class="form-control" id="mem_joindat" name="mem_joindat" value="${memberVO.mem_joindat}" readonly>
 					</div>
-					<c:if test="${requestScope.memberVO.mem_id == sessionScope.memberVO.mem_id}">
-						<input type="hidden" name="mem_id" value="${sessionScope.memberVO.mem_id}">
-						<input type="hidden" name="action" value="getOne_For_Update-front">
-						<button type="submit" class="btn login_btn float-right submit">修改資料</button>
-					</c:if>
+					
+					
 				</div>
 			</form>
 		</div>
-		
-
-		
-		
 		
 		
 </div>

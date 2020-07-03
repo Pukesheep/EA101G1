@@ -157,3 +157,9 @@
                 z-index: 99;
             } */
         }
+    aside {
+        position: sticky;
+        top: 4.59rem;
+        z-index: 1000;
+        height: calc(100vh - 4.59rem);
+    }
