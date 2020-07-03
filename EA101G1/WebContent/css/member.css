@@ -142,3 +142,6 @@
   	li.media {
   		margin: 10px auto;
   	}
+  	div.btn-toolbar {
+  		margin-bottom: 10px 0;
+  	}

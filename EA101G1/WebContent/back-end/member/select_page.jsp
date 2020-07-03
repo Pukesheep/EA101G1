@@ -31,7 +31,7 @@
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
 
-    <title>會員管理</title>
+    <title>會員查詢</title>
 	<!-- back-end.css -->
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/back-end.css">
 	
@@ -122,7 +122,7 @@
                                     <a class="nav-link active pl-4" href="#">會員權限管理</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link pl-4" href="#">會員資料管理</a>
+                                    <a class="nav-link pl-4" href="<%=request.getContextPath()%>/back-end/member/select_page.jsp">會員資料管理</a>
                                 </li>
                             </ul>
                         </li>
@@ -255,7 +255,7 @@
 		<div class="col-8">
 		<div class="card text-white back-end-form">
 				<div class="card-body">
-					<h2 class="card-title">會員管理</h2>
+					<h2 class="card-title">會員查詢</h2>
 					<form action="<%=request.getContextPath()%>/member/member.do" method="post">
 						<div class="input-group mb-3">
 							<input type="text" class="form-control" id="inlineFormInputGroup" placeholder="請輸入會員編號 ex: M000001">

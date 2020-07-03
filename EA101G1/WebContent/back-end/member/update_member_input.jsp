@@ -1,299 +1,662 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="BIG5"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.member.model.*" %>
 
+<jsp:useBean id="memberSvc" scope="page" class="com.member.model.MemberService" />
+
 <%
-	MemberVO memberVO = (MemberVO) request.getAttribute("memberVO"); 
-	// MemberServlet.java (Controller) ¦s¤J req ªº memberVO ª«¥ó(¥]¬AÀ°¦£¨ú¥Xªº memberVO, ¤]¥]¬A¿é¤J¸ê®Æ¿ù»~®Éªº memberVO ª«¥ó)
+	MemberVO memberVO = (MemberVO) request.getAttribute("memberVO");
 %>
 
-<html>
+<!doctype html>
+<html lang="en">
+
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
-<title>·|­û¸ê®Æ­×§ï - update_member_input.jsp</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<style>
-	table#table-1 {
-		background-color: #CCCCFF;
-		border: 2px solid black;
-		text-align: center;
-	}
-	table#table-1 h4 {
-		color: red;
-		display: block;
-		matgin-bottom: 1px;
-	}
-	h4 {
-		color: blue;
-		display: inline;
-	}
-	table {
-		width: 450px;
-		background-color: white;
-		margin-top: 1px;
-		margin-bottom: 1px;
-	}
-	table, th, td {
-		border: 0px solid #CCCCFF;
-	}
-	th, td {
-		padding: 1px;
-	}
-	body {
-		background-color: white;
-	}
-	#back {
-		width: 100px;
-		height: 32px;
-	}
-	font {
-		color: red;
-	}
-	li {
-		color: red;
-	}
-	img#display {
-		width: 200px;
-		height: 200px;
-	}
-</style>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
+    <!-- Font-awesome CSS -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.13.0/css/all.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"> -->
+    
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+
+    <title>ä¿®æ”¹æœƒå“¡è³‡æ–™</title>
+	<!-- back-end.css -->
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/back-end.css">
+	
+	<!-- SweetAlert2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+	
+	<!-- member.css -->
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/member.css">	
+	
+	<!-- datetimepicker -->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/files/datetimepicker/jquery.datetimepicker.css" />
+	<script src="<%=request.getContextPath()%>/files/datetimepicker/jquery.js"></script>
+	<script src="<%=request.getContextPath()%>/files/datetimepicker/jquery.datetimepicker.full.js"></script>
+	
+	<!-- tw-city-selector -->
+	<script src="<%=request.getContextPath()%>/files/tw-city-selector/tw-city-selector.min.js"></script>
+	
+	
 </head>
+
 <body>
 
-<table id="table-1">
-	<tr>
-		<td>
-			<h3>·|­û¸ê®Æ­×§ï - update_member_input.jsp</h3>
-			<h4><a href="<%=request.getContextPath()%>/back-end/member/select_page.jsp"><img alt="" src="<%=request.getContextPath()%>/images/back1.gif" id="back">¦^­º­¶</a></h4>
-		</td>
-	</tr>
-</table>
+    <header class="navbar navbar-expand-lg navbar-light bd-navbar">
+        <a class="navbar-brand " href="#"><img src="<%=request.getContextPath()%>/images/ICON.ico" alt=""></a>
+        <div> éŠæˆ²è²·è³£å¹³å° å¾Œå°ç®¡ç† </div>
+        <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30" focusable="false"
+                role="img">
+                <title>Menu</title>
+                <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10"
+                    d="M4 7h22M4 15h22M4 23h22"></path>
+            </svg> -->
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse ">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">
+                        <i class="fal fa-people-arrows"></i>
+                        Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+            </ul>
+        </div>
 
-<h3>¸ê®Æ­×§ï</h3>
+    </header>
+    <!-- <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+        </div>
+      </nav> -->
 
-<%-- ¿ù»~ªí¦C --%>
-<c:if test="${not empty errorMsgs}">
-	<font>½Ğ­×¥¿¥H¤U¿ù»~</font>
-	<ul>
-		<c:forEach var="message" items="${errorMsgs}">
-			<li>${message}</li>
-		</c:forEach>
-	</ul>
+    <!-- <nav class="nav">
+        <a class="nav-link active" href="#">Active</a>
+        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+    </nav> -->
+
+    <div class="container-fluid main">
+        <div class="row">
+            <div class=" col-lg-2  col-xl-2 px-0 ">
+                <div class="collapse navbar-collapse side-nav accordion" id="navbarSupportedContent">
+                    <ul class="navbar-nav ">
+                        <li class="nav-item">
+                            <div class="nav-link active" data-toggle="collapse" data-target="#sideNavColl01">
+                                <i class="fas fa-user-edit ml-3 mr-"></i> æœƒå“¡ç®¡ç†</div>
+                            <ul class="nav collapse" id="sideNavColl01" data-parent="#navbarSupportedContent">
+                                <li class="nav-item">
+                                    <a class="nav-link active pl-4" href="#">æœƒå“¡æ¬Šé™ç®¡ç†</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-4" href="<%=request.getContextPath()%>/back-end/member/select_page.jsp">æœƒå“¡è³‡æ–™ç®¡ç†</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <div class="nav-link" data-toggle="collapse" data-target="#sideNavColl02">
+                                <i class=" fas fa-home-alt ml-3 mr-2"></i>å•†åŸç®¡ç†</div>
+                            <ul class="nav collapse" id="sideNavColl02" data-parent="#navbarSupportedContent">
+                                <li class="nav-item ">
+                                    <a class="nav-link pl-4" href="#">å•†å“ä¸Šä¸‹æ¶</a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link  pl-4" href="#">å•†æˆè¨‚å–®ç®¡ç†</a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link  pl-4" href="#">é™æ™‚å°ˆæ¡ˆç®¡ç†</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item ">
+                            <div class="nav-link" data-toggle="collapse" data-target="#sideNavColl03">
+                                <i class="fas fa-gift ml-3 mr-2"></i>ç´…åˆ©å•†åŸç®¡ç†</div>
+                            <ul class="nav collapse " id="sideNavColl03" data-parent="#navbarSupportedContent">
+                                <li class="nav-item">
+                                    <a class="nav-link active pl-4" href="#">ç´…åˆ©å•†å“ä¸Šä¸‹æ¶</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-4" href="#">ç´…åˆ©å•†å“è¨‚å–®ç®¡ç†</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-4" href="#">ç´…åˆ©å•†å“å•†å“ç®¡ç†</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item ">
+                            <div class="nav-link" data-toggle="collapse" data-target="#sideNavColl04">
+                                <i class="fas fa-users-class  ml-3 mr-2"></i>åœ˜è³¼ç®¡ç†</div>
+                            <ul class="nav collapse pt-2" id="sideNavColl04" data-parent="#navbarSupportedContent">
+                                <li class="nav-item">
+                                    <a class="nav-link pl-4" href="#">åœ˜è³¼è¨‚å–®ç®¡ç†</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-4" href="#">åœ˜è³¼å•†å“ç®¡ç†</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-4" href="#">åœ˜è³¼å•†å“ä¸Šä¸‹æ¶</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item ">
+                            <div class="nav-link" data-toggle="collapse" data-target="#sideNavColl05">
+                                <i class="fas fa-hand-pointer ml-3 mr-2"></i>äº¤æ˜“å€ç®¡ç†</div>
+                            <ul class="nav collapse" id="sideNavColl05" data-parent="#navbarSupportedContent">
+                                <li class="nav-item">
+                                    <a class="nav-link pl-4" href="#">äº¤æ˜“ç®¡ç†</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item ">
+                            <div class="nav-link" data-toggle="collapse" data-target="#sideNavColl06">
+                                <i class="fas fa-exclamation-triangle ml-3 mr-2"></i>æª¢èˆ‰ç®¡ç†</div>
+                            <ul class="nav collapse" id="sideNavColl06" data-parent="#navbarSupportedContent">
+                                <li class="nav-item">
+                                    <a class="nav-link active pl-4" href="#">å•†å“æª¢èˆ‰ç®¡ç†</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-4" href="#">æœƒå“¡æª¢èˆ‰ç®¡ç†</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-4" href="#">æ–‡ç« æª¢èˆ‰ç®¡ç†</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item ">
+                            <div class="nav-link" data-toggle="collapse" data-target="#sideNavColl07">
+                                <i class="far fa-envelope-open-text ml-3 mr-2"></i>å®¢æœä¸­å¿ƒ</div>
+                                <ul class="nav collapse" id="sideNavColl07" data-parent="#navbarSupportedContent">
+                                    <li class="nav-item">
+                                        <a class="nav-link active pl-4" href="#">å®¢æœè¨Šæ¯ç®¡ç†</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link pl-4" href="#">Q&Aç®¡ç†</a>
+                                    </li>
+                                </ul>
+                        </li>
+                        <li class="nav-item ">
+                            <div class="nav-link" data-toggle="collapse" data-target="#sideNavColl08">
+                                <i class="fas fa-address-card ml-3 mr-2"></i>å“¡å·¥ç®¡ç†</div>
+                                <ul class="nav collapse" id="sideNavColl08" data-parent="#navbarSupportedContent">
+                                    <li class="nav-item">
+                                        <a class="nav-link active pl-4" href="#">å“¡å·¥å¸³è™Ÿç®¡ç†</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link pl-4" href="#">å“¡å·¥æ¬Šé™ç®¡ç†</a>
+                                    </li>
+                                </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-10 col-xl-10 px-0">
+            	<div class="mask">
+            		
+            		
+            		         <%-- å…§å®¹ --%>
+
+
+<%-- éŒ¯èª¤è¡¨åˆ— --%>
+<c:if test="${not empty errorMsgs }">
+<%
+	java.util.List<String> errorMsgs = (java.util.List<String>) request.getAttribute("errorMsgs");
+	String message = "";
+	for (String msg : errorMsgs) {
+		message += msg;
+		message += "\\n";
+	}
+%>
+<script>
+	Swal.fire({
+		  icon: 'error',
+		  title: '<%=message%>'
+		});
+
+</script>
+
+<%-- éŒ¯èª¤è¡¨åˆ— --%>
+
 </c:if>
 
-<form action="<%=request.getContextPath()%>/member/member.do" method="post" enctype="multipart/form-data">
-	<table>
-		<tr>
-			<td>·|­û½s¸¹¡G<font><b>*</b></font></td>
-			<td><%=memberVO.getMem_id()%></td>
-		</tr>
-		<tr>
-			<td>·|­û«H½c¡G<font><b>*</b></font></td>
-			<td><%=memberVO.getMem_email()%></td>
-		</tr>
-		<tr>
-			<td>·|­û±K½X¡G</td>
-			<td><input type="text" name="mem_pass" size="45" value="<%=memberVO.getMem_pass()%>"></td>
-		</tr>
-		<tr>
-			<td>·|­û¦WºÙ¡G</td>
-			<td><input type="text" name="mem_name" size="45" value="<%=memberVO.getMem_name()%>"></td>
-		</tr>
-		<tr>
-			<td>·|­û¹Ï¤ù¡G</td>
-			<td>
-				<label for="upload"><img alt="" src="<%=request.getContextPath()%>/member/ShowMemberPic.do?mem_id=<%=memberVO.getMem_id()%>" id="display"></label>
-				<input type="file" name="mem_icon" id="upload">
-			</td>
-		</tr>
-		<tr>
-			<td>·|­û¤â¾÷¡G</td>
-			<td><input type="text" name="mem_phone" size="45" value="<%=memberVO.getMem_phone()%>"></td>
-		</tr>
-		<tr>
-			<td>·|­û¦a§}¡G</td>
-			<td><input type="text" name="mem_addr" size="45" value="<%=memberVO.getMem_addr()%>"></td>
-		</tr>
-		<tr>
-			<td>»È¦æ±b¤á¡G</td>
-			<td><input type="text" name="bank_acc" size="45" value="<%=memberVO.getBank_acc()%>"></td>
-		</tr>
-		<tr>
-			<td>«H¥Î¥d¸¹¡G</td>
-			<td><input type="text" name="card_no" size="45" value="<%=memberVO.getCard_no()%>"></td>
-		</tr>
-		<tr>
-			<td>¨ì´Á¦~¥÷¡G</td>
-			<td><input type="text" name="card_yy" size="45" value="<%=memberVO.getCard_yy()%>"></td>
-		</tr>
-		<tr>
-			<td>¨ì´Á¤ë¥÷¡G</td>
-			<td><input type="text" name="card_mm" size="45" value="<%=memberVO.getCard_mm()%>"></td>
-		</tr>
-		<tr>
-			<td>¥d¤ù¦w¥ş½X¡G</td>
-			<td><input type="text" name="card_sec" size="45" value="<%=memberVO.getCard_sec()%>"></td>
-		</tr>
-		<tr>
-			<td>·|­ûÅv­­¡G</td>
-			<td>
-				<select name="mem_autho">
-					<option value="0" ${memberVO.mem_autho eq 0 ? "selected" : ""}>°±Åv</option>
-					<option value="1" ${memberVO.mem_autho eq 1 ? "selected" : ""}>¤@¯ë·|­û</option>
-					<option value="2" ${memberVO.mem_autho eq 2 ? "selected" : ""}>½æ®a¸ê®æ·|­û</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td>¬õ§QÂI¼Æ¡G</td>
-			<td><input type="text" name="mem_bonus" size="45" value="<%=memberVO.getMem_bonus()%>"></td>
-		</tr>
-		<tr>
-			<td>¥[¤J®É¶¡¡G</td>
-			<td><input type="text" name="mem_joindat" size="45" id="f_date1"></td>
-		</tr>
-		<tr>
-			<td>·|­û¥Í¤é¡G</td>
-			<td><input type="text" name="mem_birth" size="45" id="f_date2"></td>
-		</tr>
-		<tr>
-			<td>Äµ§i¦¸¼Æ¡G</td>
-			<td><input type="text" name="mem_warn" size="45" value="<%=memberVO.getMem_warn()%>"></td>
-		</tr>
-		
-	</table>
-	<br>
-	<input type="hidden" name="action" value="update-back">
-	<input type="hidden" name="mem_id" value="<%=memberVO.getMem_id()%>">
-	<input type="hidden" name="mem_email" value="<%=memberVO.getMem_email()%>">
-	<input type="submit" value="°e¥X­×§ï">
-</form>
+<div class="container">
+	<div class="row justify-content-center">
+	<div class="col">
+		<div class="text-center">
+		<label for="upload">
+			<img alt="" src="<%=request.getContextPath()%>/member/ShowMemberPic.do?mem_id=${memberVO.mem_id}" class="profile rounded-circle" id="display">
+		</label>
+		</div>
+		</div>
+		</div>
+		<div class="card profile text-white">
+			<form action="<%=request.getContextPath()%>/member/member.do" method="post" enctype="multipart/form-data" class="profile">
+				<div class="card-body">
+				
+					<div class="form-group profile-header">
+						<label for="mem_name">æœƒå“¡åç¨±</label>
+						<input type="text" class="form-control" id="mem_name" name="mem_name" value="${memberVO.mem_name}" autocomplete="off">
+					</div>
+					
+					<div class="form-group">
+						<label for="mem_email">æœƒå“¡ä¿¡ç®±</label>
+						<input type="text" class="form-control" id="mem_email" name="mem_email" value="${memberVO.mem_email}" readonly>
+					</div>
+					
+					<div class="form-group">
+						<label for="mem_pass">æœƒå“¡å¯†ç¢¼</label>
+						<div class="input-group mb-3">
+							<input type="password" class="form-control" id="mem_pass" name="mem_pass" value="${memberVO.mem_pass}">
+							<div class="input-group-append">
+								<span class="input-group-text"><img alt="" src="<%=request.getContextPath()%>/images/icons/opend-eye.png" class="float-right img-icon mem_pass" title="é¡¯ç¤º"></span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label for="mem_phone">æœƒå“¡æ‰‹æ©Ÿ</label>
+						<input type="text" class="form-control" id="mem_phone" name="mem_phone" value="${memberVO.mem_phone}" autocomplete="off">
+					</div>
+					
+					<div class="form-group">
+						<label for="exampleFormControlSelect1">æœƒå“¡åœ°å€</label>
+						<div class="my-selector-c">
+							<div>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">ç¸£å¸‚</span>
+									</div>
+									<select class="form-control county" name="county" id="county">
+									</select>
+								</div>
+							</div>
+							<div>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">é„‰é®</span>
+									</div>
+									<select class="form-control district" name="district" id="district">
+									</select>
+								</div>
+							</div>
+						</div>
+						
+						<%
+							String addr = memberVO.getMem_addr();
+							String deatil = addr.substring(6);
+ 						%> 
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">ç´°é …</span>
+							</div>
+							<input type="text" class="form-control" name="detail" id="detail" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="<%=deatil%>" autocomplete="off">
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">åœ°å€</span>
+							</div>
+							<input type="text" class="form-control" name="mem_addr" id="mem_addr" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="${memberVO.mem_addr}" readonly>
+						</div>						
+					</div>
+					<%-- è™•ç†åœ°å€ä¸‹æ‹‰å¼é¸å–®èˆ‡æ‰‹å‹•è¼¸å…¥åˆä½µçš„å€å¡Š --%>
+					<script>
+					
+						$('#county').change(function(){
+							
+							$('#mem_addr').val($('#county').val() + $('#district').val() + $('#detail').val());
+							
+						});
+						
+						$('#district').change(function(){
+							
+							$('#mem_addr').val($('#county').val() + $('#district').val() + $('#detail').val());
+							
+						});
+						
+						$('#detail').keyup(function(){
+							
+							$('#mem_addr').val($('#county').val() + $('#district').val() + $('#detail').val());
+							
+						});
+					</script>
+					<%-- è™•ç†åœ°å€ä¸‹æ‹‰å¼é¸å–®èˆ‡æ‰‹å‹•è¼¸å…¥åˆä½µçš„å€å¡Š --%>
+					
+					<div class="form-group">
+						<label for="mem_birth">æœƒå“¡ç”Ÿæ—¥</label>
+						<input type="text" class="form-control" id="mem_birth" name="mem_birth" autocomplete="off">
+					</div>		
+					
+					<% 
+						String autho = "";
+						switch (memberVO.getMem_autho()){
+							case 0:
+								autho = "åœæ¬Š";
+								break;
+							case 1:
+								autho = "ä¸€èˆ¬æœƒå“¡";
+								break;
+							case 2:
+								autho = "è³£å®¶è³‡æ ¼æœƒå“¡";
+								break;
+							case 99:
+								autho = "å¹³å°ç®¡ç†å“¡";
+								break;
+						}
+ 					%>			 
+					
+					<div class="form-group">
+						<label for="mem_autho">æœƒå“¡æ¬Šé™</label>
+						<input type="text" class="form-control" id="mem_autho" value="<%=autho%>" readonly>
+					</div>
 
+					<div class="form-group">
+						<label for="mem_bonus">ç´…åˆ©é»æ•¸</label>
+						<input type="text" class="form-control" id="mem_bonus" name="mem_bonus" value="${memberVO.mem_bonus}" readonly>
+					</div>
+
+					<div class="form-group">
+						<label for="mem_warn">è­¦å‘Šæ¬¡æ•¸</label>
+						<input type="text" class="form-control" id="mem_warn" name="mem_warn" value="${memberVO.mem_warn}" readonly>
+					</div>
+
+					<div class="form-group">
+						<label for="mem_joindat">åŠ å…¥æ—¥æœŸ</label>
+						<input type="text" class="form-control" id="mem_joindat" name="mem_joindat" value="${memberVO.mem_joindat}" readonly>
+					</div>
+					
+					<div class="form-group">
+						<label for="bank_acc">éŠ€è¡Œå¸³æˆ¶</label>
+						<input type="text" class="form-control" id="bank_acc" name="bank_acc" value="${memberVO.bank_acc}" autocomplete="off">
+					</div>
+
+					<div class="form-group">
+						<label for="card_no">ä¿¡ç”¨å¡è™Ÿ</label>
+						<div class="input-group mb-3">
+						<input type="password" class="form-control" id="card_no" name="card_no" value="${memberVO.card_no}" autocomplete="off">
+							<div class="input-group-append">
+								<span class="input-group-text"><img alt="" src="<%=request.getContextPath()%>/images/icons/opend-eye.png" class="float-right img-icon card_no" title="é¡¯ç¤º"></span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label for="card_yy">åˆ°æœŸå¹´ä»½</label>
+						<div class="input-group mb-3">
+						<input type="password" class="form-control" id="card_yy" name="card_yy" value="${memberVO.card_yy}" autocomplete="off">
+							<div class="input-group-append">
+								<span class="input-group-text"><img alt="" src="<%=request.getContextPath()%>/images/icons/opend-eye.png" class="float-right img-icon card_yy" title="é¡¯ç¤º"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="card_mm">åˆ°æœŸæœˆä»½</label>
+						<div class="input-group mb-3">
+						<input type="password" class="form-control" id="card_mm" name="card_mm" value="${memberVO.card_mm}" autocomplete="off">
+							<div class="input-group-append">
+								<span class="input-group-text"><img alt="" src="<%=request.getContextPath()%>/images/icons/opend-eye.png" class="float-right img-icon card_mm" title="é¡¯ç¤º"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="card_sec">å¡ç‰‡å®‰å…¨ç¢¼</label>
+						<div class="input-group mb-3">
+						<input type="password" class="form-control" id="card_sec" name="card_sec" value="${memberVO.card_sec}" autocomplete="off">
+							<div class="input-group-append">
+								<span class="input-group-text"><img alt="" src="<%=request.getContextPath()%>/images/icons/opend-eye.png" class="float-right img-icon card_sec" title="é¡¯ç¤º"></span>
+							</div>
+						</div>
+					</div>
+					
+					<input class="d-none" type="file" id="upload" name="mem_icon">
+					<input type="hidden" name="requestURL" value="<%=request.getParameter("requestURL")%>">
+					<input type="hidden" name="whichPage" value="<%=request.getParameter("whichPage")%>">
+					<input type="hidden" name="mem_id" value="${memberVO.mem_id}">
+					<input type="hidden" name="mem_autho" value="${memberVO.mem_autho}">
+					<input type="hidden" name="action" value="update-back">
+					<button type="submit" class="btn login_btn float-right submit">ä¿®æ”¹</button>
+					
+				</div>
+			</form>
+		</div>
+		
+
+		
+		
+		
+		
+</div>
+
+<script>
+
+new TwCitySelector({
+    el: ".my-selector-c",
+    elCounty: ".county", // åœ¨ el è£¡æŸ¥æ‰¾ dom
+    elDistrict: ".district" // åœ¨ el è£¡æŸ¥æ‰¾ dom
+  });
+
+
+
+$('img.img-icon').click(function(){
+	var source = $(this).attr('src');
+	var thisClass = $(this).attr('class');
+	var target = thisClass.substring(21);
+	
+	if (source.includes('opend')){
+		$('#' + target).attr('type', 'text');
+		$(this).attr('title', 'éš±è—');
+		$(this).attr('src', '<%=request.getContextPath()%>/images/icons/closed-eye.png');
+	} else if (source.includes('closed')){
+		$('#' + target).attr('type', 'password');
+		$(this).attr('title', 'é¡¯ç¤º');
+		$(this).attr('src', '<%=request.getContextPath()%>/images/icons/opend-eye.png');
+	}
+});
+
+function init() {
+	 
+    var display = document.getElementById("display");
+    var upload = document.getElementById("upload");
+
+    upload.addEventListener("change", function(e){
+        var files = upload.files;
+        if (files && files[0]) {
+            for (i = 0; i < files.length; i ++) {
+                if (files[i].type.indexOf("image") < 0) {
+					Swal.fire({
+						icon: 'error',
+						title: 'ä¸Šå‚³çš„æ ¼å¼ä¸ç¬¦'
+					})
+                } else {
+                    var file = files[i];
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        var result = e.target.result;
+
+                        display.setAttribute("src", result);
+
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+    });
+    
+}
+
+window.onload = init;	
+
+$.datetimepicker.setLocale('zh');
+
+$('#mem_birth').datetimepicker({
+    theme: '',              //theme: 'dark',
+     timepicker:false,       //timepicker:true,
+     step: 1,                //step: 60 (é€™æ˜¯timepickerçš„é è¨­é–“éš”60åˆ†é˜)
+     format:'Y-m-d',         //format:'Y-m-d H:i:s',
+	   value: '${memberVO.mem_birth}', // value:   new Date(),
+    //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // å»é™¤ç‰¹å®šä¸å«
+    //startDate:	            '2017/07/10',  // èµ·å§‹æ—¥
+    //minDate:               '-1970-01-01', // å»é™¤ä»Šæ—¥(ä¸å«)ä¹‹å‰
+    //maxDate:               '+1970-01-01'  // å»é™¤ä»Šæ—¥(ä¸å«)ä¹‹å¾Œ
+ });
+
+
+// ----------------------------------------------------------ä»¥ä¸‹ç”¨ä¾†æ’å®šç„¡æ³•é¸æ“‡çš„æ—¥æœŸ-----------------------------------------------------------
+
+//      1.ä»¥ä¸‹ç‚ºæŸä¸€å¤©ä¹‹å‰çš„æ—¥æœŸç„¡æ³•é¸æ“‡
+//      var somedate1 = new Date('2017-06-15');
+//      $('#f_date1').datetimepicker({
+//          beforeShowDay: function(date) {
+//        	  if (  date.getYear() <  somedate1.getYear() || 
+//		           (date.getYear() == somedate1.getYear() && date.getMonth() <  somedate1.getMonth()) || 
+//		           (date.getYear() == somedate1.getYear() && date.getMonth() == somedate1.getMonth() && date.getDate() < somedate1.getDate())
+//              ) {
+//                   return [false, ""]
+//              }
+//              return [true, ""];
+//      }});
+
+
+//      2.ä»¥ä¸‹ç‚ºæŸä¸€å¤©ä¹‹å¾Œçš„æ—¥æœŸç„¡æ³•é¸æ“‡
+//      var somedate2 = new Date('2017-06-15');
+//      $('#f_date1').datetimepicker({
+//          beforeShowDay: function(date) {
+//        	  if (  date.getYear() >  somedate2.getYear() || 
+//		           (date.getYear() == somedate2.getYear() && date.getMonth() >  somedate2.getMonth()) || 
+//		           (date.getYear() == somedate2.getYear() && date.getMonth() == somedate2.getMonth() && date.getDate() > somedate2.getDate())
+//              ) {
+//                   return [false, ""]
+//              }
+//              return [true, ""];
+//      }});
+
+
+//      3.ä»¥ä¸‹ç‚ºå…©å€‹æ—¥æœŸä¹‹å¤–çš„æ—¥æœŸç„¡æ³•é¸æ“‡ (ä¹Ÿå¯æŒ‰éœ€è¦æ›æˆå…¶ä»–æ—¥æœŸ)
+//      var somedate1 = new Date('2017-06-15');
+//      var somedate2 = new Date('2017-06-25');
+//      $('#f_date1').datetimepicker({
+//          beforeShowDay: function(date) {
+//        	  if (  date.getYear() <  somedate1.getYear() || 
+//		           (date.getYear() == somedate1.getYear() && date.getMonth() <  somedate1.getMonth()) || 
+//		           (date.getYear() == somedate1.getYear() && date.getMonth() == somedate1.getMonth() && date.getDate() < somedate1.getDate())
+//		             ||
+//		            date.getYear() >  somedate2.getYear() || 
+//		           (date.getYear() == somedate2.getYear() && date.getMonth() >  somedate2.getMonth()) || 
+//		           (date.getYear() == somedate2.getYear() && date.getMonth() == somedate2.getMonth() && date.getDate() > somedate2.getDate())
+//              ) {
+//                   return [false, ""]
+//              }
+//              return [true, ""];
+//      }});
+
+</script>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <%-- å…§å®¹ --%>   
+        
+            		
+            		
+            		
+            		
+            		
+            		
+            		
+            		
+            		
+            		
+            		
+            		
+            		
+            		
+            		
+            		
+            		
+            		
+            		
+            		
+            		
+            		</div>
+            		</div>
+            		
+            	</div>
+            </div>
+        </div>
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </div>
+    
 
 </body>
 
-
-<!-- =========================================¥H¤U¬° datetimepicker ¤§¬ÛÃö³]©w========================================== -->
-
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/files/datetimepicker/jquery.datetimepicker.css" />
-<script src="<%=request.getContextPath()%>/files/datetimepicker/jquery.js"></script>
-<script src="<%=request.getContextPath()%>/files/datetimepicker/jquery.datetimepicker.full.js"></script>
-
-<style>
-  .xdsoft_datetimepicker .xdsoft_datepicker {
-           width:  300px;   /* width:  300px; */
-  }
-  .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
-           height: 151px;   /* height:  151px; */
-  }
-</style>
-<script>
-        $.datetimepicker.setLocale('zh');
-        $('#f_date1').datetimepicker({
-           theme: '',              //theme: 'dark',
- 	       timepicker:false,       //timepicker:true,
- 	       step: 1,                //step: 60 (³o¬Otimepickerªº¹w³]¶¡¹j60¤ÀÄÁ)
- 	       format:'Y-m-d',         //format:'Y-m-d H:i:s',
- 		   value: '<%=memberVO.getMem_joindat()%>', // value:   new Date(),
-           //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // ¥h°£¯S©w¤£§t
-           //startDate:	            '2017/07/10',  // °_©l¤é
-           //minDate:               '-1970-01-01', // ¥h°£¤µ¤é(¤£§t)¤§«e
-           //maxDate:               '+1970-01-01'  // ¥h°£¤µ¤é(¤£§t)¤§«á
-        });
-        
-        $('#f_date2').datetimepicker({
-            theme: '',              //theme: 'dark',
-  	       timepicker:false,       //timepicker:true,
-  	       step: 1,                //step: 60 (³o¬Otimepickerªº¹w³]¶¡¹j60¤ÀÄÁ)
-  	       format:'Y-m-d',         //format:'Y-m-d H:i:s',
-  		   value: '<%=memberVO.getMem_birth()%>', // value:   new Date(),
-            //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // ¥h°£¯S©w¤£§t
-            //startDate:	            '2017/07/10',  // °_©l¤é
-            //minDate:               '-1970-01-01', // ¥h°£¤µ¤é(¤£§t)¤§«e
-            //maxDate:               '+1970-01-01'  // ¥h°£¤µ¤é(¤£§t)¤§«á
-         });
-        
-        
-   
-        // ----------------------------------------------------------¥H¤U¥Î¨Ó±Æ©wµLªk¿ï¾Üªº¤é´Á-----------------------------------------------------------
-
-        //      1.¥H¤U¬°¬Y¤@¤Ñ¤§«eªº¤é´ÁµLªk¿ï¾Ü
-        //      var somedate1 = new Date('2017-06-15');
-        //      $('#f_date1').datetimepicker({
-        //          beforeShowDay: function(date) {
-        //        	  if (  date.getYear() <  somedate1.getYear() || 
-        //		           (date.getYear() == somedate1.getYear() && date.getMonth() <  somedate1.getMonth()) || 
-        //		           (date.getYear() == somedate1.getYear() && date.getMonth() == somedate1.getMonth() && date.getDate() < somedate1.getDate())
-        //              ) {
-        //                   return [false, ""]
-        //              }
-        //              return [true, ""];
-        //      }});
-
-        
-        //      2.¥H¤U¬°¬Y¤@¤Ñ¤§«áªº¤é´ÁµLªk¿ï¾Ü
-        //      var somedate2 = new Date('2017-06-15');
-        //      $('#f_date1').datetimepicker({
-        //          beforeShowDay: function(date) {
-        //        	  if (  date.getYear() >  somedate2.getYear() || 
-        //		           (date.getYear() == somedate2.getYear() && date.getMonth() >  somedate2.getMonth()) || 
-        //		           (date.getYear() == somedate2.getYear() && date.getMonth() == somedate2.getMonth() && date.getDate() > somedate2.getDate())
-        //              ) {
-        //                   return [false, ""]
-        //              }
-        //              return [true, ""];
-        //      }});
-
-
-        //      3.¥H¤U¬°¨â­Ó¤é´Á¤§¥~ªº¤é´ÁµLªk¿ï¾Ü (¤]¥i«ö»İ­n´«¦¨¨ä¥L¤é´Á)
-        //      var somedate1 = new Date('2017-06-15');
-        //      var somedate2 = new Date('2017-06-25');
-        //      $('#f_date1').datetimepicker({
-        //          beforeShowDay: function(date) {
-        //        	  if (  date.getYear() <  somedate1.getYear() || 
-        //		           (date.getYear() == somedate1.getYear() && date.getMonth() <  somedate1.getMonth()) || 
-        //		           (date.getYear() == somedate1.getYear() && date.getMonth() == somedate1.getMonth() && date.getDate() < somedate1.getDate())
-        //		             ||
-        //		            date.getYear() >  somedate2.getYear() || 
-        //		           (date.getYear() == somedate2.getYear() && date.getMonth() >  somedate2.getMonth()) || 
-        //		           (date.getYear() == somedate2.getYear() && date.getMonth() == somedate2.getMonth() && date.getDate() > somedate2.getDate())
-        //              ) {
-        //                   return [false, ""]
-        //              }
-        //              return [true, ""];
-        //      }});
-        
-        function init() {
-        var display = document.getElementById("display");
-        var upload = document.getElementById("upload");
-
-        upload.addEventListener("change", function(e){
-            var files = upload.files;
-            if (files && files[0]) {
-                for (i = 0; i < files.length; i ++) {
-                    if (files[i].type.indexOf("image") < 0) {
-                        alert("¤W¶Çªº®æ¦¡¤£²Å");
-                        upload.value = null;
-                    } else {
-                        var file = files[i];
-                        var reader = new FileReader();
-
-                        reader.onload = function(e) {
-                            var result = e.target.result;
-
-                            display.setAttribute("src", result);
-
-                        }
-                        reader.readAsDataURL(file);
-                    }
-                }
-            }
-        });
-    }
-    window.onload = init;
-        
-</script>
-
-
-</html>
+</html></html>

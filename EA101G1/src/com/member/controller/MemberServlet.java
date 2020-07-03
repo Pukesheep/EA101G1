@@ -203,6 +203,41 @@ public class MemberServlet extends HttpServlet {
 				/***************************其他可能的錯誤處理**********************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得要修改的資料： " + e.getMessage());
+//				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/member/listOneMember.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/member/listMembers_ByCompositeQuery.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+		
+		if ("getOne_For_Update-back2".equals(action)) { // 來自listAllEmp.jsp的請求
+			java.util.List<String> errorMsgs = new java.util.LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			try {
+				/***************************1.接收請求參數****************************************/
+				String mem_id = req.getParameter("mem_id");
+				
+				/***************************2.開始查詢資料****************************************/
+				MemberService memberSvc = new MemberService();
+				MemberVO memberVO = memberSvc.getOneMember(mem_id);
+				
+				/***************************3.查詢完成,準備轉交(Send the Success view)************/
+				
+				req.setAttribute("memberVO", memberVO); // 資料庫取出的 memberVO 物件, 存入 req
+				boolean openModal = true;
+				req.setAttribute("openModal", openModal);
+//				String url = "/back-end/member/update_member_input.jsp";
+				String url = "/back-end/member/listMembers_ByCompositeQuery.jsp";
+				System.out.println(url);
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 update_member_input.jsp
+				successView.forward(req, res);
+				
+				/***************************其他可能的錯誤處理**********************************/
+			} catch (Exception e) {
+				errorMsgs.add("無法取得要修改的資料： " + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/member/listOneMember.jsp");
 				failureView.forward(req, res);
 			}
@@ -472,6 +507,10 @@ public class MemberServlet extends HttpServlet {
 			// Store this set in the request scope, in case we need to
 			// Send the ErrorPage View.
 			req.setAttribute("errorMsgs", errorMsgs);
+			MemberVO memberVO = null;
+			String requestURL = req.getParameter("requestURL"); 
+			String update_member_input = "/back-end/member/update_member_input.jsp";
+			String listMembers_ByCompositeQuery = "/back-end/member/listMembers_ByCompositeQuery.jsp";
 			
 			try {
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
@@ -674,7 +713,7 @@ public class MemberServlet extends HttpServlet {
 					errorMsgs.add("警告次數： 請輸入有效格式");
 				}
 				
-				MemberVO memberVO = new MemberVO();
+				memberVO = new MemberVO();
 				memberVO.setMem_id(mem_id);
 				memberVO.setMem_email(mem_email);
 				memberVO.setMem_pass(mem_pass);
@@ -696,7 +735,7 @@ public class MemberServlet extends HttpServlet {
 				// Send the user back to the form, if there were errors
 				if(!errorMsgs.isEmpty()) {
 					req.setAttribute("memberVO", memberVO); // 含有輸入格式錯誤的 memberVO 物件, 也存入 req
-					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/member/update_member_input.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher(update_member_input);
 					failureView.forward(req, res);
 					return; // 程式中斷
 				}
@@ -709,16 +748,22 @@ public class MemberServlet extends HttpServlet {
 						mem_bonus, mem_joindat, mem_birth, mem_warn);
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
-				req.setAttribute("memberVO", memberVO); // 資料庫 update 成功後, 正確的 memberVO 物件, 存入req
-				String url = "/back-end/member/listOneMember.jsp";
+				HttpSession session = req.getSession();
+				Map<String, String[]> map = (Map<String, String[]>) session.getAttribute("map");
+				List<MemberVO> list = memberSvc.getAll(map);
+				req.setAttribute("listMembers_ByCompositeQuery", list); // 複合查詢, 資料庫取出的list物件,存入request
+				
+//				req.setAttribute("memberVO", memberVO); // 資料庫 update 成功後, 正確的 memberVO 物件, 存入req
+//				String url = "/back-end/member/listOneMember.jsp";
+				String url = requestURL;
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後, 轉交 listOneMember.jsp
 				successView.forward(req, res);
 				
 				/***************************其他可能的錯誤處理**********************************/
 			} catch (Exception e) {
+				req.setAttribute("memberVO", memberVO);
 				errorMsgs.add("修改資料失敗： " + e.getMessage());
-				String url = "/back-end/member/update_member_input.jsp";
-				RequestDispatcher failureView = req.getRequestDispatcher(url);
+				RequestDispatcher failureView = req.getRequestDispatcher(update_member_input);
 				failureView.forward(req, res);
 			}
 		}
